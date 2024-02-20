@@ -79,44 +79,38 @@ class LoginPage extends GetView<LoginController> {
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(
-              top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_3X),
-          width: SizeApp.setSize(percent: .45),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_3X),
+          width: SizeApp.setSizeWithWidth(percent: .8),
           child: const TextField(
             decoration: InputDecoration(
               hintText: 'Nhập email của bạn',
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 gapPadding: 10,
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
               ),
             ),
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(
-              top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
-          width: SizeApp.setSize(percent: .45),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          width: SizeApp.setSizeWithWidth(percent: .8),
           child: const TextField(
             obscureText: true,
             decoration: InputDecoration(
               hintText: 'Nhập mật khẩu của bạn',
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 gapPadding: 10,
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
               ),
             ),
           ),
@@ -143,8 +137,7 @@ class LoginPage extends GetView<LoginController> {
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(
-              top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
           child: Text(
             'Hoặc đăng nhập với',
             style: GoogleFonts.lexend(
