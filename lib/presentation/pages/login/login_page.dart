@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:test_intern/core/enums/enums.dart';
 import 'package:test_intern/core/hepler/app-button.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
+import 'package:test_intern/core/hepler/app_lazy_index_stack.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/login/login_controller.dart';
 import 'package:test_intern/presentation/widget/introduction_component/close_button_widget.dart';
@@ -18,27 +19,23 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: ColorResources.WHITE,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: GetBuilder(
-          init: LoginController(),
-          builder: (context) {
-            return SafeArea(
-              child: Padding(
-                padding: SizeApp.setEdgeInsetsOnly(
-                  top: SizeApp.setSize(percent: .1),
-                ),
-                child: SizedBox(
-                  width: SizeApp.getMaxWidth(),
-                  height: SizeApp.getMaxHeight(),
-                  child: _bodyLogin(),
-                ),
+      body: GetBuilder(
+        init: LoginController(),
+        builder: (context) {
+          return SafeArea(
+            child: Padding(
+              padding: SizeApp.setEdgeInsetsOnly(
+                top: SizeApp.setSize(percent: .1),
               ),
-            );
-          },
-        ),
+              child: SizedBox(
+                width: SizeApp.getMaxWidth(),
+                height: SizeApp.getMaxHeight(),
+                child: _bodyLogin(),
+              ),
+            ),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: CloseButtonWidget(
@@ -58,8 +55,8 @@ class LoginPage extends GetView<LoginController> {
           children: <Widget>[
             AppImage(
               ImagesPath.logoApp,
-              width: SizeApp.setSizeWithWidth(percent: .3),
-              //height: 50,
+              width: 50,
+              height: 50,
             ),
             Text(
               'Predo',
@@ -83,38 +80,44 @@ class LoginPage extends GetView<LoginController> {
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_3X),
-          width: SizeApp.setSizeWithWidth(percent: .8),
+          margin: SizeApp.setEdgeInsetsOnly(
+              top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_3X),
+          width: SizeApp.setSize(percent: .45),
           child: const TextField(
             decoration: InputDecoration(
               hintText: 'Nhập email của bạn',
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide:
+                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 gapPadding: 10,
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide:
+                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
               ),
             ),
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
-          width: SizeApp.setSizeWithWidth(percent: .8),
+          margin: SizeApp.setEdgeInsetsOnly(
+              top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          width: SizeApp.setSize(percent: .45),
           child: const TextField(
             obscureText: true,
             decoration: InputDecoration(
               hintText: 'Nhập mật khẩu của bạn',
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide:
+                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 gapPadding: 10,
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide:
+                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
               ),
             ),
           ),
@@ -124,7 +127,7 @@ class LoginPage extends GetView<LoginController> {
             colorBorder: ColorResources.WHITE,
             withBorder: 2,
             type: AppButtonType.OUTLINE,
-            width: SizeApp.setSizeWithWidth(percent: .81),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             padding: SizeApp.setEdgeInsetsOnly(
               top: SizeApp.setSize(percent: .01),
               bottom: SizeApp.setSize(percent: .01),
@@ -141,7 +144,8 @@ class LoginPage extends GetView<LoginController> {
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          margin: SizeApp.setEdgeInsetsOnly(
+              top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
           child: Text(
             'Hoặc đăng nhập với',
             style: GoogleFonts.lexend(

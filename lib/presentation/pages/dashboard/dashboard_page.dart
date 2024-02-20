@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
 import 'package:test_intern/presentation/pages/home/home_page.dart';
@@ -12,8 +13,6 @@ import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
@@ -39,12 +38,9 @@ class DashboardPage extends StatelessWidget {
               );
             },
           ),
-          bottomNavigationBar: NavigationBar(
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-            selectedIndex: controller.tabIndex,
-            onDestinationSelected: controller.changeTabIndex,
-            destinations: <Widget>[
-              navigationBarItem(
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              _bottomNavigationBarItem(
                   controller,
                   ImagesPath.homeIcon,
                   null,
@@ -52,15 +48,9 @@ class DashboardPage extends StatelessWidget {
                   controller.tabIndex == 0
                       ? ColorResources.MAIN_APP
                       : ColorResources.GREY),
-              navigationBarItem(
-                  controller,
-                  null,
-                  Icons.folder_outlined,
-                  'Dự án',
-                  controller.tabIndex == 1
-                      ? ColorResources.MAIN_APP
-                      : ColorResources.GREY),
-              navigationBarItem(
+              _bottomNavigationBarItem(
+                  controller, null, Icons.folder_outlined, 'Dự án', null),
+              _bottomNavigationBarItem(
                   controller,
                   ImagesPath.issueIcon,
                   null,
@@ -68,7 +58,7 @@ class DashboardPage extends StatelessWidget {
                   controller.tabIndex == 2
                       ? ColorResources.MAIN_APP
                       : ColorResources.GREY),
-              navigationBarItem(
+              _bottomNavigationBarItem(
                   controller,
                   ImagesPath.dashboardIcon,
                   null,
@@ -76,7 +66,7 @@ class DashboardPage extends StatelessWidget {
                   controller.tabIndex == 3
                       ? ColorResources.MAIN_APP
                       : ColorResources.GREY),
-              navigationBarItem(
+              _bottomNavigationBarItem(
                   controller,
                   null,
                   Icons.notifications_outlined,
@@ -85,13 +75,24 @@ class DashboardPage extends StatelessWidget {
                       ? ColorResources.MAIN_APP
                       : ColorResources.GREY)
             ],
+            selectedItemColor: ColorResources.MAIN_APP,
+            unselectedItemColor: ColorResources.GREY,
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
+            onTap: controller.changeTabIndex,
+            currentIndex: controller.tabIndex,
+            type: BottomNavigationBarType.fixed,
+            selectedLabelStyle:
+                GoogleFonts.lexend(fontSize: SizeApp.BODY_SMALL_FONT_SIZE),
+            unselectedLabelStyle:
+                GoogleFonts.lexend(fontSize: SizeApp.BODY_SMALL_FONT_SIZE),
           ),
         );
       },
     );
   }
 
-  navigationBarItem(
+  _bottomNavigationBarItem(
     DashboardController controller,
     String? path,
     IconData? icon,
@@ -99,18 +100,18 @@ class DashboardPage extends StatelessWidget {
     Color? color,
   ) {
     if (icon != null) {
-      return NavigationDestination(
-        icon: Icon(icon, color: color),
-        label: label ?? '',
+      return BottomNavigationBarItem(
+        icon: Icon(icon),
+        label: label,
       );
     }
     if (path != null) {
-      return NavigationDestination(
+      return BottomNavigationBarItem(
         icon: SvgPicture.asset(path, color: color),
-        label: label ?? '',
+        label: label,
       );
     }
-    return const NavigationDestination(
+    return const BottomNavigationBarItem(
       icon: Icon(Icons.error),
       label: 'Error',
     );

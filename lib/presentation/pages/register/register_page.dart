@@ -81,7 +81,7 @@ class RegisterPage extends GetView<RegisterController> {
         Container(
           margin: SizeApp.setEdgeInsetsOnly(
               top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_1X),
-          width: SizeApp.setSize(percent: .35),
+          width: SizeApp.setSize(percent: .45),
           child: const TextField(
             decoration: InputDecoration(
               hintText: 'Nhập email của bạn',
@@ -100,7 +100,7 @@ class RegisterPage extends GetView<RegisterController> {
           ),
         ),
         Container(
-          width: SizeApp.setSize(percent: .35),
+          width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(
               bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
           child: RichText(
