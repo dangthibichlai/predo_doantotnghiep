@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:test_intern/resources/di_container.dart';
 import 'package:test_intern/routers/home_router.dart';
 import 'package:test_intern/services/share_preference._helper.dart';

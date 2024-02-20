@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:test_intern/core/enums/enums.dart';
 import 'package:test_intern/core/hepler/app-button.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
-import 'package:test_intern/core/hepler/app_lazy_index_stack.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/login/login_controller.dart';
 import 'package:test_intern/presentation/widget/introduction_component/close_button_widget.dart';

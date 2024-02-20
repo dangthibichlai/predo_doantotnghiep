@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:test_intern/core/enums/enums.dart';
 import 'package:test_intern/core/hepler/app-button.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
@@ -71,7 +70,7 @@ class OtpPage extends GetView<OtpController> {
         const SizedBox(
           height: 20,
         ),
-        Container(
+        SizedBox(
           width: SizeApp.setSize(percent: .45),
           child: Align(
             alignment: Alignment.center,

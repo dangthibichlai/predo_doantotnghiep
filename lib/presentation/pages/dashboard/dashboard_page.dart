@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -107,6 +109,7 @@ class DashboardPage extends StatelessWidget {
     }
     if (path != null) {
       return BottomNavigationBarItem(
+        // ignore: deprecated_member_use
         icon: SvgPicture.asset(path, color: color),
         label: label,
       );

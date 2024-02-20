@@ -33,7 +33,6 @@ class OtpInputWidget extends StatelessWidget {
         ),
         enableActiveFill: false,
         onCompleted: (v) {
-          print("Completed");
         },
         onChanged: (value) {},
       ),

@@ -41,8 +41,7 @@ class MyApp extends StatelessWidget {
                   child: MediaQuery(
                     // Setting font does not change with system font size
                     data: MediaQuery.of(context).copyWith(
-                      textScaleFactor: 1.0,
-                      boldText: false,
+                      boldText: false, textScaler: const TextScaler.linear(1.0),
                     ),
                     child: widget!,
                   ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:test_intern/core/hepler/common_helper.dart';
 import 'package:test_intern/resources/app_color.dart';
 

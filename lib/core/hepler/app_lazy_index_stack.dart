@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// {@template lazy_indexed_stack}
 /// A widget that displays a [IndexedStack] with lazy loaded children.
 class LazyIndexedStack extends StatefulWidget {
   /// {@macro lazy_indexed_stack}

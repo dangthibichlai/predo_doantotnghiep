@@ -28,19 +28,19 @@ mixin AuthRouter {
     ),
     GetPage(
       name: INTRODUCTION,
-      page: () => IntroductionPage(),
+      page: () => const IntroductionPage(),
       binding: IntroductionBinding(),
     ),
     GetPage(
       name: LOGIN,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: REGISTER,
-      page: () => RegisterPage(),
+      page: () => const RegisterPage(),
       binding: RegisterBinding(),
     ),
-    GetPage(name: OTP, page: () => OtpPage(), binding: OtpBinding()),
+    GetPage(name: OTP, page: () => const OtpPage(), binding: OtpBinding()),
   ];
 }

@@ -65,7 +65,7 @@ class IssuePage extends GetView<IssueController> {
             ),
           ),
         ]),
-        ItemWidget(),
+        const ItemWidget(),
       ],
     ));
   }
