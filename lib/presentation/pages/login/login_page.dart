@@ -19,7 +19,7 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: ColorResources.WHITE,
+        backgroundColor: ColorResources.BGAPP,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: GetBuilder(
@@ -121,7 +121,7 @@ class LoginPage extends GetView<LoginController> {
         ),
         AppButton(
             fillColor: ColorResources.MAIN_APP,
-            colorBorder: ColorResources.WHITE,
+            colorBorder: ColorResources.MAIN_APP,
             withBorder: 2,
             type: AppButtonType.OUTLINE,
             width: SizeApp.setSizeWithWidth(percent: .81),

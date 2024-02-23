@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -7,6 +8,10 @@ import 'package:test_intern/routers/app-router.dart';
 import 'package:test_intern/routers/auth_router.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Màu nền của thanh trạng thái
+    statusBarIconBrightness: Brightness.dark, // Màu của các biểu tượng trên thanh trạng thái (dark hoặc light)
+  ));
   runApp(const MyApp());
 }
 
@@ -41,8 +46,8 @@ class MyApp extends StatelessWidget {
                   child: MediaQuery(
                     // Setting font does not change with system font size
                     data: MediaQuery.of(context).copyWith(
-                      textScaleFactor: 1.0,
                       boldText: false,
+                      textScaler: TextScaler.linear(1.0),
                     ),
                     child: widget!,
                   ),

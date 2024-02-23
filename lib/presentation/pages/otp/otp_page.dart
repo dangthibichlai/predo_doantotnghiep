@@ -18,7 +18,7 @@ class OtpPage extends GetView<OtpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorResources.WHITE,
+        backgroundColor: ColorResources.BGAPP,
       body: GetBuilder(
         init: OtpController(),
         builder: (context) {

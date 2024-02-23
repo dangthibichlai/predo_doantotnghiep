@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 mixin ColorResources {
   // App colors
   static const Color MAIN_APP = Color(0xFF005ae2);
+  static const Color BGAPP = Color(0xFFf1f2f4);
 
   static const Color PRIMARY_1 = Color(0xFFEF6E45);
   static const Color PRIMARY_2 = Color(0xff14191C);
