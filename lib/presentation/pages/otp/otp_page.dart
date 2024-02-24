@@ -54,8 +54,8 @@ class OtpPage extends GetView<OtpController> {
           children: <Widget>[
             AppImage(
               ImagesPath.logoApp,
-              width: SizeApp.setSizeWithWidth(percent: .3),
-              height: SizeApp.setSizeWithWidth(percent: .3),
+              width: 50,
+              height: 50,
             ),
             Text(
               'Predo',
@@ -71,7 +71,7 @@ class OtpPage extends GetView<OtpController> {
           height: 20,
         ),
         SizedBox(
-          width: SizeApp.setSize(percent: .35),
+          width: SizeApp.setSize(percent: .45),
           child: Align(
             alignment: Alignment.center,
             child: Text(
@@ -86,7 +86,7 @@ class OtpPage extends GetView<OtpController> {
           ),
         ),
         Container(
-          width: SizeApp.setSizeWithWidth(percent: .8),
+          width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
           child: Text(
             'Để hoàn tất quá trình thiết lập tài khoản, hãy nhập mã mà chúng tôi đã gửi đến:',
@@ -97,7 +97,7 @@ class OtpPage extends GetView<OtpController> {
           ),
         ),
         Container(
-          width: SizeApp.setSizeWithWidth(percent: .8),
+          width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
           child: Text(
             'buinguyennhattan12122002@gmail.com',
@@ -111,7 +111,7 @@ class OtpPage extends GetView<OtpController> {
         const SizedBox(
           height: SizeApp.SPACE_2X,
         ),
-        SizedBox(width: SizeApp.setSizeWithWidth(percent: .8), child: const OtpInputWidget()),
+        const OtpInputWidget(),
         AppButton(
             fillColor: ColorResources.MAIN_APP,
             colorBorder: ColorResources.WHITE,
@@ -132,7 +132,7 @@ class OtpPage extends GetView<OtpController> {
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
         Container(
-          width: SizeApp.setSizeWithWidth(percent: .9),
+          width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
           child: Text(
             'Bạn không nhận được mã? Gửi lại',

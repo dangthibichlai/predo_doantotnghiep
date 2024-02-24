@@ -11,12 +11,14 @@ import 'package:test_intern/resources/images_path.dart';
 
 import '../../widget/title_custom.dart';
 
+
 class IssuePage extends GetView<IssueController> {
   const IssuePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: ColorResources.BGAPP,
       body: Padding(
         padding: SizeApp.setEdgeInsetsOnly(

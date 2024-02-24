@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +94,6 @@ mixin SizeApp {
   static BorderRadius setBorderRadiusAll({required double radius}) {
     return BorderRadius.all(Radius.circular(radius)).w;
   }
-
 
   /// Space between widget.
   static const double SPACE_TITLE_VS_CONTENT = 5;

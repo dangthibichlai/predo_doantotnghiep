@@ -35,10 +35,16 @@ class LoginPage extends GetView<LoginController> {
                   height: SizeApp.getMaxHeight(),
                   child: _bodyLogin(),
                 ),
+
               ),
-            );
-          },
-        ),
+              child: SizedBox(
+                width: SizeApp.getMaxWidth(),
+                height: SizeApp.getMaxHeight(),
+                child: _bodyLogin(),
+              ),
+            ),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: CloseButtonWidget(
@@ -58,8 +64,8 @@ class LoginPage extends GetView<LoginController> {
           children: <Widget>[
             AppImage(
               ImagesPath.logoApp,
-              width: SizeApp.setSizeWithWidth(percent: .3),
-              //height: 50,
+              width: 50,
+              height: 50,
             ),
             Text(
               'Predo',
@@ -124,7 +130,7 @@ class LoginPage extends GetView<LoginController> {
             colorBorder: ColorResources.MAIN_APP,
             withBorder: 2,
             type: AppButtonType.OUTLINE,
-            width: SizeApp.setSizeWithWidth(percent: .81),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             padding: SizeApp.setEdgeInsetsOnly(
               top: SizeApp.setSize(percent: .01),
               bottom: SizeApp.setSize(percent: .01),
