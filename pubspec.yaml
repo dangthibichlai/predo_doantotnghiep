@@ -50,6 +50,7 @@ dependencies:
   google_nav_bar: ^5.0.6
   flutter_launcher_icons: ^0.13.1
   bottom_sheet: ^4.0.0
+  icons_plus: ^5.0.0
 
 dev_dependencies:
   flutter_test:
