@@ -1,11 +1,10 @@
-
 // ignore_for_file: deprecated_member_use
-
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:test_intern/core/hepler/app-image.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
 import 'package:test_intern/presentation/pages/home/home_page.dart';
@@ -42,41 +41,61 @@ class DashboardPage extends StatelessWidget {
               );
             },
           ),
-          bottomNavigationBar: NavigationBar(
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-            selectedIndex: controller.tabIndex,
-            onDestinationSelected: controller.changeTabIndex,
-            destinations: <Widget>[
-              navigationBarItem(controller, ImagesPath.homeIcon, null, 'Trang chủ',
-                  controller.tabIndex == 0 ? ColorResources.MAIN_APP : ColorResources.GREY),
-              navigationBarItem(controller, null, Icons.folder_outlined, 'Dự án',
-                  controller.tabIndex == 1 ? ColorResources.MAIN_APP : ColorResources.GREY),
-              navigationBarItem(controller, ImagesPath.issueIcon, null, 'Vấn đề',
-                  controller.tabIndex == 2 ? ColorResources.MAIN_APP : ColorResources.GREY),
-              navigationBarItem(controller, ImagesPath.dashboardIcon, null, 'Dashboard',
-                  controller.tabIndex == 3 ? ColorResources.MAIN_APP : ColorResources.GREY),
-              navigationBarItem(controller, null, Icons.notifications_outlined, 'Thông báo',
-                  controller.tabIndex == 4 ? ColorResources.MAIN_APP : ColorResources.GREY)
-
-            ],
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             selectedItemColor: ColorResources.MAIN_APP,
             unselectedItemColor: ColorResources.GREY,
-            showUnselectedLabels: true,
             showSelectedLabels: true,
-            onTap: controller.changeTabIndex,
+            showUnselectedLabels: true,
             currentIndex: controller.tabIndex,
-            type: BottomNavigationBarType.fixed,
-            selectedLabelStyle:
-                GoogleFonts.lexend(fontSize: SizeApp.BODY_SMALL_FONT_SIZE),
-            unselectedLabelStyle:
-                GoogleFonts.lexend(fontSize: SizeApp.BODY_SMALL_FONT_SIZE),
+            onTap: controller.changeTabIndex,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.folder_outlined),
+                label: 'Project',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bug_report_outlined),
+                label: 'Issue',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard),
+                label: 'Dashboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_outlined),
+                label: 'Notification',
+              ),
+            ],
           ),
+          // NavigationBar(
+          //   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          //   selectedIndex: controller.tabIndex,
+          //   onDestinationSelected: controller.changeTabIndex,
+
+          //   destinations: <Widget>[
+          //     navigationBarItem(controller, ImagesPath.homeIcon, null, 'Trang chủ',
+          //         controller.tabIndex == 0 ? ColorResources.MAIN_APP : ColorResources.GREY),
+          //     navigationBarItem(controller, null, Icons.folder_outlined, 'Dự án',
+          //         controller.tabIndex == 1 ? ColorResources.MAIN_APP : ColorResources.GREY),
+          //     navigationBarItem(controller, ImagesPath.issueIcon, null, 'Vấn đề',
+          //         controller.tabIndex == 2 ? ColorResources.MAIN_APP : ColorResources.GREY),
+          //     navigationBarItem(controller, ImagesPath.dashboardIcon, null, 'Dashboard',
+          //         controller.tabIndex == 3 ? ColorResources.MAIN_APP : ColorResources.GREY),
+          //     navigationBarItem(controller, null, Icons.notifications_outlined, 'Thông báo',
+          //         controller.tabIndex == 4 ? ColorResources.MAIN_APP : ColorResources.GREY)
+          //   ],
+          // ),
         );
       },
     );
   }
 
-  _bottomNavigationBarItem(
+  navigationBarItem(
     DashboardController controller,
     String? path,
     IconData? icon,
@@ -84,19 +103,18 @@ class DashboardPage extends StatelessWidget {
     Color? color,
   ) {
     if (icon != null) {
-      return BottomNavigationBarItem(
-        icon: Icon(icon),
-        label: label,
+      return NavigationDestination(
+        icon: Icon(icon, color: color),
+        label: label ?? '',
       );
     }
     if (path != null) {
-      return BottomNavigationBarItem(
-        // ignore: deprecated_member_use
+      return NavigationDestination(
         icon: SvgPicture.asset(path, color: color),
-        label: label,
+        label: label ?? '',
       );
     }
-    return const BottomNavigationBarItem(
+    return const NavigationDestination(
       icon: Icon(Icons.error),
       label: 'Error',
     );

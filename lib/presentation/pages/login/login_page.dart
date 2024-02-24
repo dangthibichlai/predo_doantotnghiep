@@ -37,14 +37,11 @@ class LoginPage extends GetView<LoginController> {
                 ),
 
               ),
-              child: SizedBox(
-                width: SizeApp.getMaxWidth(),
-                height: SizeApp.getMaxHeight(),
-                child: _bodyLogin(),
-              ),
-            ),
-          );
-        },
+            );
+            
+          },
+        ),
+        
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: CloseButtonWidget(

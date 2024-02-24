@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:test_intern/core/hepler/app-image.dart';
+import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
+import 'package:test_intern/resources/app_color.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
