@@ -1,4 +1,6 @@
-// ignore_for_file: use_key_in_widget_constructors
+
+// ignore_for_file: deprecated_member_use
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,42 +42,22 @@ class DashboardPage extends StatelessWidget {
               );
             },
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: [
-              _bottomNavigationBarItem(
-                  controller,
-                  ImagesPath.homeIcon,
-                  null,
-                  'Trang chủ',
-                  controller.tabIndex == 0
-                      ? ColorResources.MAIN_APP
-                      : ColorResources.GREY),
-              _bottomNavigationBarItem(
-                  controller, null, Icons.folder_outlined, 'Dự án', null),
-              _bottomNavigationBarItem(
-                  controller,
-                  ImagesPath.issueIcon,
-                  null,
-                  'Vấn đề',
-                  controller.tabIndex == 2
-                      ? ColorResources.MAIN_APP
-                      : ColorResources.GREY),
-              _bottomNavigationBarItem(
-                  controller,
-                  ImagesPath.dashboardIcon,
-                  null,
-                  'Dashboard',
-                  controller.tabIndex == 3
-                      ? ColorResources.MAIN_APP
-                      : ColorResources.GREY),
-              _bottomNavigationBarItem(
-                  controller,
-                  null,
-                  Icons.notifications_outlined,
-                  'Thông báo',
-                  controller.tabIndex == 4
-                      ? ColorResources.MAIN_APP
-                      : ColorResources.GREY)
+          bottomNavigationBar: NavigationBar(
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+            selectedIndex: controller.tabIndex,
+            onDestinationSelected: controller.changeTabIndex,
+            destinations: <Widget>[
+              navigationBarItem(controller, ImagesPath.homeIcon, null, 'Trang chủ',
+                  controller.tabIndex == 0 ? ColorResources.MAIN_APP : ColorResources.GREY),
+              navigationBarItem(controller, null, Icons.folder_outlined, 'Dự án',
+                  controller.tabIndex == 1 ? ColorResources.MAIN_APP : ColorResources.GREY),
+              navigationBarItem(controller, ImagesPath.issueIcon, null, 'Vấn đề',
+                  controller.tabIndex == 2 ? ColorResources.MAIN_APP : ColorResources.GREY),
+              navigationBarItem(controller, ImagesPath.dashboardIcon, null, 'Dashboard',
+                  controller.tabIndex == 3 ? ColorResources.MAIN_APP : ColorResources.GREY),
+              navigationBarItem(controller, null, Icons.notifications_outlined, 'Thông báo',
+                  controller.tabIndex == 4 ? ColorResources.MAIN_APP : ColorResources.GREY)
+
             ],
             selectedItemColor: ColorResources.MAIN_APP,
             unselectedItemColor: ColorResources.GREY,

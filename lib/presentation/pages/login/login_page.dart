@@ -18,14 +18,24 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorResources.WHITE,
-      body: GetBuilder(
-        init: LoginController(),
-        builder: (context) {
-          return SafeArea(
-            child: Padding(
-              padding: SizeApp.setEdgeInsetsOnly(
-                top: SizeApp.setSize(percent: .1),
+      resizeToAvoidBottomInset: false,
+        backgroundColor: ColorResources.BGAPP,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: GetBuilder(
+          init: LoginController(),
+          builder: (context) {
+            return SafeArea(
+              child: Padding(
+                padding: SizeApp.setEdgeInsetsOnly(
+                  top: SizeApp.setSize(percent: .1),
+                ),
+                child: SizedBox(
+                  width: SizeApp.getMaxWidth(),
+                  height: SizeApp.getMaxHeight(),
+                  child: _bodyLogin(),
+                ),
+
               ),
               child: SizedBox(
                 width: SizeApp.getMaxWidth(),
@@ -117,7 +127,7 @@ class LoginPage extends GetView<LoginController> {
         ),
         AppButton(
             fillColor: ColorResources.MAIN_APP,
-            colorBorder: ColorResources.WHITE,
+            colorBorder: ColorResources.MAIN_APP,
             withBorder: 2,
             type: AppButtonType.OUTLINE,
             width: SizeApp.setSizeWithWidth(percent: .8),

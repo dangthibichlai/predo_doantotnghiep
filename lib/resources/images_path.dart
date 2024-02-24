@@ -1,4 +1,6 @@
 mixin ImagesPath {
+  static String issueImage = 'assets/features/issue_image.png';
+  static String avataImg = 'assets/features/avatar/avatar.jpg';
   static String splashIc = 'assets/features/splLottie.json';
 
   // Alert.
@@ -14,7 +16,7 @@ mixin ImagesPath {
   // Logo app.
   static String logoApp = 'assets/base/logo/launcher_icon.png';
   static String logoAppWhite = 'assets/base/logo/launcher_icon_white.png';
-  
+
   static String loadingLogo = 'assets/base/logo/launcher_icon.png';
   static String logoHome = 'assets/features/launcher_icon_home.png';
 
@@ -22,14 +24,10 @@ mixin ImagesPath {
   static String introImgFirst = 'assets/features/intro_img_1.png';
   static String introImgSecond = 'assets/features/intro_img_2.png';
   static String introImgThird = 'assets/features/intro_img_3.png';
-  static String introduceIssueImg =
-      'assets/features/introduce/welcome_page_issues.png';
-  static String introduceQueuesImg =
-      'assets/features/introduce/welcome_page_queues.png';
-  static String introduceSlaImg =
-      'assets/features/introduce/welcome_page_sla.png';
-  static String introduceStayInTheLoopImg =
-      'assets/features/introduce/welcome_page_stay_in_the_loop.png';
+  static String introduceIssueImg = 'assets/features/introduce/welcome_page_issues.png';
+  static String introduceQueuesImg = 'assets/features/introduce/welcome_page_queues.png';
+  static String introduceSlaImg = 'assets/features/introduce/welcome_page_sla.png';
+  static String introduceStayInTheLoopImg = 'assets/features/introduce/welcome_page_stay_in_the_loop.png';
 
   static String iapIcDoneIcon = 'assets/features/iap_ic_done_icon.svg';
   static String iapIcDoneGradientIcon = 'assets/features/iap_ic_done_gradient.svg';
@@ -70,6 +68,5 @@ mixin ImagesPath {
   static String slackIcon = 'assets/features/login/slack_icon.png';
   static String homeIcon = 'assets/features/navigator_icon/home_icon.svg';
   static String issueIcon = 'assets/features/navigator_icon/issue_icon.svg';
-  static String dashboardIcon =
-      'assets/features/navigator_icon/dashboard_icon.svg';
+  static String dashboardIcon = 'assets/features/navigator_icon/dashboard_icon.svg';
 }
