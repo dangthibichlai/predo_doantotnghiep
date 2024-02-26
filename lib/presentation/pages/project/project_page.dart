@@ -131,7 +131,7 @@ class ProjectPage extends GetView<ProjectController> {
           title: "Recently viewed",
         ),
         Container(
-          height: SizeApp.setSize(percent: .25),
+          height: SizeApp.setSize(percent: .2),
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -150,7 +150,7 @@ class ProjectPage extends GetView<ProjectController> {
                     children: [
                       Column(children: [
                         Container(
-                          height: SizeApp.setSize(percent: .1),
+                          height: SizeApp.setSize(percent: .06),
                           decoration: BoxDecoration(
                             color: Color(0xfff1f2f4),
                             borderRadius: BorderRadius.only(
@@ -191,7 +191,7 @@ class ProjectPage extends GetView<ProjectController> {
                         ),
                       ]),
                       Positioned(
-                        top: SizeApp.setSize(percent: .07),
+                        top: SizeApp.setSize(percent: .02),
                         left: SizeApp.setSizeWithWidth(percent: .03),
                         child: Container(
                           width: SizeApp.setSize(percent: .06),
