@@ -42,6 +42,7 @@ class DashboardPage extends StatelessWidget {
             },
           ),
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: ColorResources.BGAPP,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: ColorResources.MAIN_APP,
             unselectedItemColor: ColorResources.GREY,

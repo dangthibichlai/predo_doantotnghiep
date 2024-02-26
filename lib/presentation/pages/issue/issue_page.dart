@@ -11,14 +11,12 @@ import 'package:test_intern/resources/images_path.dart';
 
 import '../../widget/title_custom.dart';
 
-
 class IssuePage extends GetView<IssueController> {
   const IssuePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: ColorResources.BGAPP,
       body: Padding(
         padding: SizeApp.setEdgeInsetsOnly(
@@ -73,53 +71,58 @@ class IssuePage extends GetView<IssueController> {
               ),
             ),
             Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //
-
-                AppImage(
-                  ImagesPath.issueImage,
-                  width: SizeApp.setSizeWithWidth(percent: .5),
-                ),
-                Text(
-                  'No issues to show',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    color: ColorResources.BLACK,
-                  ),
-                ),
-                Text(
-                  'Nice!',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    color: ColorResources.BLACK,
-                  ),
-                ),
-                SizedBox(
-                  width: SizeApp.setSizeWithWidth(percent: .7),
-                  height: SizeApp.setSize(percent: .1),
-                  child: Text(
-                    'When you\'re  assigned new issues, you\'ll see them here.',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: ColorResources.BLACK.withOpacity(.5),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Create issue',
-                    style: TextStyle(color: ColorResources.MAIN_APP, fontSize: 14.sp, fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ],
-            )),
+              child: body(),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget body() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        //
+
+        AppImage(
+          ImagesPath.issueImage,
+          width: SizeApp.setSizeWithWidth(percent: .5),
+        ),
+        Text(
+          'No issues to show',
+          style: TextStyle(
+            fontSize: 20.sp,
+            color: ColorResources.BLACK,
+          ),
+        ),
+        Text(
+          'Nice!',
+          style: TextStyle(
+            fontSize: 20.sp,
+            color: ColorResources.BLACK,
+          ),
+        ),
+        SizedBox(
+          width: SizeApp.setSizeWithWidth(percent: .7),
+          height: SizeApp.setSize(percent: .1),
+          child: Text(
+            'When you\'re  assigned new issues, you\'ll see them here.',
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: ColorResources.BLACK.withOpacity(.5),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            'Create issue',
+            style: TextStyle(color: ColorResources.MAIN_APP, fontSize: 14.sp, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
     );
   }
 

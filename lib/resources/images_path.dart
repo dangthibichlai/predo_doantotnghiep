@@ -1,4 +1,7 @@
+
+
 mixin ImagesPath {
+  static String notificationEmpty = 'assets/features/empty_notification.png';
   static String issueImage = 'assets/features/issue_image.png';
   static String avataImg = 'assets/features/avatar/avatar.jpg';
   static String splashIc = 'assets/features/splLottie.json';
@@ -47,19 +50,6 @@ mixin ImagesPath {
   static String porFlag = 'assets/base/flags/por_flag.png';
   static String ruFlag = 'assets/base/flags/ru_flag.png';
   static String vnFlag = 'assets/base/flags/vn_flag.png';
-
-  static String grantPermissionImgBanner = 'assets/features/grant_permission_img_banner.svg';
-
-  // Home.
-  static String homeImgBGCard = 'assets/features/home_img_bg_card.png';
-  static String homeImgBGMic = 'assets/features/home_img_mic.png';
-  static String homeImgBGMic2 = 'assets/features/home_img_mic_2.png';
-  static String homeImgBGCd = 'assets/features/home_img_cd.png';
-  static String homeIcSetting = 'assets/features/home_ic_setting.svg';
-  static String homeImg1 = 'assets/features/home_img_1.png';
-  static String homeImg2 = 'assets/features/home_img_2.png';
-  static String homeImg3 = 'assets/features/home_img_3.png';
-  static String homeImg4 = 'assets/features/home_img_4.png';
 
   //Icon
   static String googleIcon = 'assets/features/login/google_icon.png';
