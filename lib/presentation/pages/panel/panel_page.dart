@@ -14,27 +14,28 @@ class PanelPage extends GetView<PanelController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorResources.BGAPP,
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 8.0, right: 8.0, top: SizeApp.setSize(percent: .03), bottom: SizeApp.setSize(percent: .02)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Dashboards', style: TextStyle(fontSize: 20)),
-                  ClipOval(
-                    child: AppImage(
-                      ImagesPath.avataImg,
-                      width: 30.sp,
-                      height: 30.sp,
-                    ),
+      backgroundColor: ColorResources.BGAPP,
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+                left: 8.0, right: 8.0, top: SizeApp.setSize(percent: .03), bottom: SizeApp.setSize(percent: .02)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Dashboards', style: TextStyle(fontSize: 20)),
+                ClipOval(
+                  child: AppImage(
+                    ImagesPath.avataImg,
+                    width: 30.sp,
+                    height: 30.sp,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
+          ),
+          Expanded(
+            child: SingleChildScrollView(
               child: Container(
                   color: ColorResources.WHITE,
                   padding: EdgeInsets.only(
@@ -51,11 +52,11 @@ class PanelPage extends GetView<PanelController> {
                         ],
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 10.h,
                       ),
                       Container(
                         width: SizeApp.getMaxWidth(),
-                        height: SizeApp.setSize(percent: .4),
+                        height: SizeApp.setSize(percent: .35),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -74,7 +75,7 @@ class PanelPage extends GetView<PanelController> {
                             children: [
                               Text("Assigned to Me", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
                               Container(
-                                height: SizeApp.setSize(percent: .1),
+                                height: SizeApp.setSize(percent: .25),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: DataTable(
@@ -82,7 +83,7 @@ class PanelPage extends GetView<PanelController> {
                                       DataColumn(
                                         label: Expanded(
                                           child: Text(
-                                            'Name',
+                                            'Issue Type',
                                             style: TextStyle(fontStyle: FontStyle.italic),
                                           ),
                                         ),
@@ -90,7 +91,7 @@ class PanelPage extends GetView<PanelController> {
                                       DataColumn(
                                         label: Expanded(
                                           child: Text(
-                                            'Age',
+                                            'Key',
                                             style: TextStyle(fontStyle: FontStyle.italic),
                                           ),
                                         ),
@@ -98,7 +99,15 @@ class PanelPage extends GetView<PanelController> {
                                       DataColumn(
                                         label: Expanded(
                                           child: Text(
-                                            'Role',
+                                            'Summary',
+                                            style: TextStyle(fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Expanded(
+                                          child: Text(
+                                            'Priority',
                                             style: TextStyle(fontStyle: FontStyle.italic),
                                           ),
                                         ),
@@ -107,35 +116,215 @@ class PanelPage extends GetView<PanelController> {
                                     rows: const <DataRow>[
                                       DataRow(
                                         cells: <DataCell>[
-                                          DataCell(Text('Sarah')),
-                                          DataCell(Text('19')),
-                                          DataCell(Text('Student')),
+                                          DataCell(Icon(
+                                            Icons.check_circle,
+                                            color: Colors.blue,
+                                          )),
+                                          DataCell(Text('SCRUM -29')),
+                                          DataCell(Text('Test Task')),
+                                          DataCell(Icon(Icons.line_axis, color: Colors.orange)),
                                         ],
                                       ),
                                       DataRow(
                                         cells: <DataCell>[
-                                          DataCell(Text('Janine')),
-                                          DataCell(Text('43')),
-                                          DataCell(Text('Professor')),
+                                          DataCell(Icon(
+                                            Icons.check_circle,
+                                            color: Colors.green,
+                                          )),
+                                          DataCell(Text('SCRUM -29')),
+                                          DataCell(Text('Test Task')),
+                                          DataCell(Icon(Icons.line_axis, color: Colors.orange)),
                                         ],
                                       ),
                                       DataRow(
                                         cells: <DataCell>[
-                                          DataCell(Text('William')),
-                                          DataCell(Text('27')),
-                                          DataCell(Text('Associate Professor')),
+                                          DataCell(Icon(
+                                            Icons.check_circle,
+                                            color: Colors.blue,
+                                          )),
+                                          DataCell(Text('SCRUM -29')),
+                                          DataCell(Text('Test Task')),
+                                          DataCell(Icon(Icons.line_axis, color: Colors.orange)),
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("View all issues", style: TextStyle(color: Colors.blue)),
+                                  Spacer(),
+                                  Icon(Icons.autorenew, color: Colors.blue),
+                                  Text("27 Feb 2024", style: TextStyle(color: Colors.black)),
+                                ],
+                              )
                             ]),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Container(
+                        width: SizeApp.getMaxWidth(),
+                        height: SizeApp.setSize(percent: .6),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: ColorResources.GREY.withOpacity(.4)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorResources.WHITE.withOpacity(.1),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: Offset(0, 1), // changes position of shadow
+                              ),
+                            ]),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Activity stream", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+                              Container(
+                                height: SizeApp.setSize(percent: .5),
+                                child: ListView.builder(
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      padding: EdgeInsets.all(8.sp),
+                                      decoration: BoxDecoration(),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ClipOval(
+                                            child: AppImage(
+                                              ImagesPath.avataImg,
+                                              width: 30.sp,
+                                              height: 30.sp,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10.sp,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(children: [
+                                                  RichText(
+                                                      maxLines: 2,
+                                                      text: TextSpan(
+                                                          text: 'John Doe',
+                                                          style: TextStyle(
+                                                              fontSize: 16.sp,
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight.bold),
+                                                          children: [
+                                                            TextSpan(
+                                                              text: ' commented on ',
+                                                              style: TextStyle(
+                                                                  fontSize: 13.sp,
+                                                                  color: Colors.black.withOpacity(.8),
+                                                                  fontWeight: FontWeight.normal),
+                                                            ),
+                                                          ]))
+                                                ]),
+                                                SizedBox(
+                                                  height: 5.sp,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text('SCRUM-55',
+                                                        style: TextStyle(fontSize: 14.sp, color: ColorResources.GREY)),
+                                                    Spacer(),
+                                                    Container(
+                                                      padding: EdgeInsets.only(
+                                                          top: 3.sp, bottom: 3.sp, left: 2.sp, right: 2.sp),
+                                                      decoration: BoxDecoration(
+                                                          color: ColorResources.GREEN.withOpacity(.7),
+                                                          borderRadius: BorderRadius.circular(5.sp)),
+                                                      child: Icon(
+                                                        Icons.bookmark_rounded,
+                                                        color: Colors.white,
+                                                        size: 12.sp,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5.sp,
+                                                    ),
+                                                    Text('26 Feb 2024',
+                                                        style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY)),
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  color: ColorResources.GREY.withOpacity(.5),
+                                                  thickness: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Spacer(),
+                                  Icon(Icons.autorenew, color: Colors.blue),
+                                  Text("Just now", style: TextStyle(color: Colors.black)),
+                                ],
+                              )
+                            ]),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      //cuc 3
+                      Container(
+                        width: SizeApp.getMaxWidth(),
+                        height: SizeApp.setSize(percent: .18),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: ColorResources.GREY.withOpacity(.2)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorResources.WHITE.withOpacity(.1),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: Offset(0, 1), // changes position of shadow
+                              ),
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Looks like you're missing some gadgets",
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600)),
+                            Text(
+                                "Were're building more gadgets for dashboard on mobile. Let us know which gadget you'd like to see",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            GestureDetector(
+                                onTap: () {},
+                                child: Text("Send Feeback",
+                                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600))),
+                          ],
+                        ),
                       )
                     ],
                   )),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

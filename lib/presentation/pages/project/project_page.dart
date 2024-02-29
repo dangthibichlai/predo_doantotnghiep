@@ -7,6 +7,7 @@ import 'package:test_intern/presentation/pages/project/project_controller.dart';
 import 'package:test_intern/presentation/widget/title_custom.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
+import 'package:test_intern/routers/home_router.dart';
 
 class ProjectPage extends GetView<ProjectController> {
   const ProjectPage({super.key});
@@ -14,48 +15,54 @@ class ProjectPage extends GetView<ProjectController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: SizeApp.setEdgeInsetsOnly(
-          top: 10.sp,
-          left: 10.sp,
-          right: 10.sp,
-        ),
-        child: Column(
-          children: [
-            Row(
+        padding: EdgeInsets.only(bottom: SizeApp.setSize(percent: .01)),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: SizeApp.setEdgeInsetsOnly(
+              top: 10.sp,
+              left: 10.sp,
+              right: 10.sp,
+            ),
+            height: SizeApp.getMaxHeight(),
+            child: Column(
               children: [
-                Text('Project', style: TextStyle(fontSize: 20.sp)),
-                Spacer(),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.search,
-                      size: 26.sp,
-                      color: ColorResources.BLACK.withOpacity(.5),
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add,
-                      size: 26.sp,
-                      color: ColorResources.BLACK.withOpacity(.5),
-                    )),
-                ClipOval(
-                  child: AppImage(
-                    ImagesPath.avataImg,
-                    width: 30.sp,
-                    height: 30.sp,
-                  ),
+                Row(
+                  children: [
+                    Text('Project', style: TextStyle(fontSize: 20.sp)),
+                    Spacer(),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.search,
+                          size: 26.sp,
+                          color: ColorResources.BLACK.withOpacity(.5),
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.add,
+                          size: 26.sp,
+                          color: ColorResources.BLACK.withOpacity(.5),
+                        )),
+                    ClipOval(
+                      child: AppImage(
+                        ImagesPath.avataImg,
+                        width: 30.sp,
+                        height: 30.sp,
+                      ),
+                    ),
+                  ],
                 ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    recentlyProjectListView(),
+                    Expanded(child: allProjectGridView()),
+                  ],
+                )),
               ],
             ),
-            Expanded(
-                child: Column(
-              children: [
-                recentlyProjectListView(),
-                Expanded(child: allProjectGridView()),
-              ],
-            )),
-          ],
+          ),
         ),
       ),
     );
@@ -71,48 +78,52 @@ class ProjectPage extends GetView<ProjectController> {
         ),
         Expanded(
           child: GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1),
             itemBuilder: (context, index) {
-              return Container(
-                margin: REdgeInsets.all(5.sp),
-                padding: EdgeInsets.all(5.sp),
-                decoration: BoxDecoration(
-                  color: Color(0XFFeaebef),
-                  borderRadius: BorderRadius.circular(5.sp),
+              return GestureDetector(
+                onTap: () => Get.toNamed(HomeRouter.PROJECTDETAIL),
+                child: Container(
+                  margin: REdgeInsets.all(5.sp),
+                  padding: EdgeInsets.all(5.sp),
+                  decoration: BoxDecoration(
+                    color: Color(0XFFeaebef),
+                    borderRadius: BorderRadius.circular(5.sp),
+                  ),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Container(
+                      width: SizeApp.setSize(percent: .07),
+                      height: SizeApp.setSize(percent: .07),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5.sp),
+                      ),
+                      child: Icon(
+                        Icons.beach_access,
+                        color: Colors.red,
+                        size: 36.0,
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Project name',
+                          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Dự án thuộc team Product',
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: ColorResources.BLACK.withOpacity(.5),
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                      ],
+                    ),
+                  ]),
                 ),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                    width: SizeApp.setSize(percent: .07),
-                    height: SizeApp.setSize(percent: .07),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.sp),
-                    ),
-                    child: Icon(
-                      Icons.beach_access,
-                      color: Colors.red,
-                      size: 36.0,
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Project name',
-                        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Dự án thuộc team Product',
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: ColorResources.BLACK.withOpacity(.5),
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                    ],
-                  ),
-                ]),
               );
             },
             itemCount: 10,
