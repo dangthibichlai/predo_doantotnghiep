@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:test_intern/core/hepler/app-image.dart';
+
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
 import 'package:test_intern/presentation/pages/home/home_page.dart';
@@ -13,7 +12,6 @@ import 'package:test_intern/presentation/pages/notification/notification_page.da
 import 'package:test_intern/presentation/pages/panel/panel_page.dart';
 import 'package:test_intern/presentation/pages/project/project_page.dart';
 import 'package:test_intern/resources/app_color.dart';
-import 'package:test_intern/resources/images_path.dart';
 
 class DashboardPage extends StatelessWidget {
   @override
@@ -50,47 +48,30 @@ class DashboardPage extends StatelessWidget {
             showUnselectedLabels: true,
             currentIndex: controller.tabIndex,
             onTap: controller.changeTabIndex,
-            items: const [
+            items:  [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label:"Home".tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.folder_outlined),
-                label: 'Project',
+                label: 'Project'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bug_report_outlined),
-                label: 'Issue',
+                label: 'Issue'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard),
-                label: 'Dashboard',
+                label: 'Dashboard'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_outlined),
-                label: 'Notification',
+                label: 'Notification'.tr,
               ),
             ],
           ),
-          // NavigationBar(
-          //   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          //   selectedIndex: controller.tabIndex,
-          //   onDestinationSelected: controller.changeTabIndex,
-
-          //   destinations: <Widget>[
-          //     navigationBarItem(controller, ImagesPath.homeIcon, null, 'Trang chủ',
-          //         controller.tabIndex == 0 ? ColorResources.MAIN_APP : ColorResources.GREY),
-          //     navigationBarItem(controller, null, Icons.folder_outlined, 'Dự án',
-          //         controller.tabIndex == 1 ? ColorResources.MAIN_APP : ColorResources.GREY),
-          //     navigationBarItem(controller, ImagesPath.issueIcon, null, 'Vấn đề',
-          //         controller.tabIndex == 2 ? ColorResources.MAIN_APP : ColorResources.GREY),
-          //     navigationBarItem(controller, ImagesPath.dashboardIcon, null, 'Dashboard',
-          //         controller.tabIndex == 3 ? ColorResources.MAIN_APP : ColorResources.GREY),
-          //     navigationBarItem(controller, null, Icons.notifications_outlined, 'Thông báo',
-          //         controller.tabIndex == 4 ? ColorResources.MAIN_APP : ColorResources.GREY)
-          //   ],
-          // ),
+        
         );
       },
     );
@@ -115,9 +96,9 @@ class DashboardPage extends StatelessWidget {
         label: label ?? '',
       );
     }
-    return const NavigationDestination(
+    return  NavigationDestination(
       icon: Icon(Icons.error),
-      label: 'Error',
+      label: 'Error'.tr,
     );
   }
 }

@@ -37,12 +37,6 @@ class IntroductionPage extends GetView<IntroductionController> {
           );
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CloseButtonWidget(
-        callBack: () {
-          controller.showButton();
-        },
-      ),
     );
   }
 
@@ -68,23 +62,23 @@ class IntroductionPage extends GetView<IntroductionController> {
                     alignment: Alignment.center,
                     children: [
                       itemIntro(
-                        'Quản lý đơn giản, hiệu quả với mô hình quản lý gần gũi, dễ sử dụng. ',
+                        'intro_001',
                         ImagesPath.introduceIssueImg,
                       ),
                       itemIntro(
-                        'Thống kê linh hoạt với đa dạng các biểu đồ thống kê chi tiết và dễ hiểu. ',
+                        'intro_002',
                         ImagesPath.introduceQueuesImg,
                       ),
                       itemIntro(
-                        'Nâng cao hiệu quả quản lý với các tính năng hỗ trợ quản lý đa dạng',
+                        'intro_003',
                         ImagesPath.introduceSlaImg,
                       ),
                       itemIntro(
-                        'Thống kê linh hoạt với đa dạng các biểu đồ thống kê chi tiết và dễ hiểu. ',
+                        'intro_004',
                         ImagesPath.introduceStayInTheLoopImg,
                       ),
                       itemIntro(
-                        'Nâng cao hiệu quả quản lý với các tính năng hỗ trợ quản lý đa dạng',
+                        'intro_005',
                         ImagesPath.introduceIssueImg,
                       ),
                     ],
@@ -108,9 +102,9 @@ class IntroductionPage extends GetView<IntroductionController> {
                 ),
                 borderRadius: 5.sp,
                 onTap: () {
-                  Get.toNamed(AuthRouter.LOGIN);
+                  controller.nextPageLogin();
                 },
-                label: 'ĐĂNG NHẬP',
+                label: 'Login'.tr.toUpperCase(),
                 colorText: ColorResources.BLACK,
                 fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
                 fontWeight: FontWeight.bold,
@@ -130,9 +124,9 @@ class IntroductionPage extends GetView<IntroductionController> {
                   ),
                   borderRadius: 5.sp,
                   onTap: () {
-                    Get.toNamed(AuthRouter.REGISTER);
+                    controller.nextPageRegister();
                   },
-                  label: 'ĐĂNG KÝ',
+                  label: 'Register'.tr.toUpperCase(),
                   colorText: ColorResources.WHITE,
                   fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
                   fontWeight: FontWeight.bold),
@@ -143,21 +137,20 @@ class IntroductionPage extends GetView<IntroductionController> {
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               Container(
                 width: 250,
-                margin: SizeApp.setEdgeInsetsOnly(
-                    bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+                margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Bằng việc đăng ký, bạn đã đồng ý với ',
+                        text: 'text_001'.tr,
                         style: GoogleFonts.lexend(
                           color: ColorResources.WHITE,
                           fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
                         ),
                       ),
                       TextSpan(
-                        text: 'Thông báo người dùng',
+                        text: 'text_002'.tr,
                         style: GoogleFonts.lexend(
                             color: ColorResources.WHITE,
                             fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
@@ -165,14 +158,14 @@ class IntroductionPage extends GetView<IntroductionController> {
                             decoration: TextDecoration.underline),
                       ),
                       TextSpan(
-                        text: ' và ',
+                        text: 'text_003'.tr,
                         style: GoogleFonts.lexend(
                           color: ColorResources.WHITE,
                           fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
                         ),
                       ),
                       TextSpan(
-                        text: 'Chính sách quyền riêng tư',
+                        text: 'text_004'.tr,
                         style: GoogleFonts.lexend(
                             color: ColorResources.WHITE,
                             fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
@@ -185,14 +178,13 @@ class IntroductionPage extends GetView<IntroductionController> {
               ),
               Container(
                 width: 250,
-                margin: SizeApp.setEdgeInsetsOnly(
-                    bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+                margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Bạn không đăng nhập được hoặc đăng ký được',
+                        text: 'text_005'.tr,
                         style: GoogleFonts.lexend(
                             color: ColorResources.WHITE,
                             fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
@@ -257,20 +249,13 @@ class IntroductionPage extends GetView<IntroductionController> {
                 (index) {
                   return Obx(() {
                     return Container(
-                      margin: EdgeInsets.only(
-                          left: index != 0 ? SizeApp.SPACE_1X : 0),
+                      margin: EdgeInsets.only(left: index != 0 ? SizeApp.SPACE_1X : 0),
                       height: 10,
                       width: 10,
                       decoration: BoxDecoration(
-                        color: controller.currentPageIndex.value == index
-                            ? ColorResources.WHITE
-                            : ColorResources.GREY,
-                        shape: controller.currentPageIndex.value == index
-                            ? BoxShape.rectangle
-                            : BoxShape.circle,
-                        borderRadius: controller.currentPageIndex.value == index
-                            ? BorderRadius.circular(100)
-                            : null,
+                        color: controller.currentPageIndex.value == index ? ColorResources.WHITE : ColorResources.GREY,
+                        shape: controller.currentPageIndex.value == index ? BoxShape.rectangle : BoxShape.circle,
+                        borderRadius: controller.currentPageIndex.value == index ? BorderRadius.circular(100) : null,
                       ),
                     );
                   });

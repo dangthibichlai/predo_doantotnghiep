@@ -1,4 +1,4 @@
-package com.example.base
+package predo.com.appname
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:test_intern/presentation/pages/TEST.dart';
 import 'package:test_intern/presentation/pages/introduction/introduction_binding.dart';
 import 'package:test_intern/presentation/pages/introduction/introduction_page.dart';
 import 'package:test_intern/presentation/pages/login/login_binding.dart';
@@ -19,8 +20,13 @@ mixin AuthRouter {
   static const String LOGIN = '/login';
   static const String REGISTER = '/register';
   static const String OTP = '/otp';
+  static const String TEST = '/test';
 
   static List<GetPage> listPage = [
+    GetPage(
+      name: TEST,
+      page: () => HorizontalExample(),
+    ),
     GetPage(
       name: SPLASH,
       page: () => SplashPage(),

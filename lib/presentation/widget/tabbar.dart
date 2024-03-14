@@ -17,8 +17,7 @@ class _ExpertsTabBarState extends State<ExpertsTabBar> {
   int _currentIndex = 0;
   List<String> _tabBar = [
     'Board',
-    'Backlog',
-    'Timeline',
+    'Reports',
     'Settings',
   ];
 
@@ -33,11 +32,10 @@ class _ExpertsTabBarState extends State<ExpertsTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: _tabBar.length,
       child: Container(
-        //  margin: SizeApp.setEdgeInsetsOnly(top: kToolbarHeight),
         width: SizeApp.getMaxWidth(),
-        height: 70,
+        height: 60,
         child: TabBar(
           // bỏ bottom line của tabbar
           dividerColor: Colors.transparent,
@@ -53,7 +51,7 @@ class _ExpertsTabBarState extends State<ExpertsTabBar> {
           },
           tabs: [
             ...List.generate(
-              4,
+              _tabBar.length,
               (index) {
                 return Tab(
                   child: Stack(
@@ -63,9 +61,7 @@ class _ExpertsTabBarState extends State<ExpertsTabBar> {
                           _tabBar[index],
                           maxLines: 1,
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: _currentIndex == index
-                                    ? ColorResources.MAIN_APP
-                                    : ColorResources.BLACK.withOpacity(1),
+                                color: _currentIndex == index ? Colors.blue : ColorResources.BLACK.withOpacity(1),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12.sp,
                               ),

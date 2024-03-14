@@ -71,7 +71,7 @@ class RegisterPage extends GetView<RegisterController> {
           height: 20,
         ),
         Text(
-          'Đăng ký để tiếp tục',
+          'Register to continue'.tr,
           style: GoogleFonts.lexend(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
@@ -79,43 +79,39 @@ class RegisterPage extends GetView<RegisterController> {
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(
-              top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_1X),
-          width: SizeApp.setSize(percent: .45),
-          child: const TextField(
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_1X),
+          width: SizeApp.setSizeWithWidth(percent: .8),
+          child: TextField(
             decoration: InputDecoration(
-              hintText: 'Nhập email của bạn',
+              hintText: 'Enter your email'.tr,
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 gapPadding: 10,
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
               ),
             ),
           ),
         ),
         Container(
           width: SizeApp.setSize(percent: .45),
-          margin: SizeApp.setEdgeInsetsOnly(
-              bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+          margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Bằng việc đăng ký, tôi chấp nhận ',
+                  text: 'By registering, I accept'.tr,
                   style: GoogleFonts.lexend(
                     color: ColorResources.BLACK,
                     fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
                   ),
                 ),
                 TextSpan(
-                  text: 'Điều khoản dịch vụ',
+                  text: 'Terms of Service'.tr,
                   style: GoogleFonts.lexend(
                       color: ColorResources.BLACK,
                       fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
@@ -123,14 +119,14 @@ class RegisterPage extends GetView<RegisterController> {
                       decoration: TextDecoration.underline),
                 ),
                 TextSpan(
-                  text: ' và công nhận ',
+                  text: 'and acknowledge'.tr,
                   style: GoogleFonts.lexend(
                     color: ColorResources.BLACK,
                     fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
                   ),
                 ),
                 TextSpan(
-                  text: 'Chính sách quyền riêng tư',
+                  text: 'Privacy Policy'.tr,
                   style: GoogleFonts.lexend(
                       color: ColorResources.BLACK,
                       fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
@@ -158,15 +154,14 @@ class RegisterPage extends GetView<RegisterController> {
             onTap: () {
               Get.toNamed(AuthRouter.OTP);
             },
-            label: 'Tiếp tục',
+            label: 'Continue'.tr,
             colorText: ColorResources.WHITE,
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(
-              top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
           child: Text(
-            'Hoặc đăng nhập với',
+            'Or login with'.tr,
             style: GoogleFonts.lexend(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
@@ -195,33 +190,9 @@ class RegisterPage extends GetView<RegisterController> {
                 onTap: () {},
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.googleIcon,
-                label: 'Google',
+                label: 'Google'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
-              ),
-            ),
-            Container(
-              margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.RADIUS_1X),
-              child: AppButton(
-                fillColor: ColorResources.WHITE,
-                colorBorder: ColorResources.GREY,
-                withBorder: 2,
-                type: AppButtonType.OUTLINE,
-                width: SizeApp.setSizeWithWidth(percent: .8),
-                padding: SizeApp.setEdgeInsetsOnly(
-                  top: SizeApp.setSize(percent: .01),
-                  bottom: SizeApp.setSize(percent: .01),
-                ),
-                margin: SizeApp.setEdgeInsetsOnly(
-                  bottom: SizeApp.SPACE_2X,
-                ),
-                borderRadius: 5.sp,
-                onTap: () {},
-                sizeIcon: SizeApp.setSize(percent: 0.03),
-                imageUrlIcon: ImagesPath.facebookIcon,
-                label: 'Facebook',
-                colorText: ColorResources.BLACK,
-                fontSizedLabel: 14.sp,
               ),
             ),
             Container(
@@ -243,7 +214,7 @@ class RegisterPage extends GetView<RegisterController> {
                 onTap: () {},
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.microsoftIcon,
-                label: 'Microsoft',
+                label: 'Microsoft'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
               ),
@@ -267,7 +238,7 @@ class RegisterPage extends GetView<RegisterController> {
                 onTap: () {},
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.slackIcon,
-                label: 'Slack',
+                label: 'Slack'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
               ),

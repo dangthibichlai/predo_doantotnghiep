@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "260516675939",
+    "project_id": "predo-2b815",
+    "storage_bucket": "predo-2b815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260516675939:android:4bbb4913a2c95c243a1356",
+        "android_client_info": {
+          "package_name": "com.example.base"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260516675939-eu7kg4ptedjt2m2fas0hutoq6sjlpcav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.base",
+            "certificate_hash": "5a36eff786f77dfd011725b4597e2f11e4ae60a8"
+          }
+        },
+        {
+          "client_id": "260516675939-b43gun3s3mrd6k1c1c875pngp51envfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs2grP_m4N728eQMVfEPxU65OOEmucOZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260516675939-b43gun3s3mrd6k1c1c875pngp51envfs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "260516675939-47449atcbs2m7spe26udpb8v9lb11hf3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movieExcercise.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260516675939:android:749f87a46a57a2c03a1356",
+        "android_client_info": {
+          "package_name": "predo.com.appname"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260516675939-kdkg78eje5hph2pf43k4bvqtvgsd3hri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "predo.com.appname",
+            "certificate_hash": "5a36eff786f77dfd011725b4597e2f11e4ae60a8"
+          }
+        },
+        {
+          "client_id": "260516675939-b43gun3s3mrd6k1c1c875pngp51envfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs2grP_m4N728eQMVfEPxU65OOEmucOZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260516675939-b43gun3s3mrd6k1c1c875pngp51envfs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "260516675939-47449atcbs2m7spe26udpb8v9lb11hf3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.movieExcercise.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

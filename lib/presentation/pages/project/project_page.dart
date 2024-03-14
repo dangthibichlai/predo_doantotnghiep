@@ -14,54 +14,48 @@ class ProjectPage extends GetView<ProjectController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: ColorResources.BGAPP,
+        automaticallyImplyLeading: false,
+        title: Text('Project'.tr, style: TextStyle(fontSize: 20.sp)),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                size: 26.sp,
+                color: ColorResources.BLACK.withOpacity(.5),
+              )),
+          IconButton(
+              onPressed: () {
+                Get.toNamed(HomeRouter.CREATEPROJECT);
+              },
+              icon: Icon(
+                Icons.add,
+                size: 26.sp,
+                color: ColorResources.BLACK.withOpacity(.5),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: ClipOval(
+              child: AppImage(
+                ImagesPath.avataImg,
+                width: 30.sp,
+                height: 30.sp,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
-        padding: EdgeInsets.only(bottom: SizeApp.setSize(percent: .01)),
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
         child: SingleChildScrollView(
-          child: Container(
-            padding: SizeApp.setEdgeInsetsOnly(
-              top: 10.sp,
-              left: 10.sp,
-              right: 10.sp,
-            ),
-            height: SizeApp.getMaxHeight(),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text('Project', style: TextStyle(fontSize: 20.sp)),
-                    Spacer(),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.search,
-                          size: 26.sp,
-                          color: ColorResources.BLACK.withOpacity(.5),
-                        )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                          size: 26.sp,
-                          color: ColorResources.BLACK.withOpacity(.5),
-                        )),
-                    ClipOval(
-                      child: AppImage(
-                        ImagesPath.avataImg,
-                        width: 30.sp,
-                        height: 30.sp,
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    recentlyProjectListView(),
-                    Expanded(child: allProjectGridView()),
-                  ],
-                )),
-              ],
-            ),
+          child: Column(
+            children: [
+              recentlyProjectListView(),
+              allProjectGridView(),
+            ],
           ),
         ),
       ),
@@ -74,60 +68,60 @@ class ProjectPage extends GetView<ProjectController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleCustom(
-          title: "Recently viewed",
+          title: "All projects".tr,
+          sizeTitle: 14.sp,
         ),
-        Expanded(
-          child: GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () => Get.toNamed(HomeRouter.PROJECTDETAIL),
-                child: Container(
-                  margin: REdgeInsets.all(5.sp),
-                  padding: EdgeInsets.all(5.sp),
-                  decoration: BoxDecoration(
-                    color: Color(0XFFeaebef),
-                    borderRadius: BorderRadius.circular(5.sp),
-                  ),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Container(
-                      width: SizeApp.setSize(percent: .07),
-                      height: SizeApp.setSize(percent: .07),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.sp),
-                      ),
-                      child: Icon(
-                        Icons.beach_access,
-                        color: Colors.red,
-                        size: 36.0,
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Project name',
-                          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Dự án thuộc team Product',
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: ColorResources.BLACK.withOpacity(.5),
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
-                    ),
-                  ]),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => Get.toNamed(HomeRouter.KABANPROJECT),
+              child: Container(
+                margin: REdgeInsets.all(5.sp),
+                padding: EdgeInsets.all(5.sp),
+                decoration: BoxDecoration(
+                  color: Color(0XFFeaebef),
+                  borderRadius: BorderRadius.circular(5.sp),
                 ),
-              );
-            },
-            itemCount: 10,
-          ),
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Container(
+                    width: SizeApp.setSize(percent: .07),
+                    height: SizeApp.setSize(percent: .07),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5.sp),
+                    ),
+                    child: Icon(
+                      Icons.beach_access,
+                      color: Colors.red,
+                      size: 36.0,
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Project name',
+                        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Dự án thuộc team Product',
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: ColorResources.BLACK.withOpacity(.5),
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
+            );
+          },
+          itemCount: 10,
         ),
       ],
     );
@@ -139,7 +133,8 @@ class ProjectPage extends GetView<ProjectController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleCustom(
-          title: "Recently viewed",
+          title: "Recently viewed".tr,
+          sizeTitle: 14.sp,
         ),
         Container(
           height: SizeApp.setSize(percent: .2),

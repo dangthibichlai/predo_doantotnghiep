@@ -75,7 +75,7 @@ class OtpPage extends GetView<OtpController> {
           child: Align(
             alignment: Alignment.center,
             child: Text(
-              'Chúng tôi đã gửi cho bạn một mã qua email',
+              'opt_01'.tr,
               style: GoogleFonts.lexend(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
@@ -89,7 +89,7 @@ class OtpPage extends GetView<OtpController> {
           width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
           child: Text(
-            'Để hoàn tất quá trình thiết lập tài khoản, hãy nhập mã mà chúng tôi đã gửi đến:',
+            'opt_02'.tr,
             style: GoogleFonts.lexend(
               fontSize: 12.sp,
               color: ColorResources.BLACK,
@@ -127,7 +127,7 @@ class OtpPage extends GetView<OtpController> {
             ),
             borderRadius: 5.sp,
             onTap: () {},
-            label: 'Xác minh',
+            label: 'opt_03'.tr,
             colorText: ColorResources.WHITE,
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
@@ -135,7 +135,7 @@ class OtpPage extends GetView<OtpController> {
           width: SizeApp.setSize(percent: .45),
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
           child: Text(
-            'Bạn không nhận được mã? Gửi lại',
+            'opt_04'.tr,
             style: GoogleFonts.lexend(
               fontSize: 12.sp,
               color: ColorResources.MAIN_APP,

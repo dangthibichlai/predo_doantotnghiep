@@ -22,21 +22,19 @@ class NotificationPage extends GetView<NotificationController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: SizeApp.setEdgeInsetsOnly(
-            top: 10.sp,
-            left: 10.sp,
-            right: 10.sp,
-          ),
+        Container(
+          padding: EdgeInsets.only(
+              left: 15.0, right: 15.0, top: SizeApp.setSize(percent: .013), bottom: SizeApp.setSize(percent: .005)),
+          color: ColorResources.BGAPP,
           child: Row(
             children: [
-              Text('Notifications', style: TextStyle(fontSize: 20.sp)),
+              Text('Notifications'.tr, style: TextStyle(fontSize: 20.sp)),
               Spacer(),
               IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.menu,
-                    size: 26.sp,
+                    Icons.filter_list_rounded,
+                    size: 24.sp,
                     color: ColorResources.BLACK.withOpacity(.5),
                   )),
               ClipOval(
@@ -70,13 +68,13 @@ class NotificationPage extends GetView<NotificationController> {
                   height: SizeApp.setSize(percent: .04),
                 ),
                 Text(
-                  'Nothing\'s happening yet',
+                  'notification_001'.tr,
                   style: TextStyle(fontSize: 18.sp, color: ColorResources.BLACK, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   width: SizeApp.setSizeWithWidth(percent: .9),
                   child: Text(
-                    'When there\'s activity on your work , this is where we\'ll let you know.Pulled to refresh any time',
+                    'notification_002'.tr,
                     style: TextStyle(
                         fontSize: 12.5.sp, color: ColorResources.BLACK.withOpacity(.5), fontWeight: FontWeight.normal),
                   ),
@@ -100,7 +98,7 @@ class NotificationPage extends GetView<NotificationController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Notification',
+                'Notification'.tr,
                 style: TextStyle(color: ColorResources.WHITE, fontSize: 16.sp),
               ),
               IconButton(
@@ -168,8 +166,8 @@ class NotificationPage extends GetView<NotificationController> {
                           ),
                           GestureDetector(
                             onTap: () {},
-                            child:
-                                Text('View issue', style: TextStyle(fontSize: 12.sp, color: ColorResources.MAIN_APP)),
+                            child: Text('View issue'.tr,
+                                style: TextStyle(fontSize: 12.sp, color: ColorResources.MAIN_APP)),
                           ),
                         ],
                       ),

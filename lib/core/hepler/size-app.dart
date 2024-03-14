@@ -129,4 +129,6 @@ mixin SizeApp {
   static double BODY_LARGE_FONT_SIZE = 14.sp;
   static double BODY_MEDIUM_FONT_SIZE = 12.sp;
   static double BODY_SMALL_FONT_SIZE = 10.sp;
+
+  
 }

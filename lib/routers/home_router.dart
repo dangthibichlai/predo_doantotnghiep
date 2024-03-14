@@ -1,19 +1,52 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:test_intern/presentation/pages/dashboard/dashboard_binding.dart';
-import 'package:test_intern/presentation/pages/dashboard/dashboard_page.dart';
-import 'package:test_intern/presentation/pages/home/home_binding.dart';
-import 'package:test_intern/presentation/pages/home/home_page.dart';
-import 'package:test_intern/presentation/pages/project_detail/project-detail_binding.dart';
-import 'package:test_intern/presentation/pages/project_detail/project-detail_page.dart';
+import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_binding.dart';
+import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_page.dart';
+import 'package:test_intern/presentation/pages/create_project/create_project_binding.dart';
+import 'package:test_intern/presentation/pages/create_project/create_project_page.dart';
+import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details-setting_page.dart';
+import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details_setting_binding.dart';
+import 'package:test_intern/presentation/pages/type_chart.dart/choose_chart_binding.dart';
+import 'package:test_intern/presentation/pages/type_chart.dart/choose_type_chart.dart';
+import 'package:test_intern/resources/export/core_export.dart';
 
 mixin HomeRouter {
   static const String HOME = '/home';
   static const String DASHBOARD = '/dashboard';
   static const String PROJECTDETAIL = '/project-detail';
+  static const String CHANGELANGUAGE = '/change-language';
+  static const String KABANPROJECT = '/kaban-project';
+  static const String SETTINGDETAIL = '/setting-detail';
+  static const String CHOOSECHART = '/choose-chart';
+  static const String PIECHART = '/pie-chart';
+  static const String CREATEPROJECT = '/create-project';
+
   static List<GetPage> listPage = [
+    GetPage(
+      name: CREATEPROJECT,
+      page: () => CreateProjectPage(),
+      binding: CreateProjectBingding(),
+    ),
+    GetPage(
+      name: PIECHART,
+      page: () => PieChartPage(),
+      binding: PieChartBingding(),
+    ),
+    GetPage(
+      name: CHOOSECHART,
+      page: () => ChooseTypePage(),
+      binding: ChooseChartBingding(),
+    ),
+    GetPage(
+      name: SETTINGDETAIL,
+      page: () => DetailsSettingPage(),
+      binding: DetailsSettingBinding(),
+    ),
+    GetPage(
+      name: KABANPROJECT,
+      page: () => KabanProjectPage(),
+      binding: KaBanProjectBingding(),
+    ),
     GetPage(
       name: HOME,
       page: () => const HomePage(),
@@ -24,10 +57,11 @@ mixin HomeRouter {
       page: () => DashboardPage(),
       binding: DashboardBingding(),
     ),
+  
     GetPage(
-      name: PROJECTDETAIL,
-      page: () => const ProjecDetailtPage(),
-      binding: ProjectDetailBinding(),
+      name: CHANGELANGUAGE,
+      page: () => ChangeLanguagePage(),
+      binding: ChangeLanguageBinding(),
     ),
   ];
 }

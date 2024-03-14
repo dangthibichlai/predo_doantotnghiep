@@ -1,8 +1,19 @@
-
-
 mixin ImagesPath {
+  static String createProjectImg = 'assets/features/create_project.jpg';
+
+  // report image
+  static String imgBarChart1 = 'assets/features/bar_chart_sample_1.gif';
+  static String imgBarChart2 = 'assets/features/bar_chart_sample_2.gif';
+  static String imgLine = 'assets/features/line_chart_sample_1_anim.gif';
+  static String imgPieChart1 = 'assets/features/pie_chart_sample_1.gif';
+  static String imgPieChart2 = 'assets/features/pie_chart_sample_2.gif';
+
+  //home image
+  static String imgHomeAccessEmpty = 'assets/features/home/quick_access_empty.png';
+  static String imgHomeRecentEmpty = 'assets/features/home/recent_item_empty.png';
+
   static String notificationEmpty = 'assets/features/empty_notification.png';
-  static String issueImage = 'assets/features/issue_image.png';
+  static String issueImage = 'assets/features/issue/issue_empty.png';
   static String avataImg = 'assets/features/avatar/avatar.jpg';
   static String splashIc = 'assets/features/splLottie.json';
 

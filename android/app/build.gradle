@@ -23,8 +23,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.base"
-    compileSdkVersion flutter.compileSdkVersion
+    namespace "predo.com.appname"
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,8 +45,8 @@ android {
         applicationId "com.example.base"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 22
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -63,5 +63,20 @@ android {
 flutter {
     source '../..'
 }
+dependencies { 
 
-dependencies {}
+  // dung dong mot de tuong thich voi cac thiet bi chay android version thap 
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" 
+
+  implementation(platform("com.google.firebase:firebase-bom:32.5.0")) 
+
+  implementation("com.google.firebase:firebase-analytics-ktx") 
+
+  implementation 'com.google.firebase:firebase-firestore:24.8.1' 
+
+} 
+
+ 
+
+apply plugin: 'com.google.gms.google-services' 

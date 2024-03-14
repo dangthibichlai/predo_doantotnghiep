@@ -1,8 +1,7 @@
-// ignore_for_file: use_setters_to_change_properties
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:test_intern/routers/auth_router.dart';
+
+import '../../../resources/export/core_export.dart';
 
 class SplashController extends GetxController with GetTickerProviderStateMixin {
   ///
@@ -33,34 +32,23 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
   ///
   void _setStatusLogin() {
     // install _animationController
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 3));
     _animationController!.forward().whenComplete(() async {
-      Get.offNamed(AuthRouter.INTRODUCTION);
+      _onLoginApp();
     });
-
-    // check logged in or not.
   }
 
-  // void updateProgress(double value) {
-  //   progressValue.value = value;
-  // }
-
-  ///
-  /// On login app.
-  ///
-  // void _onLoginApp() {
-  //   final _splash = sl<SharedPreferenceHelper>().getSplash;
-  //   final _logger = sl<SharedPreferenceHelper>().getLogger;
-  //   if (_splash) {
-  //     if (_logger) {
-  //       Get.offNamed(HomeRouter.HOME);
-  //     } else {
-  //        Get.offNamed(AuthRouters.INTRODUCTION);
-  //      // Get.offNamed(AuthRouters.PACKAGE_DESCRIPTION);
-  //     }
-  //   } else {
-  //     Get.offNamed(AuthRouters.INTRODUCTION);
-  //   }
-  // }
+  void _onLoginApp() {
+    final _splash = sl<SharedPreferenceHelper>().getSplash;
+    final _logger = sl<SharedPreferenceHelper>().getLogger;
+    if (_logger) {
+      Get.offAllNamed(HomeRouter.DASHBOARD);
+    } else {
+      if (_splash) {
+        Get.offAllNamed(AuthRouter.LOGIN);
+      } else {
+        Get.offNamed(AuthRouter.INTRODUCTION);
+      }
+    }
+  }
 }
