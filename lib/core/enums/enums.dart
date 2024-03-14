@@ -32,3 +32,16 @@ enum AppInputType {
   MULTILINE,
   DATE,
 }
+enum TypeOfAlert {
+  ERROR,
+  SUCCESS,
+  INFO,
+  WARRING,
+}
+enum SocialType {
+  NONE,
+  GOOGLE,
+  FACEBOOK,
+  SLACK,
+  MICROSOFT,
+}

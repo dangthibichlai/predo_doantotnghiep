@@ -1,6 +1,7 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
@@ -20,9 +21,9 @@ class IssuePage extends GetView<IssueController> {
       backgroundColor: ColorResources.BGAPP,
       body: Padding(
         padding: SizeApp.setEdgeInsetsOnly(
-          top: 10.sp,
           left: 10.sp,
           right: 10.sp,
+          top: SizeApp.setSize(percent: .019),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,13 +31,22 @@ class IssuePage extends GetView<IssueController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: AppImage(
-                    ImagesPath.avataImg,
-                    width: SizeApp.setSizeWithWidth(percent: .1),
-                    height: SizeApp.setSizeWithWidth(percent: .1),
-                    fit: BoxFit.cover,
+                Container(
+                  // margin: EdgeInsets.all(
+                  //   SizeApp.setSize(percent: .019),
+                  // ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    //add border radius here
+                    child: Container(
+                      width: SizeApp.setSize(percent: 0.04),
+                      height: SizeApp.setSize(percent: 0.04),
+                      decoration: const BoxDecoration(
+                        color: ColorResources.GREY,
+                      ),
+                      child: Image.network(
+                          'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png'),
+                    ), //add image location here
                   ),
                 ),
                 Row(
@@ -48,7 +58,7 @@ class IssuePage extends GetView<IssueController> {
               ],
             ),
             TitleCustom(
-              title: "Issues",
+              title: "Issues".tr,
             ),
             GestureDetector(
               onTap: () {
@@ -63,7 +73,7 @@ class IssuePage extends GetView<IssueController> {
               },
               child: CardTitle(
                 icon: Icons.person_2_outlined,
-                title: 'My open issues',
+                title: 'My open issues'.tr,
                 colorTitle: ColorResources.BLACK,
                 sizeTitle: 12.sp,
                 iconRight: Icons.keyboard_arrow_down_rounded,
@@ -83,21 +93,20 @@ class IssuePage extends GetView<IssueController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //
-
         AppImage(
           ImagesPath.issueImage,
-          width: SizeApp.setSizeWithWidth(percent: .5),
+          width: SizeApp.setSizeWithWidth(percent: .28),
         ),
+        Gap(50),
         Text(
-          'No issues to show',
+          'No issues to show'.tr,
           style: TextStyle(
             fontSize: 20.sp,
             color: ColorResources.BLACK,
           ),
         ),
         Text(
-          'Nice!',
+          'Nice!'.tr,
           style: TextStyle(
             fontSize: 20.sp,
             color: ColorResources.BLACK,
@@ -107,7 +116,7 @@ class IssuePage extends GetView<IssueController> {
           width: SizeApp.setSizeWithWidth(percent: .7),
           height: SizeApp.setSize(percent: .1),
           child: Text(
-            'When you\'re  assigned new issues, you\'ll see them here.',
+            'issue_When you'.tr,
             style: TextStyle(
               fontSize: 16.sp,
               color: ColorResources.BLACK.withOpacity(.5),
@@ -118,7 +127,7 @@ class IssuePage extends GetView<IssueController> {
         TextButton(
           onPressed: () {},
           child: Text(
-            'Create issue',
+            'Create issue'.tr,
             style: TextStyle(color: ColorResources.MAIN_APP, fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ),
@@ -139,26 +148,39 @@ class IssuePage extends GetView<IssueController> {
           children: [
             headerBottomSheet(),
             SizedBox(height: SizeApp.setSize(percent: .04)),
-            TitleCustom(
-              title: "Recent filters",
-              sizeTitle: 11.sp,
-            ),
-            CardTitle(
-              icon: Icons.person_2_outlined,
-              title: 'My open issues',
-              colorTitle: ColorResources.BLACK,
-              sizeTitle: 12.sp,
-              iconRight: Icons.star_border_rounded,
-              sizeIconRight: 24.sp,
-            ),
-            Padding(
-              padding: SizeApp.setEdgeInsetsOnly(top: 20.sp, bottom: 5.sp),
-              child: TitleCustom(
-                title: "Default filters",
-                sizeTitle: 11.sp,
+            Expanded(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    TitleCustom(
+                      title: "Recent filters",
+                      sizeTitle: 11.sp,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => CardTitle(
+                              icon: Icons.person_2_outlined,
+                              title: 'My open issues'.tr,
+                              colorTitle: ColorResources.BLACK,
+                              sizeTitle: 12.sp,
+                              iconRight: Icons.star_border_rounded,
+                              sizeIconRight: 24.sp,
+                            ),
+                        itemCount: 3),
+                    Padding(
+                      padding: SizeApp.setEdgeInsetsOnly(top: 20.sp, bottom: 5.sp),
+                      child: TitleCustom(
+                        title: "Default filters".tr,
+                        sizeTitle: 11.sp,
+                      ),
+                    ),
+                    defaultBottomSheet(),
+                  ],
+                ),
               ),
             ),
-            defaultBottomSheet(),
           ],
         ),
       ),
@@ -167,13 +189,14 @@ class IssuePage extends GetView<IssueController> {
 
   Widget defaultBottomSheet() {
     return Container(
-      height: SizeApp.setSize(percent: .7),
+      height: SizeApp.setSize(percent: .6),
       padding: EdgeInsets.all(5.sp),
       decoration: BoxDecoration(
         color: ColorResources.WHITE,
         borderRadius: BorderRadius.all(Radius.circular(10.sp)),
       ),
       child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return CardTitle(
             padding: SizeApp.setEdgeInsetsOnly(
@@ -184,7 +207,7 @@ class IssuePage extends GetView<IssueController> {
             ),
             margin: EdgeInsets.all(0),
             icon: Icons.person_2_outlined,
-            title: 'My open issues',
+            title: 'My open issues'.tr,
             colorTitle: ColorResources.BLACK,
             sizeTitle: 12.sp,
             iconRight: Icons.star_border_rounded,
@@ -232,7 +255,7 @@ class IssuePage extends GetView<IssueController> {
         TextButton(
           onPressed: () {},
           child: Text(
-            'Create',
+            'Create'.tr,
             style: TextStyle(fontSize: 16.sp, color: ColorResources.MAIN_APP, fontWeight: FontWeight.normal),
           ),
         ),

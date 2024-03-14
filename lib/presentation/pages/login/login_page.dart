@@ -1,16 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:test_intern/core/enums/enums.dart';
-import 'package:test_intern/core/hepler/app-button.dart';
-import 'package:test_intern/core/hepler/app-image.dart';
-import 'package:test_intern/core/hepler/size-app.dart';
+import '../../../resources/export/core_export.dart';
 import 'package:test_intern/presentation/pages/login/login_controller.dart';
-import 'package:test_intern/presentation/widget/introduction_component/close_button_widget.dart';
-import 'package:test_intern/resources/app_color.dart';
-import 'package:test_intern/resources/images_path.dart';
-import 'package:test_intern/routers/home_router.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
@@ -18,8 +7,8 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-        backgroundColor: ColorResources.BGAPP,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: ColorResources.BGAPP,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: GetBuilder(
@@ -35,19 +24,10 @@ class LoginPage extends GetView<LoginController> {
                   height: SizeApp.getMaxHeight(),
                   child: _bodyLogin(),
                 ),
-
               ),
             );
-            
           },
         ),
-        
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CloseButtonWidget(
-        callBack: () {
-          controller.showButton();
-        },
       ),
     );
   }
@@ -86,9 +66,10 @@ class LoginPage extends GetView<LoginController> {
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_3X),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_2X, bottom: SizeApp.RADIUS_1X),
           width: SizeApp.setSizeWithWidth(percent: .8),
-          child: const TextField(
+          child: TextField(
+            controller: controller.emailController,
             decoration: InputDecoration(
               hintText: 'Nhập email của bạn',
               contentPadding: EdgeInsets.only(left: 10, right: 10),
@@ -104,20 +85,44 @@ class LoginPage extends GetView<LoginController> {
           ),
         ),
         Container(
-          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
+          margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_1X),
           width: SizeApp.setSizeWithWidth(percent: .8),
-          child: const TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: 'Nhập mật khẩu của bạn',
-              contentPadding: EdgeInsets.only(left: 10, right: 10),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                gapPadding: 10,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+          child: Obx(
+            () => TextField(
+              // đóng bàn phím khi nhấn enter
+              onSubmitted: (value) {
+                controller.loginApp(
+                  socialType: SocialType.NONE,
+                );
+              },
+              //dóng bàn phím khi khi thoát khỏi textfield
+              onEditingComplete: () {
+                controller.loginApp(
+                  socialType: SocialType.NONE,
+                );
+              },
+              controller: controller.passwordController,
+              obscureText: !controller.isPassword.value,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    controller.isPassword.value ? Icons.visibility : Icons.visibility_off,
+                    color: controller.isPassword.value ? ColorResources.MAIN_APP : ColorResources.GREY,
+                  ),
+                  onPressed: () {
+                    controller.showPassword();
+                  },
+                ),
+                hintText: 'Nhập mật khẩu của bạn',
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  gapPadding: 10,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                ),
               ),
             ),
           ),
@@ -137,16 +142,21 @@ class LoginPage extends GetView<LoginController> {
             ),
             borderRadius: 5.sp,
             onTap: () {
-              Get.toNamed(HomeRouter.DASHBOARD);
+              controller.loginApp(
+                socialType: SocialType.NONE,
+              );
+              // ẩn bàn phím
+              FocusScope.of(Get.context!).unfocus();
+              // Get.toNamed(HomeRouter.DASHBOARD);
             },
-            label: 'Đăng nhập',
+            label: 'Login'.tr,
             colorText: ColorResources.WHITE,
             fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
             fontWeight: FontWeight.bold),
         Container(
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_3X),
           child: Text(
-            'Hoặc đăng nhập với',
+            'Login with'.tr,
             style: GoogleFonts.lexend(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
@@ -172,36 +182,14 @@ class LoginPage extends GetView<LoginController> {
                   bottom: SizeApp.SPACE_2X,
                 ),
                 borderRadius: 5.sp,
-                onTap: () {},
+                onTap: () {
+                  controller.loginApp(socialType: SocialType.GOOGLE);
+                },
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.googleIcon,
-                label: 'Google',
+                label: 'Google'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
-              ),
-            ),
-            Container(
-              margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.RADIUS_1X),
-              child: AppButton(
-                fillColor: ColorResources.WHITE,
-                colorBorder: ColorResources.GREY,
-                withBorder: 2,
-                type: AppButtonType.OUTLINE,
-                width: SizeApp.setSizeWithWidth(percent: .8),
-                padding: SizeApp.setEdgeInsetsOnly(
-                  top: SizeApp.setSize(percent: .01),
-                  bottom: SizeApp.setSize(percent: .01),
-                ),
-                margin: SizeApp.setEdgeInsetsOnly(
-                  bottom: SizeApp.SPACE_2X,
-                ),
-                borderRadius: 5.sp,
-                onTap: () {},
-                sizeIcon: SizeApp.setSize(percent: 0.03),
-                imageUrlIcon: ImagesPath.facebookIcon,
-                label: 'Facebook',
-                colorText: ColorResources.BLACK,
-                fontSizedLabel: 14.sp,
               ),
             ),
             Container(
@@ -223,7 +211,7 @@ class LoginPage extends GetView<LoginController> {
                 onTap: () {},
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.microsoftIcon,
-                label: 'Microsoft',
+                label: 'Microsoft'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
               ),
@@ -247,7 +235,7 @@ class LoginPage extends GetView<LoginController> {
                 onTap: () {},
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.slackIcon,
-                label: 'Slack',
+                label: 'Slack'.tr,
                 fontSizedLabel: 14.sp,
                 colorText: ColorResources.BLACK,
               ),
