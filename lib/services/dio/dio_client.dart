@@ -43,6 +43,7 @@ class DioClient {
   ///
   Future<void> refreshToken() async {
     final String jwtToken = sl.get<SharedPreferenceHelper>().getJwtToken;
+    log("token after refesh $jwtToken");
     dio!.options.headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $jwtToken',

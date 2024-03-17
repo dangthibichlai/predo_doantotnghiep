@@ -1,10 +1,18 @@
 // ignore_for_file: use_setters_to_change_properties
 
+import 'dart:developer';
+
+import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
+import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class KabanProjectController extends GetxController {
+  String idProject = '';
+  String nameProject = '';
+
   final RefreshController refreshController = RefreshController();
   RxInt currentIndexTab = 0.obs;
   TextEditingController nameColumn = TextEditingController();
@@ -42,9 +50,15 @@ class KabanProjectController extends GetxController {
       image: ImagesPath.imgLine,
     ),
   ];
+  final BoardRepository _boardRepository = GetIt.I.get<BoardRepository>();
+  RxBool isLoading = true.obs;
+  RxList<BoardModel> listBorad = <BoardModel>[].obs;
 
   @override
   void onInit() {
+    idProject = Get.arguments['idProject'];
+    nameProject = Get.arguments['nameProject'];
+    getProject(idProject);
     super.onInit();
   }
 
@@ -53,6 +67,22 @@ class KabanProjectController extends GetxController {
     refreshController.dispose();
 
     super.onClose();
+  }
+
+  void getProject(String id) async {
+    await _boardRepository.find(
+      id,
+      onSuccess: (data) {
+        listBorad.value = data;
+        listBorad.refresh();
+        // ignore: invalid_use_of_protected_member
+        log('board: ${listBorad.value[0].name}');
+        if (isLoading.value) {
+          isLoading.value = false;
+        }
+      },
+      onError: (onError) {},
+    );
   }
 
   void onChangeTabBar(int index) {

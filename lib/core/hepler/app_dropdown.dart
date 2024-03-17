@@ -28,6 +28,7 @@ class AppropDownButton<T> extends StatefulWidget {
     this.selectedItemBuilder,
     this.prefixWidget,
     this.alignmentText,
+    this.style,
   }) : super(key: key);
 
   final String? hint;
@@ -52,7 +53,7 @@ class AppropDownButton<T> extends StatefulWidget {
   final List<Widget> Function(BuildContext)? selectedItemBuilder;
   final Widget Function(T value)? prefixWidget;
   final Alignment? alignmentText;
-
+  final TextStyle? style;
   @override
   State<AppropDownButton<T>> createState() => _AppIDropDownButtonState<T>();
 }
@@ -92,7 +93,7 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                 return InputDecorator(
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    contentPadding: widget.margin,
+                    contentPadding: widget.margin ?? EdgeInsets.zero,
                     border: OutlineInputBorder(
                       borderRadius: SizeApp.setBorderRadiusAll(radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
                     ),
@@ -146,9 +147,10 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                                 child: Center(
                                   child: Text(
                                     e.toString(),
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                          color: ColorResources.BLACK,
-                                        ),
+                                    style: widget.style ??
+                                        Theme.of(context).textTheme.bodySmall!.copyWith(
+                                              color: ColorResources.BLACK,
+                                            ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),

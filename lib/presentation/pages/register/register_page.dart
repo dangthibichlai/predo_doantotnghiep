@@ -1,16 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:test_intern/core/enums/enums.dart';
-import 'package:test_intern/core/hepler/app-button.dart';
-import 'package:test_intern/core/hepler/app-image.dart';
-import 'package:test_intern/core/hepler/size-app.dart';
+import 'package:test_intern/presentation/pages/login/login_controller.dart';
 import 'package:test_intern/presentation/pages/register/register_controller.dart';
-import 'package:test_intern/presentation/widget/introduction_component/close_button_widget.dart';
-import 'package:test_intern/resources/app_color.dart';
-import 'package:test_intern/resources/images_path.dart';
-import 'package:test_intern/routers/auth_router.dart';
+import 'package:test_intern/resources/export/core_export.dart';
 
 class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});
@@ -19,29 +9,37 @@ class RegisterPage extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.WHITE,
-      body: GetBuilder(
-        init: RegisterController(),
-        builder: (context) {
-          return SafeArea(
-            child: Padding(
-              padding: SizeApp.setEdgeInsetsOnly(
-                top: SizeApp.setSize(percent: .1),
-              ),
-              child: SizedBox(
-                width: SizeApp.getMaxWidth(),
-                height: SizeApp.getMaxHeight(),
-                child: _bodyRegister(),
-              ),
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: CloseButtonWidget(
-        callBack: () {
-          controller.showButton();
-        },
-      ),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+          child:
+              //  Obx(() {
+              //   if (controller.isLoading.isTrue) {
+              //     return const Center(
+              //       child: LoadingApp(),
+              //     );
+              //   }
+              //   return
+              Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    CommonHelper.onTapHandler(callback: () {
+                      Get.back();
+                    });
+                  },
+                  icon: Icon(Icons.arrow_back)),
+            ],
+          ),
+          Gap(SizeApp.setSize(percent: .07)),
+          Expanded(child: _bodyRegister()),
+        ],
+      )
+          //},
+          //  ),
+          ),
     );
   }
 
@@ -49,23 +47,18 @@ class RegisterPage extends GetView<RegisterController> {
     return Center(
         child: Column(
       children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AppImage(
-              ImagesPath.logoApp,
-              width: 50,
-              height: 50,
-            ),
-            Text(
-              'Predo',
-              style: GoogleFonts.pacifico(
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w500,
-                color: ColorResources.MAIN_APP,
-              ),
-            )
-          ],
+        AppImage(
+          ImagesPath.logoApp,
+          width: 50,
+          height: 50,
+        ),
+        Text(
+          'Predo',
+          style: GoogleFonts.pacifico(
+            fontSize: 30.sp,
+            fontWeight: FontWeight.w500,
+            color: ColorResources.MAIN_APP,
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -82,6 +75,7 @@ class RegisterPage extends GetView<RegisterController> {
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_3X, bottom: SizeApp.RADIUS_1X),
           width: SizeApp.setSizeWithWidth(percent: .8),
           child: TextField(
+            controller: controller.emailController,
             decoration: InputDecoration(
               hintText: 'Enter your email'.tr,
               contentPadding: EdgeInsets.only(left: 10, right: 10),
@@ -152,7 +146,11 @@ class RegisterPage extends GetView<RegisterController> {
             ),
             borderRadius: 5.sp,
             onTap: () {
-              Get.toNamed(AuthRouter.OTP);
+              CommonHelper.onTapHandler(callback: () {
+                FocusScope.of(Get.context!).unfocus();
+
+                controller.register();
+              });
             },
             label: 'Continue'.tr,
             colorText: ColorResources.WHITE,
@@ -187,7 +185,9 @@ class RegisterPage extends GetView<RegisterController> {
                   bottom: SizeApp.SPACE_2X,
                 ),
                 borderRadius: 5.sp,
-                onTap: () {},
+                onTap: () {
+                  Get.find<LoginController>().loginApp(socialType: SocialType.GOOGLE);
+                },
                 sizeIcon: SizeApp.setSize(percent: 0.03),
                 imageUrlIcon: ImagesPath.googleIcon,
                 label: 'Google'.tr,

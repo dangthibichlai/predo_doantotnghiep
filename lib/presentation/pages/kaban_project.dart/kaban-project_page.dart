@@ -1,3 +1,7 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'dart:developer';
+
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -10,7 +14,6 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         backgroundColor: ColorResources.WHITE,
         body: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -23,7 +26,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                         size: 22.sp,
                         color: ColorResources.BLACK.withOpacity(.5),
                       )),
-                  Text('Math Kisd Game',
+                  Text(controller.nameProject,
                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 ],
               ),
@@ -94,31 +97,49 @@ class KabanProjectPage extends GetView<KabanProjectController> {
   }
 
   Widget _boardBody() {
-    return Container(
-      constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
-      child: KanbanBoard(
-        List.generate(
-          3,
-          (index) => BoardListsData(
-              header: _title("TITLE", index),
-              footer: _footer(),
-              width: SizeApp.setSizeWithWidth(percent: .8),
-              items: List.generate(
-                10,
-                (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
-              )),
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return LoadingApp(
+          titleLoading: 'diy_001'.tr,
+        );
+      }
+      return Container(
+        constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
+        child: KanbanBoard(
+          List.generate(controller.listBorad.length, (index) {
+            log('board: ${controller.listBorad.value[index].name}');
+            return BoardListsData(
+                header: _title(controller.listBorad.value[index].name, 2),
+                footer: _footer(),
+                width: SizeApp.setSizeWithWidth(percent: .8),
+                items: List.generate(
+                  2,
+                  (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
+                ));
+          }),
+          // controller.listBorad.value.map((board) {
+          //   return BoardListsData(
+          //     header: _title(board.name, null),
+          //     footer: _footer(),
+          //     width: SizeApp.setSizeWithWidth(percent: .8),
+          //     items: List.generate(
+          //       10,
+          //       (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
+          //     ),
+          //   );
+          // }).toList(),
+          onItemLongPress: (cardIndex, listIndex) {},
+          onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
+          onListLongPress: (listIndex) {},
+          onListReorder: (oldListIndex, newListIndex) {},
+          onItemTap: (cardIndex, listIndex) {},
+          onListTap: (listIndex) {},
+          onListRename: (oldName, newName) {},
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
         ),
-        onItemLongPress: (cardIndex, listIndex) {},
-        onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
-        onListLongPress: (listIndex) {},
-        onListReorder: (oldListIndex, newListIndex) {},
-        onItemTap: (cardIndex, listIndex) {},
-        onListTap: (listIndex) {},
-        onListRename: (oldName, newName) {},
-        backgroundColor: Colors.white,
-        textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
-      ),
-    );
+      );
+    });
   }
 
   Widget _contentItem({required String title, required String nameProject}) {

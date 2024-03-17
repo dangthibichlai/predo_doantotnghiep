@@ -1,4 +1,3 @@
-
 import 'package:test_intern/routers/auth_router.dart';
 
 import '../../../resources/export/core_export.dart';
@@ -39,16 +38,18 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
   }
 
   void _onLoginApp() {
-    final _splash = sl<SharedPreferenceHelper>().getSplash;
+    // final _splash = sl<SharedPreferenceHelper>().getSplash;
     final _logger = sl<SharedPreferenceHelper>().getLogger;
     if (_logger) {
       Get.offAllNamed(HomeRouter.DASHBOARD);
     } else {
-      if (_splash) {
-        Get.offAllNamed(AuthRouter.LOGIN);
-      } else {
-        Get.offNamed(AuthRouter.INTRODUCTION);
-      }
+      // if (_splash) {
+      //  Get.offAllNamed(AuthRouter.LOGIN);
+      // } else {
+      Get.offNamed(AuthRouter.INTRODUCTION);
+      //}
     }
   }
 }
+
+

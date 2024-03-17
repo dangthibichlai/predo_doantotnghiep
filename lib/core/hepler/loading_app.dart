@@ -27,25 +27,26 @@ class LoadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (useLoadingLogo!)
           SizedBox(
-            width: size ?? SizeApp.setSize(percent: .14),
-            height: size ?? SizeApp.setSize(percent: .14),
+            width: size ?? SizeApp.setSize(percent: .1),
+            height: size ?? SizeApp.setSize(percent: .1),
             child: Stack(
               alignment: Alignment.center,
               children: [
                 ClipOval(
                   child: AppImage(
                     ImagesPath.loadingLogo,
-                    width: sizeLogo ?? SizeApp.setSize(percent: .08),
+                    width: sizeLogo ?? SizeApp.setSize(percent: .05),
                   ),
                 ),
                 SizedBox(
                   width: size ?? SizeApp.setSize(percent: .14),
                   height: size ?? SizeApp.setSize(percent: .14),
                   child: const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(ColorResources.WHITE),
+                    valueColor: AlwaysStoppedAnimation<Color>(ColorResources.MAIN_APP),
                     strokeWidth: 3,
                   ),
                 ),
@@ -60,7 +61,7 @@ class LoadingApp extends StatelessWidget {
               style: titleStyle ??
                   Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: titleColor ?? ColorResources.WHITE,
+                        color: titleColor ?? ColorResources.GREY,
                       ),
               textAlign: TextAlign.center,
             ),

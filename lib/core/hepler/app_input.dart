@@ -62,9 +62,13 @@ class AppInput extends StatefulWidget {
     this.format,
     this.maxLength,
     this.maxLengthInput,
+    this.hintText,
+    this.underLine,
   }) : super(key: key);
   final String? label;
   final int? maxLength;
+  final UnderlineInputBorder? underLine;
+  final String? hintText;
   final String? placeHolder;
   final bool? allowEdit;
   final int? maxLine;
@@ -109,6 +113,7 @@ class AppInput extends StatefulWidget {
   final DateTime? initDate;
   final TextStyle? style;
   final Color? cursorColor;
+
   final bool? autofocus;
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
@@ -596,6 +601,7 @@ class _IZIInputState extends State<AppInput> {
             cursorColor: widget.cursorColor ?? ColorResources.PRIMARY_1,
             textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
             decoration: InputDecoration(
+              hintText: widget.hintText,
               counterStyle: widget.maxLengthInput != null
                   ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: ColorResources.BLACK.withOpacity(.5),
@@ -619,12 +625,12 @@ class _IZIInputState extends State<AppInput> {
                     fontWeight: focusNode!.hasFocus ? FontWeight.w600 : FontWeight.normal,
                   ),
               prefixIcon: AppValidate.nullOrEmpty(widget.prefixIcon) ? null : widget.prefixIcon!(focusNode),
-              border: UnderlineInputBorder(),
+              border: widget.underLine ?? getOutlineInputBorder(),
+
               // focusedBorder: getOutlineInputBorder(),
               // enabledBorder: getOutlineInputBorder(),
               // disabledBorder: getOutlineInputBorder(),
               filled: true,
-              hintText: widget.placeHolder,
               fillColor: (widget.allowEdit == false)
                   ? widget.fillColor ?? ColorResources.LIGHT_GREY.withOpacity(0.4)
                   : widget.fillColor ?? Colors.transparent,
@@ -642,11 +648,11 @@ class _IZIInputState extends State<AppInput> {
   OutlineInputBorder getOutlineInputBorder() {
     BorderSide borderSide = BorderSide.none;
     if (widget.isBorder == true || widget.isLegend == true) {
-      borderSide = widget.borderSide ??
-          BorderSide(
-            width: widget.borderSize ?? 1,
-            color: (widget.allowEdit == false) ? Color.fromARGB(255, 11, 196, 199) : Color.fromARGB(255, 11, 196, 199),
-          );
+      borderSide = widget.borderSide ?? UnderlineInputBorder().borderSide;
+      // BorderSide(
+      //   width: widget.borderSize ?? 1,
+      //   color: (widget.allowEdit == false) ? Color.fromARGB(255, 11, 196, 199) : Color.fromARGB(255, 11, 196, 199),
+      // );
     }
 
     return OutlineInputBorder(

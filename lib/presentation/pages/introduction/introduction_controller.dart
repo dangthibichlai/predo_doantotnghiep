@@ -43,13 +43,13 @@ class IntroductionController extends GetxController {
 
   void nextPageLogin() {
     sl<SharedPreferenceHelper>().setSplash(status: true);
-    Get.offAllNamed(AuthRouter.LOGIN);
+    Get.toNamed(AuthRouter.LOGIN);
     return;
   }
 
   void nextPageRegister() {
     sl<SharedPreferenceHelper>().setSplash(status: true);
-    Get.offAllNamed(AuthRouter.REGISTER);
+    Get.toNamed(AuthRouter.REGISTER);
     return;
   }
 }

@@ -9,6 +9,24 @@ import 'package:test_intern/services/dio/dio_client.dart';
 
 class ProjectReponsitory {
   DioClient? dioClient = GetIt.I.get<DioClient>();
+  Future<void> get({
+    required Function(List<ProjectModel> event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.get(EndPoints.project);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as List<dynamic>;
+      onSuccess(results.map((e) => ProjectModel.fromMap(e as Map<String, dynamic>)).toList());
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
 
   Future<void> add({
     required ProjectModel data,

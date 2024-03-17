@@ -91,6 +91,12 @@ const Map<String, String> en = {
   'and acknowledge': ' and acknowledge',
   'Privacy Policy': ' Privacy Policy',
   'Or login with': 'Or login with',
+  "other_0022": "The account has been removed from the system.",
+  "other_0023": "Login successful!",
+  "other_0024": "Logging in with Google...",
+  "other_0025": "Logging in with Facebook...",
+  "other_0005": "Back",
+  "other_0006": "Setting",
 
   //Notifications
   'Notifications': 'Notifications',

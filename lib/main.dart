@@ -9,6 +9,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:test_intern/app-binding.dart';
 import 'package:test_intern/firebase_options.dart';
 import 'package:test_intern/resources/app_color.dart';
+import 'package:test_intern/resources/export/core_export.dart';
 import 'package:test_intern/routers/app-router.dart';
 import 'package:test_intern/routers/auth_router.dart';
 import 'package:test_intern/services/notification_services/firebase_service.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
   // Setup firebase services.
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
   await FcmService().init();
+
   await FcmService().initForegroundNotification();
   FcmService().backgroundHandler();
 
@@ -65,6 +67,7 @@ class MyApp extends StatelessWidget {
           },
           child: GetMaterialApp(
             initialRoute: AuthRouter.SPLASH,
+            // initialRoute: HomeRouter.TASKDETAIL,
             initialBinding: AppBinding(),
             transitionDuration: const Duration(),
             getPages: AppPages.list,
