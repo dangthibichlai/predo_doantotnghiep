@@ -5,8 +5,10 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
 import 'package:test_intern/repositories/board_repository.dart';
+import 'package:test_intern/repositories/task_repository.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class KabanProjectController extends GetxController {
@@ -51,8 +53,10 @@ class KabanProjectController extends GetxController {
     ),
   ];
   final BoardRepository _boardRepository = GetIt.I.get<BoardRepository>();
+  final TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
   RxBool isLoading = true.obs;
   RxList<BoardModel> listBorad = <BoardModel>[].obs;
+  RxList<TaskModel> listTask = <TaskModel>[].obs;
 
   @override
   void onInit() {
@@ -76,12 +80,25 @@ class KabanProjectController extends GetxController {
         listBorad.value = data;
         listBorad.refresh();
         // ignore: invalid_use_of_protected_member
-        log('board: ${listBorad.value[0].name}');
+        log('board: ${listBorad.toList()}');
         if (isLoading.value) {
           isLoading.value = false;
         }
       },
       onError: (onError) {},
+    );
+  }
+
+  void addTaskBoard(TaskModel taskModel) async {
+    await _taskReponsitory.add(
+      data: taskModel,
+      onSuccess: (data) {
+        log('add task success ${listBorad.toList()}');
+        listBorad.refresh();
+      },
+      onError: (e) {
+        log('Error task at $e');
+      },
     );
   }
 
@@ -92,6 +109,25 @@ class KabanProjectController extends GetxController {
   void cancelNewColumn() {
     nameColumn.clear();
     Get.back();
+  }
+
+  void createNewColumn(String idBoard) {
+    Get.dialog(
+      DiologApp(
+        title: 'Add column'.tr,
+        nameButtonLeft: 'Add'.tr,
+        inputController: nameColumn,
+        onTap: () {
+          addTaskBoard(
+            TaskModel(boardId: idBoard, title: nameColumn.text, issueType: IssueType.USER_STORY, key: "Test"),
+          );
+          // onTap add
+        },
+      ),
+      barrierDismissible: true,
+      transitionCurve: Curves.easeInOut,
+      useSafeArea: true,
+    );
   }
 
   void renameColumnPopup() {

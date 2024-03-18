@@ -28,6 +28,10 @@ class RegisterController extends GetxController {
       AppAlert().warring(message: 'Vui lòng điền đầy đủ thông tin'.tr);
       return;
     }
+    if (!AppValidate.isValidEmail(emailController.text)) {
+      AppAlert().warring(message: 'Email không hợp lệ'.tr);
+      return;
+    }
     _sendOtp();
   }
 
@@ -42,7 +46,6 @@ class RegisterController extends GetxController {
       onSuccess: (data) {
         // ẩn bàn phím
         isLoading.value = false;
-        EasyLoading.dismiss();
         Get.toNamed(AuthRouter.OTP, arguments: {'email': emailController.text});
         log('Send OTP success at $data');
       },
@@ -50,10 +53,14 @@ class RegisterController extends GetxController {
         log('Error sending OTP at $e');
       },
     );
+    EasyLoading.dismiss();
   }
 
   @override
   void onClose() {
+    emailController.dispose();
+    EasyLoading.dismiss();
+
     super.onClose();
   }
 }

@@ -9,17 +9,25 @@ import 'package:test_intern/services/dio/dio_client.dart';
 
 class ProjectReponsitory {
   DioClient? dioClient = GetIt.I.get<DioClient>();
-  Future<void> get({
+  Future<void> find(
+    String id, {
+    String? filter,
     required Function(List<ProjectModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
+    String _uri = '${EndPoints.project}/$id';
     late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
     try {
-      response = await dioClient!.get(EndPoints.project);
+      response = await dioClient!.get(_uri);
     } catch (e) {
-      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
+
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as List<dynamic>;
       onSuccess(results.map((e) => ProjectModel.fromMap(e as Map<String, dynamic>)).toList());
@@ -36,7 +44,7 @@ class ProjectReponsitory {
     late Response response;
 
     try {
-      response = await dioClient!.post(EndPoints.project, data: data.toMap());
+      response = await dioClient!.post(EndPoints.projectAdd, data: data.toMap());
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
       return;

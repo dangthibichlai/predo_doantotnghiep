@@ -78,14 +78,14 @@ class OtpController extends GetxController {
       isName.value = true;
       return false;
     }
-    if (AppValidate.nullOrEmpty(passwordController.text) || passwordController.text.length < 8) {
+    if (passwordController.text.length < 8) {
       isPasswordRegister.value = true;
       return false;
     }
     return true;
   }
 
-  void register() {
+  void register() async {
     if (!checkValidated()) {
       return;
     }
@@ -96,11 +96,11 @@ class OtpController extends GetxController {
     _authModel.password = passwordController.text;
     _authModel.full_name = nameController.text;
     _authModel.otp = otpController.text;
-    _authRepository.signUp(
+    await _authRepository.signUp(
       data: _authModel,
       onSuccess: (data) {
         AppAlert().success(message: 'other_0023'.tr);
-        Get.offAllNamed(AuthRouter.LOGIN, arguments: {'email': email});
+        Get.toNamed(AuthRouter.LOGIN, arguments: {'emailRegister': email});
         log('Sign up success at $data');
       },
       onError: (e) {
@@ -112,6 +112,11 @@ class OtpController extends GetxController {
 
   @override
   void onClose() {
+    otpController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    EasyLoading.dismiss();
+
     super.onClose();
   }
 
@@ -123,138 +128,86 @@ class OtpController extends GetxController {
     return Scaffold(
         backgroundColor: ColorResources.BGAPP,
         resizeToAvoidBottomInset: false,
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: SizeApp.setSize(percent: .02),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: SizeApp.setSize(percent: .02),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          CommonHelper.onTapHandler(callback: () {
+                            Get.back();
+                          });
+                        },
+                        icon: Icon(Icons.close, color: ColorResources.GREY, size: 20.sp)),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        CommonHelper.onTapHandler(callback: () {
-                          Get.back();
-                        });
-                      },
-                      icon: Icon(Icons.close, color: ColorResources.GREY, size: 20.sp)),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: SizeApp.setSize(percent: .1),
-                  left: SizeApp.setSizeWithWidth(percent: .1),
-                  right: SizeApp.setSizeWithWidth(percent: .1)),
-              child: Column(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      AppImage(
-                        ImagesPath.logoApp,
-                        width: 70.sp,
-                        height: 70.sp,
-                      ),
-                      Text(
-                        'Predo',
-                        style: GoogleFonts.pacifico(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w500,
-                          color: ColorResources.MAIN_APP,
+              Padding(
+                padding: EdgeInsets.only(
+                    top: SizeApp.setSize(percent: .1),
+                    left: SizeApp.setSizeWithWidth(percent: .1),
+                    right: SizeApp.setSizeWithWidth(percent: .1)),
+                child: Column(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        AppImage(
+                          ImagesPath.logoApp,
+                          width: 70.sp,
+                          height: 70.sp,
                         ),
-                      )
-                    ],
-                  ),
-                  Gap(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Email đã được xác thực thành công !',
-                        style: GoogleFonts.roboto(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: ColorResources.MAIN_APP,
-                        ),
-                      ),
-                      Gap(4),
-                      Icon(
-                        Icons.check_circle,
-                        color: ColorResources.GREEN,
-                        size: 16.sp,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    '\nHãy tiếp tục việc thiết lập tài khoản của mình',
-                    style: GoogleFonts.roboto(
-                      height: .5,
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w300,
-                      color: ColorResources.MAIN_APP,
-                    ),
-                  ),
-                  Gap(20),
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      hintText: 'Nhập họ và tên'.tr,
-                      label: Text('Họ và tên'),
-                      contentPadding: EdgeInsets.only(left: 10, right: 10),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        gapPadding: 10,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
-                      ),
-                    ),
-                  ),
-                  isName.value
-                      ? Row(
-                          children: [
-                            Text(
-                              'Họ và tên không được để trống'.tr,
-                              style: GoogleFonts.roboto(
-                                fontSize: 11.sp,
-                                color: ColorResources.RED,
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(),
-                  Gap(20),
-                  Obx(
-                    () => TextField(
-                      // đóng bàn phím khi nhấn enter
-                      onSubmitted: (value) {
-                        FocusScope.of(Get.context!).unfocus();
-
-                        register();
-                      },
-                      //dóng bàn phím khi khi thoát khỏi textfield
-                      onEditingComplete: () {
-                        FocusScope.of(Get.context!).unfocus();
-
-                        register();
-                      },
-                      controller: passwordController,
-                      obscureText: !isPassword.value,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            isPassword.value ? Icons.visibility : Icons.visibility_off,
-                            color: isPassword.value ? ColorResources.MAIN_APP : ColorResources.GREY,
+                        Text(
+                          'Predo',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.MAIN_APP,
                           ),
-                          onPressed: () {
-                            showPassword();
-                          },
+                        )
+                      ],
+                    ),
+                    Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Email đã được xác thực thành công !',
+                          style: GoogleFonts.roboto(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.MAIN_APP,
+                          ),
                         ),
-                        hintText: 'Nhập mật khẩu của bạn',
-                        label: Text('Mật khẩu'),
+                        Gap(4),
+                        Icon(
+                          Icons.check_circle,
+                          color: ColorResources.GREEN,
+                          size: 16.sp,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      '\nHãy tiếp tục việc thiết lập tài khoản của mình',
+                      style: GoogleFonts.roboto(
+                        height: .5,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w300,
+                        color: ColorResources.MAIN_APP,
+                      ),
+                    ),
+                    Gap(20),
+                    TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: 'Nhập họ và tên'.tr,
+                        label: Text('Họ và tên'),
                         contentPadding: EdgeInsets.only(left: 10, right: 10),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
@@ -266,81 +219,136 @@ class OtpController extends GetxController {
                         ),
                       ),
                     ),
-                  ),
-                  Gap(7),
-                  Text("Mật khẩu phải chứa ít nhất 8 ký tự",
-                      style: GoogleFonts.roboto(
-                          fontSize: 11.sp, color: isPasswordRegister.value ? ColorResources.RED : ColorResources.GREY)),
-                  Container(
-                    width: SizeApp.setSize(percent: .45),
-                    margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'By registering, I accept'.tr,
-                            style: GoogleFonts.lexend(
-                              color: ColorResources.BLACK,
-                              fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' Terms of Service'.tr,
-                            style: GoogleFonts.lexend(
-                                color: ColorResources.BLACK,
-                                fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline),
-                          ),
-                          TextSpan(
-                            text: 'and acknowledge'.tr,
-                            style: GoogleFonts.lexend(
-                              color: ColorResources.BLACK,
-                              fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' Privacy Policy'.tr,
-                            style: GoogleFonts.lexend(
-                                color: ColorResources.BLACK,
-                                fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  AppButton(
-                      fillColor: ColorResources.MAIN_APP,
-                      colorBorder: ColorResources.WHITE,
-                      withBorder: 2,
-                      type: AppButtonType.OUTLINE,
-                      width: SizeApp.setSizeWithWidth(percent: .8),
-                      padding: SizeApp.setEdgeInsetsOnly(
-                        top: SizeApp.setSize(percent: .01),
-                        bottom: SizeApp.setSize(percent: .01),
-                      ),
-                      margin: SizeApp.setEdgeInsetsOnly(
-                        bottom: SizeApp.SPACE_2X,
-                      ),
-                      borderRadius: 5.sp,
-                      onTap: () {
-                        CommonHelper.onTapHandler(callback: () {
+                    isName.value
+                        ? Row(
+                            children: [
+                              Text(
+                                'Họ và tên không được để trống'.tr,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 11.sp,
+                                  color: ColorResources.RED,
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
+                    Gap(20),
+                    Obx(
+                      () => TextField(
+                        // đóng bàn phím khi nhấn enter
+                        onSubmitted: (value) {
                           FocusScope.of(Get.context!).unfocus();
 
                           register();
-                        });
-                      },
-                      label: 'Continue'.tr,
-                      colorText: ColorResources.WHITE,
-                      fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
-                      fontWeight: FontWeight.bold),
-                ],
+                        },
+                        //dóng bàn phím khi khi thoát khỏi textfield
+                        onEditingComplete: () {
+                          FocusScope.of(Get.context!).unfocus();
+
+                          register();
+                        },
+                        controller: passwordController,
+                        obscureText: !isPassword.value,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPassword.value ? Icons.visibility : Icons.visibility_off,
+                              color: isPassword.value ? ColorResources.MAIN_APP : ColorResources.GREY,
+                            ),
+                            onPressed: () {
+                              showPassword();
+                            },
+                          ),
+                          hintText: 'Nhập mật khẩu của bạn',
+                          label: Text('Mật khẩu'),
+                          contentPadding: EdgeInsets.only(left: 10, right: 10),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            gapPadding: 10,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Gap(7),
+                    Text("Mật khẩu phải chứa ít nhất 8 ký tự",
+                        style: GoogleFonts.roboto(
+                            fontSize: 11.sp,
+                            color: isPasswordRegister.value ? ColorResources.RED : ColorResources.GREY)),
+                    Container(
+                      width: SizeApp.setSize(percent: .45),
+                      margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'By registering, I accept'.tr,
+                              style: GoogleFonts.lexend(
+                                color: ColorResources.BLACK,
+                                fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' Terms of Service'.tr,
+                              style: GoogleFonts.lexend(
+                                  color: ColorResources.BLACK,
+                                  fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
+                            ),
+                            TextSpan(
+                              text: 'and acknowledge'.tr,
+                              style: GoogleFonts.lexend(
+                                color: ColorResources.BLACK,
+                                fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' Privacy Policy'.tr,
+                              style: GoogleFonts.lexend(
+                                  color: ColorResources.BLACK,
+                                  fontSize: SizeApp.BODY_MEDIUM_FONT_SIZE,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    AppButton(
+                        fillColor: ColorResources.MAIN_APP,
+                        colorBorder: ColorResources.WHITE,
+                        withBorder: 2,
+                        type: AppButtonType.OUTLINE,
+                        width: SizeApp.setSizeWithWidth(percent: .8),
+                        padding: SizeApp.setEdgeInsetsOnly(
+                          top: SizeApp.setSize(percent: .01),
+                          bottom: SizeApp.setSize(percent: .01),
+                        ),
+                        margin: SizeApp.setEdgeInsetsOnly(
+                          bottom: SizeApp.SPACE_2X,
+                        ),
+                        borderRadius: 5.sp,
+                        onTap: () {
+                          CommonHelper.onTapHandler(callback: () {
+                            FocusScope.of(Get.context!).unfocus();
+
+                            register();
+                          });
+                        },
+                        label: 'Continue'.tr,
+                        colorText: ColorResources.WHITE,
+                        fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
+                        fontWeight: FontWeight.bold),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

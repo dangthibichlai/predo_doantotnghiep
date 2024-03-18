@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_intern/repositories/auth_repositories.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
+import 'package:test_intern/repositories/task_repository.dart';
 import 'package:test_intern/services/dio/dio_client.dart';
 import 'package:test_intern/services/dio/logging_interceptor.dart';
 import 'package:test_intern/services/share_preference._helper.dart';
@@ -22,4 +23,5 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepository());
   sl.registerLazySingleton<ProjectReponsitory>(() => ProjectReponsitory());
   sl.registerLazySingleton<BoardRepository>(() => BoardRepository());
+  sl.registerLazySingleton<TaskReponsitory>(() => TaskReponsitory());
 }

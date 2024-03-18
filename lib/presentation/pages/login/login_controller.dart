@@ -27,12 +27,13 @@ class LoginController extends GetxController {
   RxBool isShowPassword = false.obs; // ẩn hiện lỗi
   RxBool isEmail = false.obs;
   RxBool isPassword = false.obs;
-  String emailRouter = "";
+  // String emailRouter = Get.arguments['emailRegister'] ?? '';
   RxBool isLogin = false.obs;
 
   @override
   void onInit() {
-    emailRouter = Get.parameters['email'] ?? '';
+    // emailRouter = Get.arguments['emailRegister'] ?? '';
+    // emailController.text = emailRouter;
     super.onInit();
   }
 

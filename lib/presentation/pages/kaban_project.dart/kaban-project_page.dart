@@ -52,82 +52,39 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     });
   }
 
-  Widget _diolog() {
-    return DiologApp(
-      inputController: controller.nameColumn,
-      onTap: () {
-        controller.cancelNewColumn();
-      },
-      title: 'Add Column',
-      nameButtonLeft: 'Add',
-      nameButtonRight: 'Cancel',
-    );
-  }
-
-  Widget addColumnNew() {
-    return GestureDetector(
-      onTap: () {
-        Get.dialog(
-          _diolog(),
-          barrierDismissible: true,
-          // barrierColor: ColorResources.BG_DOL.withOpacity(.5),
-          transitionCurve: Curves.easeInOut,
-          useSafeArea: true,
-          // barrierLabel: 'barrierLabel',
-          // routeSettings: RouteSettings(name: 'routeSettings'),
-        );
-      },
-      child: SizedBox(
-          width: SizeApp.setSizeWithWidth(percent: .8),
-          height: SizeApp.setSize(percent: .2),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Add Column',
-                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-                  ),
-                ],
-              ),
-            ],
-          )),
-    );
-  }
-
   Widget _boardBody() {
     return Obx(() {
       if (controller.isLoading.value) {
-        return LoadingApp(
-          titleLoading: 'diy_001'.tr,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: SizeApp.setSize(percent: .8),
+              child: LoadingApp(
+                titleLoading: 'diy_001'.tr,
+              ),
+            ),
+          ],
         );
       }
       return Container(
         constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
         child: KanbanBoard(
           List.generate(controller.listBorad.length, (index) {
-            log('board: ${controller.listBorad.value[index].name}');
+            final item = controller.listBorad.value[index];
+            int countTask = item.tasks!.length;
+
+            log('board: ${item.tasks!.length}');
             return BoardListsData(
-                header: _title(controller.listBorad.value[index].name, 2),
-                footer: _footer(),
+                header: _title(item.name, countTask),
+                footer: _footer(item.id ?? ''),
                 width: SizeApp.setSizeWithWidth(percent: .8),
                 items: List.generate(
-                  2,
-                  (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
+                  item.tasks!.length,
+                  (index) => _contentItem(title: item.tasks![index].title ?? "", nameProject: item.tasks![index].key),
                 ));
           }),
-          // controller.listBorad.value.map((board) {
-          //   return BoardListsData(
-          //     header: _title(board.name, null),
-          //     footer: _footer(),
-          //     width: SizeApp.setSizeWithWidth(percent: .8),
-          //     items: List.generate(
-          //       10,
-          //       (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
-          //     ),
-          //   );
-          // }).toList(),
           onItemLongPress: (cardIndex, listIndex) {},
           onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
           onListLongPress: (listIndex) {},
@@ -188,7 +145,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     );
   }
 
-  Widget _footer() {
+  Widget _footer(String idBoard) {
     return Padding(
       padding: SizeApp.setEdgeInsetsOnly(
         top: SizeApp.setSize(percent: .01),
@@ -199,17 +156,24 @@ class KabanProjectPage extends GetView<KabanProjectController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.add,
-                color: ColorResources.MAIN_APP,
-                size: 24.sp,
-              ),
-              Gap(10),
-              Text('Create'.tr,
-                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP)),
-            ],
+          GestureDetector(
+            onTap: () {
+              CommonHelper.onTapHandler(callback: () {
+                controller.createNewColumn(idBoard);
+              });
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  color: ColorResources.MAIN_APP,
+                  size: 24.sp,
+                ),
+                Gap(10),
+                Text('Create'.tr,
+                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP)),
+              ],
+            ),
           ),
           Transform(
             alignment: Alignment.center,

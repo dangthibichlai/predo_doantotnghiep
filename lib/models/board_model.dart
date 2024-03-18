@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:test_intern/models/task_model.dart';
+
 BoardModel BoardModelFromMap(String str) => BoardModel.fromMap(json.decode(str));
 
 String BoardModelToMap(BoardModel data) => json.encode(data.toMap());
@@ -17,6 +19,7 @@ class BoardModel {
   double? position;
   String projectId;
   Status? status;
+  List<TaskModel>? tasks;
 
   BoardModel({
     this.id,
@@ -26,6 +29,7 @@ class BoardModel {
     this.position,
     required this.projectId,
     this.status,
+    this.tasks,
   });
 
   BoardModel copyWith({
@@ -36,6 +40,7 @@ class BoardModel {
     double? position,
     String? projectId,
     Status? status,
+    List<TaskModel>? tasks,
   }) =>
       BoardModel(
         id: id ?? this.id,
@@ -45,6 +50,7 @@ class BoardModel {
         position: position ?? this.position,
         projectId: projectId ?? this.projectId,
         status: status ?? this.status,
+        tasks: tasks ?? this.tasks,
       );
 
   factory BoardModel.fromMap(Map<String, dynamic> json) => BoardModel(
@@ -57,6 +63,7 @@ class BoardModel {
         position: json["position"]?.toDouble(),
         projectId: json["projectId"],
         status: statusValues.map[json["status"]]!,
+        tasks: json["tasks"] == null ? [] : List<TaskModel>.from(json["tasks"].map((x) => TaskModel.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,6 +73,7 @@ class BoardModel {
         "position": position,
         "projectId": projectId,
         "status": statusValues.reverse[status],
+        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x.toMap())),
       };
 }
 

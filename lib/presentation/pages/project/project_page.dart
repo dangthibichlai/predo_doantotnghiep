@@ -8,49 +8,71 @@ class ProjectPage extends GetView<ProjectController> {
   const ProjectPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0.0,
-        backgroundColor: ColorResources.BGAPP,
-        automaticallyImplyLeading: false,
-        title: Text('Project'.tr, style: TextStyle(fontSize: 20.sp)),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                size: 26.sp,
-                color: ColorResources.BLACK.withOpacity(.5),
-              )),
-          IconButton(
-              onPressed: () {
-                Get.toNamed(HomeRouter.CREATEPROJECT);
-              },
-              icon: Icon(
-                Icons.add,
-                size: 26.sp,
-                color: ColorResources.BLACK.withOpacity(.5),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: ClipOval(
-              child: AppImage(
-                ImagesPath.avataImg,
-                width: 30.sp,
-                height: 30.sp,
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return Center(
+          child: LoadingApp(),
+        );
+      }
+
+      return Scaffold(
+        appBar: AppBar(
+          scrolledUnderElevation: 0.0,
+          backgroundColor: ColorResources.BGAPP,
+          automaticallyImplyLeading: false,
+          title: Text('Project'.tr, style: TextStyle(fontSize: 20.sp)),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.search,
+                  size: 26.sp,
+                  color: ColorResources.BLACK.withOpacity(.5),
+                )),
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(HomeRouter.CREATEPROJECT);
+                },
+                icon: Icon(
+                  Icons.add,
+                  size: 26.sp,
+                  color: ColorResources.BLACK.withOpacity(.5),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: ClipOval(
+                child: AppImage(
+                  ImagesPath.avataImg,
+                  width: 30.sp,
+                  height: 30.sp,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          recentlyProjectListView(),
-          allProjectGridView(),
-        ],
-      )),
-    );
+          ],
+        ),
+        body: controller.listProject.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    AppImage(
+                      ImagesPath.imgHomeRecentEmpty,
+                      width: SizeApp.setSizeWithWidth(percent: .4),
+                    ),
+                    Text('No data'),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                children: [
+                  recentlyProjectListView(),
+                  allProjectGridView(),
+                ],
+              )),
+      );
+    });
   }
 
   Widget allProjectGridView() {

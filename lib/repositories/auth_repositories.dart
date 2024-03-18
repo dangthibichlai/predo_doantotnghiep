@@ -76,7 +76,7 @@ class AuthRepository {
       log('Auth sign up result: $_results');
 
       // Call back data.
-      final user = AuthModel.fromMap(_results['user']);
+      final user = AuthModel.fromMap(_results as Map<String, dynamic>);
       user.accessToken = _results['accessToken'].toString();
       user.refreshToken = _results['refreshToken'].toString();
       onSuccess(user);

@@ -1,3 +1,5 @@
+import 'package:test_intern/routers/auth_router.dart';
+
 import '../../../resources/export/core_export.dart';
 import 'package:test_intern/presentation/pages/login/login_controller.dart';
 
@@ -25,7 +27,7 @@ class LoginPage extends GetView<LoginController> {
             IconButton(
                 onPressed: () {
                   CommonHelper.onTapHandler(callback: () {
-                    Get.back();
+                    Get.toNamed(AuthRouter.INTRODUCTION);
                   });
                 },
                 icon: Icon(Icons.arrow_back)),

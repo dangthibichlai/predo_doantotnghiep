@@ -29,7 +29,6 @@ class ProjectModel {
   ProjectModel copyWith({
     String? id,
     bool? isDelete,
-    List<Map<String, dynamic>>? issueType,
     String? key,
     String? leader,
     List<Map<String, dynamic>>? members,

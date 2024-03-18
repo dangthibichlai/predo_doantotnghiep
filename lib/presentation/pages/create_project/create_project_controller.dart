@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:slug_it/slug_it.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/project_model.dart';
+import 'package:test_intern/presentation/pages/project/project_controller.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 import 'package:tiengviet/tiengviet.dart';
@@ -40,6 +41,7 @@ class CreateProjectController extends GetxController {
     return _projectRepository.add(
       data: project,
       onSuccess: (data) {
+        Get.find<ProjectController>().getProject();
         AppAlert().success(message: 'Add success'.tr);
         EasyLoading.dismiss();
         Get.offNamed(HomeRouter.KABANPROJECT, arguments: {'idProject': data.id, 'nameProject': data.name});
@@ -59,6 +61,8 @@ class CreateProjectController extends GetxController {
 
   @override
   void onClose() {
+    nameProjectController.dispose();
+    Get.focusScope!.unfocus();
     super.onClose();
   }
 }
