@@ -11,7 +11,7 @@ class TaskDetailController extends GetxController {
   TextEditingController decriptionTask = TextEditingController();
   TextEditingController commentTask = TextEditingController();
   TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
-  TaskModel taskModel = TaskModel();
+  RxList taskModel = <TaskModel>[].obs;
 
   @override
   void onInit() {
@@ -31,7 +31,7 @@ class TaskDetailController extends GetxController {
       'id',
       onError: (error) {},
       onSuccess: (data) {
-        taskModel = data;
+        taskModel;
         log('Task detail: $taskModel');
       },
     );
