@@ -2,82 +2,168 @@
 //
 //     final taskModel = taskModelFromMap(jsonString);
 
-import 'dart:convert';
-
-TaskModel taskModelFromMap(String str) => TaskModel.fromMap(json.decode(str));
-
-String taskModelToMap(TaskModel data) => json.encode(data.toMap());
-
 ///CreateTaskDto
 class TaskModel {
-  Map<String, dynamic>? activities;
-  String? assignee;
-  String boardId;
-  String? description;
-  bool? isDelete;
-  IssueType issueType;
-  String key;
-  String? parent;
+  String? id;
+  String? boardId;
+  String? key;
   String? title;
+  String? description;
+  String? assignee;
+  String? parent;
+  IssueType? issueType;
+  bool? isDelete;
+  List<dynamic>? activities;
+  String? createdAt;
+  String? updatedAt;
 
   TaskModel({
-    this.activities,
-    this.assignee,
-    required this.boardId,
-    this.description,
-    this.isDelete,
-    required this.issueType,
-    required this.key,
-    this.parent,
+    this.id,
+    this.boardId,
+    this.key,
     this.title,
+    this.description,
+    this.assignee,
+    this.parent,
+    this.issueType,
+    this.isDelete,
+    this.activities,
+    this.createdAt,
+    this.updatedAt,
   });
 
   TaskModel copyWith({
-    Map<String, dynamic>? activities,
-    String? assignee,
+    String? id,
     String? boardId,
-    String? description,
-    bool? isDelete,
-    IssueType? issueType,
     String? key,
-    String? parent,
     String? title,
-  }) =>
-      TaskModel(
-        activities: activities ?? this.activities,
-        assignee: assignee ?? this.assignee,
-        boardId: boardId ?? this.boardId,
-        description: description ?? this.description,
-        isDelete: isDelete ?? this.isDelete,
-        issueType: issueType ?? this.issueType,
-        key: key ?? this.key,
-        parent: parent ?? this.parent,
-        title: title ?? this.title,
-      );
+    String? description,
+    String? assignee,
+    String? parent,
+    bool? isDelete,
+    List<dynamic>? activities,
+    String? createdAt,
+    String? updatedAt,
+    IssueType? issueType,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      boardId: boardId ?? this.boardId,
+      key: key ?? this.key,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      assignee: assignee ?? this.assignee,
+      parent: parent ?? this.parent,
+      issueType: issueType ?? this.issueType,
+      isDelete: isDelete ?? this.isDelete,
+      activities: activities ?? this.activities,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 
-  factory TaskModel.fromMap(Map<String, dynamic> json) => TaskModel(
-        activities: Map.from(json["activities"]!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        assignee: json["assignee"],
-        boardId: json["boardId"],
-        description: json["description"],
-        isDelete: json["isDelete"],
-        issueType: issueTypeValues.map[json["issueType"]]!,
-        key: json["key"],
-        parent: json["parent"],
-        title: json["title"],
-      );
+  Map<String, dynamic> toJson() {
+    return {
+      'boardId': boardId ?? '',
+      'key': key ?? '',
+      'title': title ?? '',
+      'description': description ?? '',
+      'assignee': assignee ?? '',
+      'parent': parent ?? '',
+      'issueType': issueTypeValues.reverse[issueType] ?? IssueType.USER_STORY.toString(),
+      'isDelete': isDelete ?? false,
+      'activities': activities ?? [],
+      // 'createdAt': createdAt ?? DateTime.now().toString(),
+      // 'updatedAt': updatedAt ?? DateTime.now().toString(),
+    };
+  }
 
-  Map<String, dynamic> toMap() => {
-        "activities": Map.from(activities!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "assignee": assignee,
-        "boardId": boardId,
-        "description": description,
-        "isDelete": isDelete,
-        "issueType": issueTypeValues.reverse[issueType],
-        "key": key,
-        "parent": parent,
-        "title": title,
-      };
+  factory TaskModel.fromJson(Map<String, dynamic> json) {
+    return TaskModel(
+      id: json['_id'] as String?,
+      boardId: json['boardId'] as String?,
+      key: json['key'] as String?,
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      assignee: json['assignee'] as String?,
+      parent: json['parent'] as String?,
+      issueType: issueTypeValues.map[json['issueType']],
+      activities: json['activities'] as List<dynamic>?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+    );
+  }
+
+  @override
+  String toString() =>
+      "TaskModel(id: $id,boardId: $boardId,key: $key,title: $title,description: $description,assignee: $assignee,parent: $parent,issueType: $issueType,activities: $activities,createdAt: $createdAt,updatedAt: $updatedAt)";
+
+  @override
+  int get hashCode =>
+      Object.hash(id, boardId, key, title, description, assignee, parent, issueType, createdAt, updatedAt);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TaskModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          boardId == other.boardId &&
+          key == other.key &&
+          title == other.title &&
+          description == other.description &&
+          assignee == other.assignee &&
+          parent == other.parent &&
+          issueType == other.issueType &&
+          // isDelete == other.isDelete &&
+          activities == other.activities &&
+          createdAt == other.createdAt &&
+          updatedAt == other.updatedAt;
+}
+
+class Activities {
+  String? description;
+  String? id;
+
+  Activities({
+    this.description,
+    this.id,
+  });
+
+  Activities copyWith({
+    String? description,
+    String? id,
+  }) {
+    return Activities(
+      description: description ?? this.description,
+      id: id ?? this.id,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'description': description,
+      '_id': id,
+    };
+  }
+
+  factory Activities.fromJson(Map<String, dynamic> json) {
+    return Activities(
+      description: json['description'] as String?,
+      id: json['_id'] as String?,
+    );
+  }
+
+  @override
+  String toString() => "Activities(description: $description,id: $id)";
+
+  @override
+  int get hashCode => Object.hash(description, id);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Activities && runtimeType == other.runtimeType && description == other.description && id == other.id;
 }
 
 enum IssueType { BUG, EPIC, USER_STORY }

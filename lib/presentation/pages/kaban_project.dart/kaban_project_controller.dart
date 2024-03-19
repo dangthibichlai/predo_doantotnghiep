@@ -2,8 +2,10 @@
 
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
@@ -73,14 +75,14 @@ class KabanProjectController extends GetxController {
     super.onClose();
   }
 
-  void getProject(String id) async {
+  Future<void> getProject(String id) async {
     await _boardRepository.find(
       id,
       onSuccess: (data) {
         listBorad.value = data;
         listBorad.refresh();
+
         // ignore: invalid_use_of_protected_member
-        log('board: ${listBorad.toList()}');
         if (isLoading.value) {
           isLoading.value = false;
         }
@@ -90,13 +92,24 @@ class KabanProjectController extends GetxController {
   }
 
   void addTaskBoard(TaskModel taskModel) async {
+    Get.back();
+    EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.add(
       data: taskModel,
-      onSuccess: (data) {
-        log('add task success ${listBorad.toList()}');
+      onSuccess: (data) async {
+        log('add task success ${listBorad.toList().toString()}');
+        nameColumn.clear();
+        await getProject(idProject);
         listBorad.refresh();
+        update();
+        EasyLoading.dismiss();
+
+        update(); // hàm update để cập nhật lại giao diện
       },
       onError: (e) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: e);
+
         log('Error task at $e');
       },
     );
@@ -119,7 +132,13 @@ class KabanProjectController extends GetxController {
         inputController: nameColumn,
         onTap: () {
           addTaskBoard(
-            TaskModel(boardId: idBoard, title: nameColumn.text, issueType: IssueType.USER_STORY, key: "Test"),
+            TaskModel(
+              boardId: idBoard,
+              title: nameColumn.text,
+              issueType: IssueType.USER_STORY,
+              createdAt: DateTime.now().toString(),
+              key: "Test",
+            ),
           );
           // onTap add
         },

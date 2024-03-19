@@ -69,31 +69,40 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         );
       }
       return Container(
-        constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
-        child: KanbanBoard(
-          List.generate(controller.listBorad.length, (index) {
-            final item = controller.listBorad.value[index];
-            int countTask = item.tasks!.length;
-
-            log('board: ${item.tasks!.length}');
-            return BoardListsData(
-                header: _title(item.name, countTask),
-                footer: _footer(item.id ?? ''),
-                width: SizeApp.setSizeWithWidth(percent: .8),
-                items: List.generate(
-                  item.tasks!.length,
-                  (index) => _contentItem(title: item.tasks![index].title ?? "", nameProject: item.tasks![index].key),
-                ));
-          }),
-          onItemLongPress: (cardIndex, listIndex) {},
-          onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
-          onListLongPress: (listIndex) {},
-          onListReorder: (oldListIndex, newListIndex) {},
-          onItemTap: (cardIndex, listIndex) {},
-          onListTap: (listIndex) {},
-          onListRename: (oldName, newName) {},
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+        constraints: BoxConstraints(
+          minHeight: SizeApp.setSize(percent: .02),
+          maxHeight: SizeApp.setSize(percent: .75),
+        ),
+        child: Obx(
+          () => KanbanBoard(
+            List.generate(
+              controller.listBorad.length,
+              (index) {
+                final item = controller.listBorad.value[index];
+                return BoardListsData(
+                  header: _title(item.name, controller.listBorad.value[index].tasks!.length),
+                  footer: _footer(item.id ?? ''),
+                  width: SizeApp.setSizeWithWidth(percent: .8),
+                  items: List.generate(growable: true, item.tasks!.length, (index) {
+                    return _contentItem(
+                      title: item.tasks![index].title ?? "",
+                      nameProject: item.tasks![index].key ?? "",
+                    );
+                  }),
+                );
+              },
+              growable: true,
+            ),
+            onItemLongPress: (cardIndex, listIndex) {},
+            onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
+            onListLongPress: (listIndex) {},
+            onListReorder: (oldListIndex, newListIndex) {},
+            onItemTap: (cardIndex, listIndex) {},
+            onListTap: (listIndex) {},
+            onListRename: (oldName, newName) {},
+            backgroundColor: Colors.white,
+            textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
         ),
       );
     });

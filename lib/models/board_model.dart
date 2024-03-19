@@ -63,7 +63,7 @@ class BoardModel {
         position: json["position"]?.toDouble(),
         projectId: json["projectId"],
         status: statusValues.map[json["status"]]!,
-        tasks: json["tasks"] == null ? [] : List<TaskModel>.from(json["tasks"].map((x) => TaskModel.fromMap(x))),
+        tasks: json["tasks"] == null ? [] : List<TaskModel>.from(json["tasks"].map((x) => TaskModel.fromJson(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -73,7 +73,7 @@ class BoardModel {
         "position": position,
         "projectId": projectId,
         "status": statusValues.reverse[status],
-        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x.toMap())),
+        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x.toJson())),
       };
 }
 

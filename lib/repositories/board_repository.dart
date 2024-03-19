@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/core/hepler/app-validate.dart';
@@ -16,7 +18,7 @@ class BoardRepository {
     required Function(List<BoardModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
-    String _uri = '${EndPoints.boards}?projectId=$id';
+    String _uri = '${EndPoints.projectAdd}/$id/get-board-and-task';
     late Response response;
 
     if (!AppValidate.nullOrEmpty(filter)) {
@@ -32,6 +34,7 @@ class BoardRepository {
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final List<dynamic> results = response.data as List<dynamic>;
       List<BoardModel> boards = results.map((data) => BoardModel.fromMap(data)).toList();
+
       onSuccess(boards);
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
