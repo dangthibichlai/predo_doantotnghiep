@@ -40,7 +40,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.9
-  intl: 0.18.1
+  intl: ^0.18.1
   timeago: ^3.1.0
   get_it: ^7.6.6
   shared_preferences: ^2.2.2
@@ -76,6 +76,9 @@ dependencies:
   firebase_auth: ^4.17.8
   flutter_facebook_auth: ^6.1.1
   slugify: ^2.0.0
+  slug_it: ^0.0.1
+  converter: ^0.4.0
+  tiengviet: ^1.0.0
 
 dev_dependencies:
   flutter_test:

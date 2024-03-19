@@ -56,4 +56,10 @@ mixin AppValidate {
     final pattern = RegExp(r'[!@#\$%^&*(),.?":{}|<>]');
     return pattern.hasMatch(input);
   }
+
+  static bool isValidEmail(String email) {
+    final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    // true là hợp lệ
+    return emailRegExp.hasMatch(email);
+  }
 }

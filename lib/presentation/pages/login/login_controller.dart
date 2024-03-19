@@ -12,7 +12,6 @@ import 'package:test_intern/core/hepler/app-validate.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/repositories/auth_repositories.dart';
 import 'package:test_intern/resources/di_container.dart';
-import 'package:test_intern/routers/auth_router.dart';
 import 'package:test_intern/routers/home_router.dart';
 import 'package:test_intern/services/dio/dio_client.dart';
 import 'package:test_intern/services/share_preference._helper.dart';
@@ -28,9 +27,13 @@ class LoginController extends GetxController {
   RxBool isShowPassword = false.obs; // ẩn hiện lỗi
   RxBool isEmail = false.obs;
   RxBool isPassword = false.obs;
+  // String emailRouter = Get.arguments['emailRegister'] ?? '';
+  RxBool isLogin = false.obs;
 
   @override
   void onInit() {
+    // emailRouter = Get.arguments['emailRegister'] ?? '';
+    // emailController.text = emailRouter;
     super.onInit();
   }
 
@@ -39,7 +42,7 @@ class LoginController extends GetxController {
   }
 
   bool _validateLoginWithLocal() {
-    if (!AppValidate.nullOrEmpty(emailController.text) && !AppValidate.nullOrEmpty(emailController.text)) {
+    if (!AppValidate.nullOrEmpty(emailController.text) && !AppValidate.nullOrEmpty(passwordController.text)) {
       return true;
     } else {
       if (AppValidate.nullOrEmpty(emailController.text)) {
@@ -54,6 +57,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginApp({required SocialType socialType}) async {
+    EasyLoading.show(status: 'loading'.tr);
     final AuthModel _authModel = AuthModel();
     String deviceID = sl<SharedPreferenceHelper>().getTokenDevice;
     switch (socialType) {
@@ -70,12 +74,11 @@ class LoginController extends GetxController {
               _authModel.fcm_token = [deviceID];
               _callAPILogin(auth: _authModel, isLoginWithLocal: false, socialType: SocialType.GOOGLE);
             } else {
-              EasyLoading.dismiss();
               log('Login Google failed');
             }
           },
         );
-
+        EasyLoading.dismiss();
         break;
 
       default:
@@ -90,6 +93,7 @@ class LoginController extends GetxController {
             socialType: socialType,
           );
         }
+        EasyLoading.dismiss();
     }
     // _callAPILogin(
     //   auth: AuthModel(email: emailController.text, password: passwordController.text, fcm_token: [deviceID]),
@@ -123,18 +127,6 @@ class LoginController extends GetxController {
         } else {
           AppAlert().success(message: 'other_0023'.tr);
           Get.offAllNamed(HomeRouter.DASHBOARD);
-          // if (data.isNewAccount == true) {
-          //   Get.toNamed(AuthRouter.REGISTER, arguments: {
-          //     'typeOtp': TypeGetOTP.SOCIAL,
-          //     'model': auth,
-          //     'idUser': data.id,
-          //   })?.then((value) {
-          //     _socialAuthService.socialLogout(socialType: socialType);
-          //   });
-          // } else {
-          //   IZIAlert().success(message: 'other_0023'.tr);
-          //   Get.offAllNamed(HomeRouters.DASH_BOARD);
-          // }
         }
       },
       onError: (e) {

@@ -1,3 +1,7 @@
+// ignore_for_file: invalid_use_of_protected_member, unused_element
+
+import 'dart:developer';
+
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -10,7 +14,6 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         backgroundColor: ColorResources.WHITE,
         body: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -23,7 +26,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                         size: 22.sp,
                         color: ColorResources.BLACK.withOpacity(.5),
                       )),
-                  Text('Math Kisd Game',
+                  Text(controller.nameProject,
                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 ],
               ),
@@ -49,76 +52,56 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     });
   }
 
-  Widget _diolog() {
-    return DiologApp(
-      inputController: controller.nameColumn,
-      onTap: () {
-        controller.cancelNewColumn();
-      },
-      title: 'Add Column',
-      nameButtonLeft: 'Add',
-      nameButtonRight: 'Cancel',
-    );
-  }
-
-  Widget addColumnNew() {
-    return GestureDetector(
-      onTap: () {
-        Get.dialog(
-          _diolog(),
-          barrierDismissible: true,
-          // barrierColor: ColorResources.BG_DOL.withOpacity(.5),
-          transitionCurve: Curves.easeInOut,
-          useSafeArea: true,
-          // barrierLabel: 'barrierLabel',
-          // routeSettings: RouteSettings(name: 'routeSettings'),
-        );
-      },
-      child: SizedBox(
-          width: SizeApp.setSizeWithWidth(percent: .8),
-          height: SizeApp.setSize(percent: .2),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Add Column',
-                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-                  ),
-                ],
-              ),
-            ],
-          )),
-    );
-  }
-
   Widget _boardBody() {
-    return Container(
-      constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
-      child: KanbanBoard(
-        List.generate(
-          3,
-          (index) => BoardListsData(
-              header: _title("TITLE", index),
-              footer: _footer(),
-              width: SizeApp.setSizeWithWidth(percent: .8),
-              items: List.generate(
-                10,
-                (index) => _contentItem(title: 'Create a new project', nameProject: 'Math Kids Game'),
-              )),
-        ),
-        onItemLongPress: (cardIndex, listIndex) {},
-        onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
-        onListLongPress: (listIndex) {},
-        onListReorder: (oldListIndex, newListIndex) {},
-        onItemTap: (cardIndex, listIndex) {},
-        onListTap: (listIndex) {},
-        onListRename: (oldName, newName) {},
-        backgroundColor: Colors.white,
-        textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
-      ),
-    );
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: SizeApp.setSize(percent: .8),
+              child: LoadingApp(
+                titleLoading: 'diy_001'.tr,
+              ),
+            ),
+          ],
+        );
+      }
+      return Container(
+          constraints:
+              BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
+          child: KanbanBoard(
+            List.generate(growable: true, controller.listBorad.length, (index) {
+              final item = controller.listBorad.value[index];
+
+              return BoardListsData(
+                  header: Obx(() => _title(item.name, controller.listBorad.value[index].tasks!.length)),
+                  footer: _footer(item.id ?? ''),
+                  width: SizeApp.setSizeWithWidth(percent: .8),
+                  items: List.generate(growable: true, item.tasks!.length, (index) {
+                    return InkWell(
+                      onTap: () {
+                        CommonHelper.onTapHandler(callback: () {
+                          controller.routerTaskDetail(item.tasks![index].id ?? "");
+                        });
+                      },
+                      child: _contentItem(
+                          title: item.tasks![index].title ?? "", nameProject: item.tasks![index].key ?? ""),
+                    );
+                  }));
+            }),
+            onItemLongPress: (cardIndex, listIndex) {},
+            onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
+            onListLongPress: (listIndex) {},
+            onListReorder: (oldListIndex, newListIndex) {},
+            onItemTap: (cardIndex, listIndex) {},
+            onListTap: (listIndex) {},
+            onListRename: (oldName, newName) {},
+            backgroundColor: Colors.white,
+            textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+          ));
+    });
   }
 
   Widget _contentItem({required String title, required String nameProject}) {
@@ -167,7 +150,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     );
   }
 
-  Widget _footer() {
+  Widget _footer(String idBoard) {
     return Padding(
       padding: SizeApp.setEdgeInsetsOnly(
         top: SizeApp.setSize(percent: .01),
@@ -178,17 +161,24 @@ class KabanProjectPage extends GetView<KabanProjectController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.add,
-                color: ColorResources.MAIN_APP,
-                size: 24.sp,
-              ),
-              Gap(10),
-              Text('Create'.tr,
-                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP)),
-            ],
+          GestureDetector(
+            onTap: () {
+              CommonHelper.onTapHandler(callback: () {
+                controller.createNewColumn(idBoard);
+              });
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  color: ColorResources.MAIN_APP,
+                  size: 24.sp,
+                ),
+                Gap(10),
+                Text('Create'.tr,
+                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP)),
+              ],
+            ),
           ),
           Transform(
             alignment: Alignment.center,

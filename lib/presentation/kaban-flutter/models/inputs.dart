@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 
 class BoardListsData {
@@ -24,56 +26,60 @@ class BoardListsData {
     ),
     this.width = 300,
   }) {
-    footer = footer ??
-        Container(
-          padding: const EdgeInsets.only(left: 15),
-          height: 45,
-          width: 300,
-          color: footerBackgroundColor,
-          child: const Row(
-            children: [
-              Icon(
-                Icons.add,
-                color: Colors.black,
-                size: 22,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                'NEW',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+    footer = GestureDetector(
+      onTap: () {
+        setState() {}
+      },
+      child: footer ??
+          Container(
+            padding: const EdgeInsets.only(left: 15),
+            height: 45,
+            width: 300,
+            color: footerBackgroundColor,
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 22,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'NEW',
+                  style: TextStyle(color: Colors.black, fontSize: 19, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        );
-    header = header ??
-        Container(
-          width: 250,
-          color: headerBackgroundColor,
-          padding: const EdgeInsets.only(left: 0, bottom: 12, top: 12),
-          alignment: Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title ?? '',
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                child: const SizedBox(
-                    // padding: const EdgeInsets.all(5),
-                    child: Icon(Icons.more_vert)),
-              ),
-            ],
+    );
+    header = GestureDetector(
+      onTap: () {
+        setState() {}
+      },
+      child: header ??
+          Container(
+            width: 250,
+            color: headerBackgroundColor,
+            padding: const EdgeInsets.only(left: 0, bottom: 12, top: 12),
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title ?? '',
+                  style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  child: const SizedBox(
+                      // padding: const EdgeInsets.all(5),
+                      child: Icon(Icons.more_vert)),
+                ),
+              ],
+            ),
           ),
-        );
+    );
   }
 }
 

@@ -129,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  converter:
+    dependency: "direct main"
+    description:
+      name: converter
+      sha256: "1b42661155ca89263fb01347961c2e6d35472f5727dca29b6ea058b65e39f9b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   crypto:
     dependency: transitive
     description:
@@ -637,6 +645,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.1"
+  invertible:
+    dependency: transitive
+    description:
+      name: invertible
+      sha256: "2e88300b67085adf5e766839a49e3a8da7db85d8826a9068bba24e015b79381a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   js:
     dependency: transitive
     description:
@@ -906,6 +922,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  slug_it:
+    dependency: "direct main"
+    description:
+      name: slug_it
+      sha256: "191fa19a2b1cbb7bdc6dacaa9796799bd41309d680e0249c853c63e96b3bf6e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   slugify:
     dependency: "direct main"
     description:
@@ -1002,6 +1026,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  tiengviet:
+    dependency: "direct main"
+    description:
+      name: tiengviet
+      sha256: e14c4fa7db66c62c75e79dd2e8111a89d1cbddebd7086e37ca08e150c5f81bba
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   timeago:
     dependency: "direct main"
     description:

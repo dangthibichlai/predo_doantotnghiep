@@ -1,3 +1,5 @@
+import 'package:test_intern/routers/auth_router.dart';
+
 import '../../../resources/export/core_export.dart';
 import 'package:test_intern/presentation/pages/login/login_controller.dart';
 
@@ -7,27 +9,10 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorResources.BGAPP,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: GetBuilder(
-          init: LoginController(),
-          builder: (context) {
-            return SafeArea(
-              child: Padding(
-                padding: SizeApp.setEdgeInsetsOnly(
-                  top: SizeApp.setSize(percent: .1),
-                ),
-                child: SizedBox(
-                  width: SizeApp.getMaxWidth(),
-                  height: SizeApp.getMaxHeight(),
-                  child: _bodyLogin(),
-                ),
-              ),
-            );
-          },
-        ),
+      body: SafeArea(
+        child: _bodyLogin(),
       ),
     );
   }
@@ -36,23 +21,31 @@ class LoginPage extends GetView<LoginController> {
     return Center(
         child: Column(
       children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AppImage(
-              ImagesPath.logoApp,
-              width: 50,
-              height: 50,
-            ),
-            Text(
-              'Predo',
-              style: GoogleFonts.pacifico(
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w500,
-                color: ColorResources.MAIN_APP,
-              ),
-            )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            IconButton(
+                onPressed: () {
+                  CommonHelper.onTapHandler(callback: () {
+                    Get.toNamed(AuthRouter.INTRODUCTION);
+                  });
+                },
+                icon: Icon(Icons.arrow_back)),
           ],
+        ),
+        Gap(SizeApp.setSize(percent: .05)),
+        AppImage(
+          ImagesPath.logoApp,
+          width: 50,
+          height: 50,
+        ),
+        Text(
+          'Predo',
+          style: GoogleFonts.pacifico(
+            fontSize: 30.sp,
+            fontWeight: FontWeight.w500,
+            color: ColorResources.MAIN_APP,
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -83,6 +76,21 @@ class LoginPage extends GetView<LoginController> {
               ),
             ),
           ),
+        ),
+        Obx(
+          () => controller.isEmail.value
+              ? SizedBox(
+                  width: SizeApp.setSizeWithWidth(percent: .8),
+                  child: Text(
+                    'Vui lòng nhập Email của bạn',
+                    style: GoogleFonts.lexend(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w300,
+                      color: ColorResources.RED,
+                    ),
+                  ),
+                )
+              : SizedBox(),
         ),
         Container(
           margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.RADIUS_1X, bottom: SizeApp.RADIUS_1X),
@@ -127,6 +135,22 @@ class LoginPage extends GetView<LoginController> {
             ),
           ),
         ),
+        Obx(
+          () => controller.isShowPassword.value
+              ? SizedBox(
+                  width: SizeApp.setSizeWithWidth(percent: .8),
+                  child: Text(
+                    'Vui lòng nhập password của bạn',
+                    style: GoogleFonts.lexend(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w300,
+                      color: ColorResources.RED,
+                    ),
+                  ),
+                )
+              : SizedBox(),
+        ),
+        Gap(5),
         AppButton(
             fillColor: ColorResources.MAIN_APP,
             colorBorder: ColorResources.MAIN_APP,

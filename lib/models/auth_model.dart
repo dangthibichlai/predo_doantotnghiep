@@ -16,7 +16,7 @@ class AuthModel {
   String? full_name;
   String? email;
   String? avatar;
-  String? otpCode;
+  String? otp;
   bool? isNewAccount;
   List<String>? fcm_token;
   AuthModel({
@@ -32,7 +32,7 @@ class AuthModel {
     this.full_name,
     this.email,
     this.avatar,
-    this.otpCode,
+    this.otp,
     this.isNewAccount,
     this.fcm_token,
   });
@@ -50,7 +50,7 @@ class AuthModel {
     String? full_name,
     String? email,
     String? avatar,
-    String? otpCode,
+    String? otp,
     bool? isNewAccount,
     List<String>? fcm_token,
   }) {
@@ -67,7 +67,7 @@ class AuthModel {
       full_name: full_name ?? this.full_name,
       email: email ?? this.email,
       avatar: avatar ?? this.avatar,
-      otpCode: otpCode ?? this.otpCode,
+      otp: otp ?? this.otp,
       isNewAccount: isNewAccount ?? this.isNewAccount,
       fcm_token: fcm_token ?? this.fcm_token,
     );
@@ -87,7 +87,7 @@ class AuthModel {
       if (!AppValidate.nullOrEmpty(full_name)) 'full_name': full_name,
       if (!AppValidate.nullOrEmpty(email)) 'email': email,
       if (!AppValidate.nullOrEmpty(avatar)) 'avatar': avatar,
-      if (!AppValidate.nullOrEmpty(otpCode)) 'otpCode': otpCode,
+      if (!AppValidate.nullOrEmpty(otp)) 'otp': otp,
       if (!AppValidate.nullOrEmpty(isNewAccount)) 'isNewAccount': isNewAccount,
       if (!AppValidate.nullOrEmpty(fcm_token)) 'fcm_token': fcm_token,
     };
@@ -107,7 +107,7 @@ class AuthModel {
       full_name: map['full_name'] != null ? map['full_name'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       avatar: map['avatar'] != null ? map['avatar'] as String : null,
-      otpCode: map['otpCode'] != null ? map['otpCode'] as String : null,
+      otp: map['otp'] != null ? map['otp'] as String : null,
       isNewAccount: map['isNewAccount'] != null ? map['isNewAccount'] as bool : null,
       fcm_token: map['fcm_token'] != null ? List<String>.from(map['fcm_token'] as List) : null,
     );
@@ -119,7 +119,7 @@ class AuthModel {
 
   @override
   String toString() {
-    return 'AuthModel(id: $id, phone: $phone, password: $password, role: $role, deviceID: $deviceID, social_id: $social_id, social_type: $social_type, accessToken: $accessToken, refreshToken: $refreshToken, full_name: $full_name, email: $email, avatar: $avatar, otpCode: $otpCode)';
+    return 'AuthModel(id: $id, phone: $phone, password: $password, role: $role, deviceID: $deviceID, social_id: $social_id, social_type: $social_type, accessToken: $accessToken, refreshToken: $refreshToken, full_name: $full_name, email: $email, avatar: $avatar, otp: $otp)';
   }
 
   @override
@@ -139,7 +139,7 @@ class AuthModel {
         other.email == email &&
         other.avatar == avatar &&
         other.isNewAccount == isNewAccount &&
-        other.otpCode == otpCode;
+        other.otp == otp;
   }
 
   @override
@@ -157,6 +157,6 @@ class AuthModel {
         email.hashCode ^
         avatar.hashCode ^
         isNewAccount.hashCode ^
-        otpCode.hashCode;
+        otp.hashCode;
   }
 }

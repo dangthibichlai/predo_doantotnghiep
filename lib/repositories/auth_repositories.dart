@@ -76,7 +76,7 @@ class AuthRepository {
       log('Auth sign up result: $_results');
 
       // Call back data.
-      final user = AuthModel.fromMap(_results['user'] as Map<String, dynamic>);
+      final user = AuthModel.fromMap(_results as Map<String, dynamic>);
       user.accessToken = _results['accessToken'].toString();
       user.refreshToken = _results['refreshToken'].toString();
       onSuccess(user);
@@ -101,11 +101,34 @@ class AuthRepository {
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final _results = response.data as String;
+      final _results = response.data as Map<String, dynamic>;
 
       log('OTP sended $_results');
 
-      onSuccess(_results);
+      onSuccess(_results.toString());
+    }
+  }
+
+  Future<void> verify_sendOTP({
+    required AuthModel data,
+    required Function(String data) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    Response<dynamic>? response;
+    const String _uri = EndPoints.sendOTP;
+
+    try {
+      response = await _dio.post(_uri, data: data.toJson());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final _results = response.data as Map<String, dynamic>;
+
+      log('OTP sended $_results');
+
+      onSuccess(_results.toString());
     }
   }
 

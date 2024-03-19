@@ -10,16 +10,16 @@ String projectModelToMap(ProjectModel data) => json.encode(data.toMap());
 
 ///CreateProjectDto
 class ProjectModel {
+  String? id;
   bool? isDelete;
-  List<Map<String, dynamic>>? issueType;
   String? key;
   String? leader;
   List<Map<String, dynamic>>? members;
   String? name;
 
   ProjectModel({
+    this.id,
     this.isDelete,
-    this.issueType,
     this.key,
     this.leader,
     this.members,
@@ -27,16 +27,16 @@ class ProjectModel {
   });
 
   ProjectModel copyWith({
+    String? id,
     bool? isDelete,
-    List<Map<String, dynamic>>? issueType,
     String? key,
     String? leader,
     List<Map<String, dynamic>>? members,
     String? name,
   }) =>
       ProjectModel(
+        id: id ?? this.id,
         isDelete: isDelete ?? this.isDelete,
-        issueType: issueType ?? this.issueType,
         key: key ?? this.key,
         leader: leader ?? this.leader,
         members: members ?? this.members,
@@ -44,11 +44,8 @@ class ProjectModel {
       );
 
   factory ProjectModel.fromMap(Map<String, dynamic> json) => ProjectModel(
+        id: json['_id'] != null ? json['_id'] as String : null,
         isDelete: json["isDelete"],
-        issueType: json["issueType"] == null
-            ? []
-            : List<Map<String, dynamic>>.from(
-                json["issueType"]!.map((x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
         key: json["key"],
         leader: json["leader"],
         members: json["members"] == null
@@ -60,9 +57,6 @@ class ProjectModel {
 
   Map<String, dynamic> toMap() => {
         "isDelete": isDelete,
-        "issueType": issueType == null
-            ? []
-            : List<dynamic>.from(issueType!.map((x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
         "key": key,
         "leader": leader,
         "members": members == null

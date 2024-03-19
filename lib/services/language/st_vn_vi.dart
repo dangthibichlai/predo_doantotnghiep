@@ -14,6 +14,12 @@ const Map<String, String> vi = {
   'Summary': 'Tóm tắt',
   'Activity stream': 'Luồng hoạt động',
   'Just now': 'Vừa rồi',
+  "other_0005": 'Quay lại',
+  "other_0006": 'Mở cài đặt',
+  "other_0022": "Tài khoản đã bị xoá khỏi hệ thống.",
+  "other_0023": "Đăng nhập thành công!",
+  "other_0024": "Đang đăng nhập Google...",
+  "other_0025": "Đang đăng nhập Facebook...",
 
 // Trang giới thiệu
   'intro_001': 'Quản lý đơn giản và hiệu quả với một mô hình quản lý thân thiện và dễ sử dụng.',
