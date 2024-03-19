@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:get_it/get_it.dart';
+import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/repositories/task_repository.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class TaskDetailController extends GetxController {
@@ -5,6 +10,8 @@ class TaskDetailController extends GetxController {
   Rx<String> dataFilter = 'all'.tr.obs;
   TextEditingController decriptionTask = TextEditingController();
   TextEditingController commentTask = TextEditingController();
+  TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
+  TaskModel taskModel = TaskModel();
 
   @override
   void onInit() {
@@ -17,6 +24,17 @@ class TaskDetailController extends GetxController {
 
   void onChangFilter({required String value}) {
     dataFilter.value = value;
+  }
+
+  Future<void> getTaskDetail() async {
+    await _taskReponsitory.find(
+      'id',
+      onError: (error) {},
+      onSuccess: (data) {
+        taskModel = data;
+        log('Task detail: $taskModel');
+      },
+    );
   }
 
   @override

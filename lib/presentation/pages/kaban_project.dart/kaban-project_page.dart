@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, unused_element
 
 import 'dart:developer';
 
@@ -69,30 +69,28 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         );
       }
       return Container(
-        constraints: BoxConstraints(
-          minHeight: SizeApp.setSize(percent: .02),
-          maxHeight: SizeApp.setSize(percent: .75),
-        ),
-        child: Obx(
-          () => KanbanBoard(
-            List.generate(
-              controller.listBorad.length,
-              (index) {
-                final item = controller.listBorad.value[index];
-                return BoardListsData(
-                  header: _title(item.name, controller.listBorad.value[index].tasks!.length),
+          constraints:
+              BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
+          child: KanbanBoard(
+            List.generate(growable: true, controller.listBorad.length, (index) {
+              final item = controller.listBorad.value[index];
+
+              return BoardListsData(
+                  header: Obx(() => _title(item.name, controller.listBorad.value[index].tasks!.length)),
                   footer: _footer(item.id ?? ''),
                   width: SizeApp.setSizeWithWidth(percent: .8),
                   items: List.generate(growable: true, item.tasks!.length, (index) {
-                    return _contentItem(
-                      title: item.tasks![index].title ?? "",
-                      nameProject: item.tasks![index].key ?? "",
+                    return InkWell(
+                      onTap: () {
+                        CommonHelper.onTapHandler(callback: () {
+                          controller.routerTaskDetail(item.tasks![index].id ?? "");
+                        });
+                      },
+                      child: _contentItem(
+                          title: item.tasks![index].title ?? "", nameProject: item.tasks![index].key ?? ""),
                     );
-                  }),
-                );
-              },
-              growable: true,
-            ),
+                  }));
+            }),
             onItemLongPress: (cardIndex, listIndex) {},
             onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
             onListLongPress: (listIndex) {},
@@ -102,9 +100,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             onListRename: (oldName, newName) {},
             backgroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      );
+          ));
     });
   }
 

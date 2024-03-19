@@ -101,11 +101,11 @@ class AuthRepository {
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final _results = response.data as String;
+      final _results = response.data as Map<String, dynamic>;
 
       log('OTP sended $_results');
 
-      onSuccess(_results);
+      onSuccess(_results.toString());
     }
   }
 
@@ -124,11 +124,11 @@ class AuthRepository {
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final _results = response.data as String;
+      final _results = response.data as Map<String, dynamic>;
 
       log('OTP sended $_results');
 
-      onSuccess(_results);
+      onSuccess(_results.toString());
     }
   }
 

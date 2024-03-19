@@ -14,8 +14,10 @@ import 'package:test_intern/repositories/task_repository.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class KabanProjectController extends GetxController {
-  String idProject = '';
-  String nameProject = '';
+  String idProject = Get.arguments['idProject'];
+  String nameProject = Get.arguments['nameProject'];
+  String nameProjectItem = Get.arguments['nameProject'];
+  String idProjectItem = Get.arguments['idProject'];
 
   final RefreshController refreshController = RefreshController();
   RxInt currentIndexTab = 0.obs;
@@ -62,8 +64,8 @@ class KabanProjectController extends GetxController {
 
   @override
   void onInit() {
-    idProject = Get.arguments['idProject'];
-    nameProject = Get.arguments['nameProject'];
+    idProject = Get.arguments['idProject'] ?? idProjectItem;
+    nameProject = Get.arguments['nameProject'] ?? nameProjectItem;
     getProject(idProject);
     super.onInit();
   }
@@ -81,13 +83,15 @@ class KabanProjectController extends GetxController {
       onSuccess: (data) {
         listBorad.value = data;
         listBorad.refresh();
-
-        // ignore: invalid_use_of_protected_member
         if (isLoading.value) {
           isLoading.value = false;
         }
       },
-      onError: (onError) {},
+      onError: (onError) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: onError);
+        log('Error project at $onError');
+      },
     );
   }
 
@@ -97,14 +101,11 @@ class KabanProjectController extends GetxController {
     await _taskReponsitory.add(
       data: taskModel,
       onSuccess: (data) async {
-        log('add task success ${listBorad.toList().toString()}');
+        EasyLoading.dismiss();
         nameColumn.clear();
         await getProject(idProject);
         listBorad.refresh();
         update();
-        EasyLoading.dismiss();
-
-        update(); // hàm update để cập nhật lại giao diện
       },
       onError: (e) {
         EasyLoading.dismiss();
@@ -113,6 +114,10 @@ class KabanProjectController extends GetxController {
         log('Error task at $e');
       },
     );
+  }
+
+  void routerTaskDetail(String id) {
+    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'id': id});
   }
 
   void onChangeTabBar(int index) {
