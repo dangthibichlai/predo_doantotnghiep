@@ -117,7 +117,7 @@ class KabanProjectController extends GetxController {
   }
 
   void routerTaskDetail(String id) {
-    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'id': id});
+    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id});
   }
 
   void onChangeTabBar(int index) {

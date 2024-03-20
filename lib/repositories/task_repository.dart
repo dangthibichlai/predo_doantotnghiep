@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/core/hepler/app-validate.dart';
@@ -9,10 +11,31 @@ import 'package:test_intern/services/dio/dio_client.dart';
 
 class TaskReponsitory {
   DioClient? dioClient = GetIt.I.get<DioClient>();
+  Future<void> update({
+    required String id,
+    required TaskModel data,
+    required Function(TaskModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.put('${EndPoints.tasks}/$id', data: data.toJson());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+      onSuccess(TaskModel.fromJson(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
   Future<void> find(
     String id, {
     String? filter,
-    required Function(List<TaskModel> event) onSuccess,
+    required Function(TaskModel event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
     String _uri = '${EndPoints.tasks}/$id';
@@ -29,12 +52,14 @@ class TaskReponsitory {
     }
 
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final results = response.data as List<dynamic>;
-      onSuccess(results.map((e) => TaskModel.fromJson(e as Map<String, dynamic>)).toList());
+      final results = response.data as Map<String, dynamic>;
+      log('Task update: $results');
+      onSuccess(TaskModel.fromJson(results));
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }
   }
+
   Future<void> add({
     required TaskModel data,
     required Function(TaskModel event) onSuccess,
