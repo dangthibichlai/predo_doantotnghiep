@@ -29,6 +29,11 @@ class TaskDetailController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void updateDecriptTask() {
     _taskReponsitory.update(
       id: idTask,
@@ -44,6 +49,20 @@ class TaskDetailController extends GetxController {
       },
       onError: (error) {},
     );
+  }
+
+  void updateTitleTask() {
+    _taskReponsitory.update(
+        id: idTask,
+        data: TaskModel(
+          boardId: taskModel[0].boardId,
+          title: titleTask.text,
+          key: taskModel[0].key,
+          issueType: taskModel[0].issueType,
+          description: taskModel[0].description,
+        ),
+        onSuccess: (data) async {},
+        onError: (error) {});
   }
 
   void showEditTitle() {

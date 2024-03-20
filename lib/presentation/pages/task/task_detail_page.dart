@@ -64,7 +64,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                       style: TextStyle(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w500,
-                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                          color: ColorResources.BLACK
+                                              .withOpacity(.5)),
                                     ),
                                   ],
                                 ),
@@ -72,80 +73,107 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          CommonHelper.onTapHandler(callback: () {
-                                            controller.showEditTitle();
-                                          });
-                                        },
-                                        child: Column(
-                                          children: [
-                                            AppInput(
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              print("Edit Title");
+                                              log("TITLE");
+                                              CommonHelper.onTapHandler(
+                                                  callback: () {
+                                                controller.showEditTitle();
+                                              });
+                                            },
+                                            child: AppInput(
                                               controller: controller.titleTask,
-                                              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                              onSubmitted: (p0) {
+                                                log("Submit title");
+                                                controller.updateTitleTask();
+                                              },
+                                              onTap: () {
+                                                print("Edit Title");
+                                              },
+                                              colorDisibleBorder:
+                                                  Color.fromARGB(
+                                                      255, 11, 196, 199),
                                               style: TextStyle(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.bold,
-                                                  color: ColorResources.BLACK.withOpacity(.4)),
+                                                  color: ColorResources.BLACK
+                                                      .withOpacity(.4)),
                                               labelStyle: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
-                                                  color: ColorResources.BLACK.withOpacity(.7)),
+                                                  color: ColorResources.BLACK
+                                                      .withOpacity(.7)),
                                               type: AppInputType.TEXT,
                                               maxLine: 1,
-                                              hintText: controller.taskModel.value[0].title,
+                                              hintText: controller
+                                                  .taskModel.value[0].title,
                                               isBorder: true,
                                               fontSize: 14.sp,
                                               fillColor: Colors.transparent,
                                               borderSide: BorderSide.none,
                                             ),
-                                            Obx(() {
-                                              return controller.isEditTitle.value
-                                                  ? Padding(
-                                                      padding: EdgeInsets.only(right: 5.sp),
-                                                      child: Divider(
-                                                        height: 1,
-                                                        color: ColorResources.MAIN_APP.withOpacity(.2),
-                                                      ),
-                                                    )
-                                                  : SizedBox();
-                                            }),
-                                            Obx(
-                                              () => controller.isEditTitle.value
-                                                  ? SizedBox(
-                                                      height: 20.sp,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons.close,
-                                                                size: 20.sp,
-                                                                color: ColorResources.MAIN_APP.withOpacity(.5),
-                                                              )),
-                                                          IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons.check,
-                                                                size: 22.sp,
-                                                                color: ColorResources.MAIN_APP.withOpacity(.5),
-                                                              )),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : SizedBox(),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                          Obx(() {
+                                            return controller.isEditTitle.value
+                                                ? Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 5.sp),
+                                                    child: Divider(
+                                                      height: 1,
+                                                      color: ColorResources
+                                                          .MAIN_APP
+                                                          .withOpacity(.2),
+                                                    ),
+                                                  )
+                                                : SizedBox();
+                                          }),
+                                          Obx(
+                                            () => controller.isEditTitle.value
+                                                ? SizedBox(
+                                                    height: 20.sp,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        IconButton(
+                                                            onPressed: () {},
+                                                            icon: Icon(
+                                                              Icons.close,
+                                                              size: 20.sp,
+                                                              color: ColorResources
+                                                                  .MAIN_APP
+                                                                  .withOpacity(
+                                                                      .5),
+                                                            )),
+                                                        IconButton(
+                                                            onPressed: () {},
+                                                            icon: Icon(
+                                                              Icons.check,
+                                                              size: 22.sp,
+                                                              color: ColorResources
+                                                                  .MAIN_APP
+                                                                  .withOpacity(
+                                                                      .5),
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     CircleAvatar(
                                       radius: 20.sp,
-                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
+                                      backgroundColor:
+                                          ColorResources.GREY.withOpacity(.1),
                                       child: Icon(
                                         Icons.person_2_rounded,
-                                        color: ColorResources.GREY.withOpacity(.5),
+                                        color:
+                                            ColorResources.GREY.withOpacity(.5),
                                         size: 30.sp,
                                       ),
                                     ),
@@ -169,20 +197,26 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                       height: 70.sp,
                                       controller: controller.decriptionTask,
                                       autofocus: true,
-                                      colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                      colorDisibleBorder:
+                                          Color.fromARGB(255, 11, 196, 199),
                                       label: "Description".tr,
                                       style: TextStyle(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w300,
-                                          color: ColorResources.BLACK.withOpacity(.4)),
+                                          color: ColorResources.BLACK
+                                              .withOpacity(.4)),
                                       labelStyle: TextStyle(
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w500,
-                                          color: ColorResources.BLACK.withOpacity(.7)),
+                                          color: ColorResources.BLACK
+                                              .withOpacity(.7)),
                                       type: AppInputType.TEXT,
                                       maxLine: 4,
-                                      hintText:
-                                          controller.taskModel.value[0].description == '' ? "Add description..." : '',
+                                      hintText: controller.taskModel.value[0]
+                                                  .description ==
+                                              ''
+                                          ? "Add description..."
+                                          : '',
                                       isBorder: true,
                                       fontSize: 14.sp,
                                       fillColor: Colors.transparent,
@@ -206,7 +240,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 ),
                                 Gap(25.sp),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     _attachItem(
                                       Icons.camera_enhance_outlined,
@@ -284,7 +319,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Issue type',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                  color: ColorResources.BLACK),
             ),
           ],
         ),
@@ -308,8 +346,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Gap(10.sp),
             Text(
               'Task',
-              style:
-                  TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.BLACK.withOpacity(.5)),
             ),
           ],
         ),
@@ -319,7 +359,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Assignee',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                  color: ColorResources.BLACK),
             ),
           ],
         ),
@@ -355,7 +398,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Labels',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                  color: ColorResources.BLACK),
             ),
           ],
         ),
@@ -366,7 +412,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'More',
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.MAIN_APP),
             ),
           ],
         ),
@@ -375,11 +424,17 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Activity:',
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.BLACK),
             ),
             Text(
               'Comments',
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.MAIN_APP),
             ),
           ],
         ),
@@ -394,7 +449,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Gap(20),
             Text(
               'Add comment',
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.MAIN_APP),
             ),
           ],
         ),
@@ -427,14 +485,16 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           () => AppropDownButton<String>(
             iconDropdown: Icon(
               Icons.arrow_drop_down_outlined,
-              color:
-                  controller.dataFilter.value == "TO DO" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
+              color: controller.dataFilter.value == "TO DO"
+                  ? ColorResources.BLACK.withOpacity(.5)
+                  : ColorResources.WHITE,
             ),
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
-              color:
-                  controller.dataFilter.value == "TO DO" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
+              color: controller.dataFilter.value == "TO DO"
+                  ? ColorResources.BLACK.withOpacity(.5)
+                  : ColorResources.WHITE,
             ),
             borderRadius: SizeApp.RADIUS_2X,
             height: SizeApp.setSize(percent: .05),
