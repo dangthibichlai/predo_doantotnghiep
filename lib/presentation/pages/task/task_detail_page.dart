@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/core/hepler/app_dropdown.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
@@ -64,8 +65,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                       style: TextStyle(
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w500,
-                                          color: ColorResources.BLACK
-                                              .withOpacity(.5)),
+                                          color: ColorResources.BLACK.withOpacity(.5)),
                                     ),
                                   ],
                                 ),
@@ -77,39 +77,32 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              print("Edit Title");
-                                              log("TITLE");
-                                              CommonHelper.onTapHandler(
-                                                  callback: () {
+                                              CommonHelper.onTapHandler(callback: () {
                                                 controller.showEditTitle();
                                               });
                                             },
                                             child: AppInput(
                                               controller: controller.titleTask,
                                               onSubmitted: (p0) {
-                                                log("Submit title");
-                                                controller.updateTitleTask();
+                                                controller.updateTask();
                                               },
                                               onTap: () {
-                                                print("Edit Title");
+                                                CommonHelper.onTapHandler(callback: () {
+                                                  controller.showEditTitle();
+                                                });
                                               },
-                                              colorDisibleBorder:
-                                                  Color.fromARGB(
-                                                      255, 11, 196, 199),
+                                              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
                                               style: TextStyle(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.bold,
-                                                  color: ColorResources.BLACK
-                                                      .withOpacity(.4)),
+                                                  color: ColorResources.BLACK.withOpacity(.4)),
                                               labelStyle: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
-                                                  color: ColorResources.BLACK
-                                                      .withOpacity(.7)),
+                                                  color: ColorResources.BLACK.withOpacity(.7)),
                                               type: AppInputType.TEXT,
                                               maxLine: 1,
-                                              hintText: controller
-                                                  .taskModel.value[0].title,
+                                              hintText: controller.taskModel.value[0].title,
                                               isBorder: true,
                                               fontSize: 14.sp,
                                               fillColor: Colors.transparent,
@@ -119,13 +112,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                           Obx(() {
                                             return controller.isEditTitle.value
                                                 ? Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 5.sp),
+                                                    padding: EdgeInsets.only(right: 5.sp),
                                                     child: Divider(
                                                       height: 1,
-                                                      color: ColorResources
-                                                          .MAIN_APP
-                                                          .withOpacity(.2),
+                                                      color: ColorResources.MAIN_APP.withOpacity(.2),
                                                     ),
                                                   )
                                                 : SizedBox();
@@ -133,30 +123,35 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                           Obx(
                                             () => controller.isEditTitle.value
                                                 ? SizedBox(
-                                                    height: 20.sp,
+                                                    height: 30.sp,
                                                     child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
+                                                      mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
                                                         IconButton(
-                                                            onPressed: () {},
+                                                            onPressed: () {
+                                                              CommonHelper.onTapHandler(callback: () {
+                                                                controller.showEditTitle();
+                                                                // an ban phim
+                                                                FocusScope.of(context).unfocus();
+                                                              });
+                                                            },
                                                             icon: Icon(
                                                               Icons.close,
                                                               size: 20.sp,
-                                                              color: ColorResources
-                                                                  .MAIN_APP
-                                                                  .withOpacity(
-                                                                      .5),
+                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
                                                             )),
                                                         IconButton(
-                                                            onPressed: () {},
+                                                            onPressed: () {
+                                                              CommonHelper.onTapHandler(callback: () {
+                                                                controller.showEditTitle();
+                                                                controller.updateTask();
+                                                                FocusScope.of(context).unfocus();
+                                                              });
+                                                            },
                                                             icon: Icon(
                                                               Icons.check,
                                                               size: 22.sp,
-                                                              color: ColorResources
-                                                                  .MAIN_APP
-                                                                  .withOpacity(
-                                                                      .5),
+                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
                                                             )),
                                                       ],
                                                     ),
@@ -168,12 +163,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                     ),
                                     CircleAvatar(
                                       radius: 20.sp,
-                                      backgroundColor:
-                                          ColorResources.GREY.withOpacity(.1),
+                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
                                       child: Icon(
                                         Icons.person_2_rounded,
-                                        color:
-                                            ColorResources.GREY.withOpacity(.5),
+                                        color: ColorResources.GREY.withOpacity(.5),
                                         size: 30.sp,
                                       ),
                                     ),
@@ -182,46 +175,31 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 Gap(15.sp),
                                 _dropdown(),
                                 Gap(25.sp),
-                                InkWell(
-                                  onTap: () {
-                                    Get.dialog(
-                                      _diolog(),
-                                      barrierDismissible: true,
-                                      transitionCurve: Curves.easeInOut,
-                                      useSafeArea: true,
-                                    );
-                                  },
-                                  child: Obx(
-                                    () => AppInput(
-                                      allowEdit: false,
-                                      height: 70.sp,
-                                      controller: controller.decriptionTask,
-                                      autofocus: true,
-                                      colorDisibleBorder:
-                                          Color.fromARGB(255, 11, 196, 199),
-                                      label: "Description".tr,
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorResources.BLACK
-                                              .withOpacity(.4)),
-                                      labelStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: ColorResources.BLACK
-                                              .withOpacity(.7)),
-                                      type: AppInputType.TEXT,
-                                      maxLine: 4,
-                                      hintText: controller.taskModel.value[0]
-                                                  .description ==
-                                              ''
-                                          ? "Add description..."
-                                          : '',
-                                      isBorder: true,
-                                      fontSize: 14.sp,
-                                      fillColor: Colors.transparent,
-                                      borderSide: BorderSide.none,
-                                    ),
+                                Obx(
+                                  () => AppInput(
+                                    onSubmitted: (p0) {
+                                      controller.updateTask();
+                                    },
+                                    height: 70.sp,
+                                    controller: controller.decriptionTask,
+                                    colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                    label: "Description".tr,
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: ColorResources.BLACK.withOpacity(.4)),
+                                    labelStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.7)),
+                                    type: AppInputType.TEXT,
+                                    maxLine: 4,
+                                    hintText:
+                                        controller.taskModel.value[0].description == '' ? "Add description..." : '',
+                                    isBorder: true,
+                                    fontSize: 14.sp,
+                                    fillColor: Colors.transparent,
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                                 Gap(5.sp),
@@ -240,8 +218,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 ),
                                 Gap(25.sp),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     _attachItem(
                                       Icons.camera_enhance_outlined,
@@ -265,7 +242,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 Divider(
                                   color: ColorResources.GREY.withOpacity(.2),
                                 ),
-                                _issueTypeBody(),
+                                _issueTypeBody(context),
                               ],
                             ),
                           ),
@@ -310,7 +287,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
     );
   }
 
-  Widget _issueTypeBody() {
+  Widget _issueTypeBody(BuildContext context) {
     return Column(
       children: [
         Gap(5.sp),
@@ -319,10 +296,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Issue type',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w300,
-                  color: ColorResources.BLACK),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
         ),
@@ -346,10 +320,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Gap(10.sp),
             Text(
               'Task',
-              style: TextStyle(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.BLACK.withOpacity(.5)),
+              style:
+                  TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
             ),
           ],
         ),
@@ -359,38 +331,51 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Assignee',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w300,
-                  color: ColorResources.BLACK),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
         ),
         Gap(5.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 14.sp,
-              backgroundColor: ColorResources.GREY.withOpacity(.1),
-              child: Icon(
-                Icons.person_2_rounded,
-                color: ColorResources.GREY.withOpacity(.5),
-                size: 16.sp,
+        InkWell(
+          onTap: () {
+            showFlexibleBottomSheet(
+              minHeight: 0,
+              initHeight: .4,
+              maxHeight: .4,
+              context: context,
+              builder: _buildBottomSheet,
+              isExpand: false,
+              bottomSheetBorderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-            ),
-            Gap(10.sp),
-            Text(
-              controller.taskModel.value[0].assignee == ""
-                  ? "Unassigned"
-                  : controller.taskModel.value[0].assignee ?? "",
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-                color: ColorResources.BLACK.withOpacity(.5),
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 14.sp,
+                backgroundColor: ColorResources.GREY.withOpacity(.1),
+                child: Icon(
+                  Icons.person_2_rounded,
+                  color: ColorResources.GREY.withOpacity(.5),
+                  size: 16.sp,
+                ),
               ),
-            ),
-          ],
+              Gap(10.sp),
+              Obx(
+                () => Text(
+                  controller.assigneeNameUser.value.isEmpty ? "Unassigned" : controller.assigneeNameUser.value,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.BLACK.withOpacity(.5),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         Gap(15.sp),
         Row(
@@ -398,10 +383,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Labels',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w300,
-                  color: ColorResources.BLACK),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
         ),
@@ -412,10 +394,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'More',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.MAIN_APP),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
         ),
@@ -424,17 +403,11 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           children: [
             Text(
               'Activity:',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.BLACK),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
             ),
             Text(
               'Comments',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.MAIN_APP),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
         ),
@@ -449,14 +422,103 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Gap(20),
             Text(
               'Add comment',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.MAIN_APP),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildBottomSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        controller: scrollController,
+        physics: NeverScrollableScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp),
+          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+            AppInput(
+              height: SizeApp.setSize(percent: .07),
+              controller: controller.searchMember,
+              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+              style:
+                  TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+              labelStyle:
+                  TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+              type: AppInputType.TEXT,
+              maxLine: 1,
+              hintText: "Search members...",
+              isBorder: true,
+              fontSize: 14.sp,
+              fillColor: Colors.transparent,
+              underLine: UnderlineInputBorder(),
+            ),
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: SizeApp.setSize(percent: .35),
+                minHeight: SizeApp.setSize(percent: .1),
+              ),
+              child: ListView.builder(
+                itemCount: controller.listMembers.value.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      controller.assigneeIdUser.value = controller.listMembers.value[index].id!;
+                      controller.updateTask();
+                      Get.back();
+                    },
+                    child: Obx(
+                      () => Container(
+                        padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                        height: SizeApp.setSize(percent: .07),
+                        decoration: BoxDecoration(
+                          // color: ColorResources.WHITE ,
+                          color: controller.listMembers.value[index].id == controller.assigneeIdUser.value
+                              ? ColorResources.MAIN_APP.withOpacity(.2)
+                              : ColorResources.WHITE,
+                          border: Border(
+                            bottom: BorderSide(
+                              color: ColorResources.GREY.withOpacity(.5),
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 14.sp,
+                              backgroundColor: ColorResources.GREY.withOpacity(.1),
+                              child: Icon(
+                                Icons.person_2_rounded,
+                                color: ColorResources.GREY.withOpacity(.5),
+                                size: 16.sp,
+                              ),
+                            ),
+                            Gap(10.sp),
+                            Text(
+                              controller.listMembers.value[index].full_name ?? "",
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: ColorResources.BLACK.withOpacity(.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          ]),
+        ),
+      ),
     );
   }
 
@@ -485,27 +547,25 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           () => AppropDownButton<String>(
             iconDropdown: Icon(
               Icons.arrow_drop_down_outlined,
-              color: controller.dataFilter.value == "TO DO"
-                  ? ColorResources.BLACK.withOpacity(.5)
-                  : ColorResources.WHITE,
+              color:
+                  controller.dataFilter.value == "To Do" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
             ),
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
-              color: controller.dataFilter.value == "TO DO"
-                  ? ColorResources.BLACK.withOpacity(.5)
-                  : ColorResources.WHITE,
+              color:
+                  controller.dataFilter.value == "To Do" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
             ),
             borderRadius: SizeApp.RADIUS_2X,
             height: SizeApp.setSize(percent: .05),
-            backgroundColor: controller.dataFilter.value == "TO DO"
+            backgroundColor: controller.dataFilter.value == "To Do"
                 ? ColorResources.GREY.withOpacity(.1)
-                : controller.dataFilter.value == "IN PROGRESS"
+                : controller.dataFilter.value == "In Progress"
                     ? ColorResources.MAIN_APP
-                    : controller.dataFilter.value == "DONE"
+                    : controller.dataFilter.value == "Done"
                         ? Color.fromARGB(255, 6, 135, 111)
                         : ColorResources.GREY.withOpacity(.1),
-            width: controller.dataFilter.value == "IN PROGRESS"
+            width: controller.dataFilter.value == "In Progress"
                 ? SizeApp.setSizeWithWidth(percent: .4)
                 : SizeApp.setSizeWithWidth(percent: .3),
             value: controller.dataFilter.value,
@@ -519,19 +579,6 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _diolog() {
-    return DiologApp(
-      inputController: controller.decriptionTask,
-      onTap: () {
-        controller.updateDecriptTask();
-        Get.back();
-      },
-      title: 'Add Column',
-      nameButtonLeft: 'Add',
-      nameButtonRight: 'Cancel',
     );
   }
 

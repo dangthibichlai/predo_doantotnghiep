@@ -9,6 +9,7 @@ class EndPoints {
   static const String project = "/projects/get-by-user";
   static const String boards = "/boards";
   static const String tasks = "/tasks";
+  static const String notifications = "/notifications";
   // Auth
   static const String signInWithEmail = '/auth/sign-in';
   static const String signInSocial = '/auth/sign-in-social';

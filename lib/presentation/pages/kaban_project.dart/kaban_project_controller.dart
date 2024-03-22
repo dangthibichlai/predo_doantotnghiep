@@ -1,4 +1,4 @@
-// ignore_for_file: use_setters_to_change_properties
+// ignore_for_file: use_setters_to_change_properties, invalid_use_of_protected_member
 
 import 'dart:developer';
 
@@ -10,7 +10,7 @@ import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
 import 'package:test_intern/repositories/board_repository.dart';
-import 'package:test_intern/repositories/task_repository.dart';
+import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class KabanProjectController extends GetxController {
@@ -117,7 +117,7 @@ class KabanProjectController extends GetxController {
   }
 
   void routerTaskDetail(String id) {
-    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id});
+    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id, 'listBoard': listBorad.value});
   }
 
   void onChangeTabBar(int index) {

@@ -60,6 +60,34 @@ class TaskReponsitory {
     }
   }
 
+  Future<void> findTaskAssgnee(
+    String assgneee, {
+    String? filter,
+    required Function(List<TaskModel> event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    String _uri = '${EndPoints.tasks}?assignee=$assgneee';
+    late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as List<dynamic>;
+      log('Task assignee: $results');
+      onSuccess(results.map((e) => TaskModel.fromJson(e as Map<String, dynamic>)).toList());
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
   Future<void> add({
     required TaskModel data,
     required Function(TaskModel event) onSuccess,

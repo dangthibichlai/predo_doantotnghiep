@@ -5,11 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_intern/repositories/auth_repositories.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
-import 'package:test_intern/repositories/task_repository.dart';
+import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/services/dio/dio_client.dart';
 import 'package:test_intern/services/dio/logging_interceptor.dart';
 import 'package:test_intern/services/share_preference._helper.dart';
 import 'package:test_intern/services/social_auth/social_auth_service.dart';
+
+import '../repositories/exception/notification_reponsitory.dart';
 
 final sl = GetIt.instance;
 
@@ -19,6 +21,7 @@ Future<void> init() async {
   sl.registerSingleton<SharedPreferenceHelper>(SharedPreferenceHelper(sharedPreferences));
   sl.registerSingleton<LoggingInterceptor>(LoggingInterceptor());
   sl.registerSingleton<DioClient>(DioClient());
+  sl.registerLazySingleton<NotificationRepository>(() => NotificationRepository());
   sl.registerLazySingleton<SocialAuthService>(() => SocialAuthService());
   sl.registerLazySingleton<AuthRepository>(() => AuthRepository());
   sl.registerLazySingleton<ProjectReponsitory>(() => ProjectReponsitory());
