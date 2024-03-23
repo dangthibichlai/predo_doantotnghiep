@@ -9,6 +9,7 @@ import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
+import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -106,6 +107,7 @@ class KabanProjectController extends GetxController {
         await getProject(idProject);
         listBorad.refresh();
         update();
+        Get.find<PanelController>().onInit();
       },
       onError: (e) {
         EasyLoading.dismiss();
@@ -117,7 +119,7 @@ class KabanProjectController extends GetxController {
   }
 
   void routerTaskDetail(String id) {
-    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id, 'listBoard': listBorad.value});
+    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id});
   }
 
   void onChangeTabBar(int index) {
@@ -141,7 +143,7 @@ class KabanProjectController extends GetxController {
               boardId: idBoard,
               title: nameColumn.text,
               issueType: IssueType.USER_STORY,
-              createdAt: DateTime.now().toString(),
+              createdAt: DateTime.now(),
               key: "Test",
             ),
           );

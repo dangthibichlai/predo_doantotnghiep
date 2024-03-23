@@ -7,6 +7,7 @@ import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -23,13 +24,16 @@ class TaskDetailController extends GetxController {
 
   TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
   ProjectReponsitory _projectReponsitory = GetIt.I.get<ProjectReponsitory>();
+  BoardRepository _boardReponsitory = GetIt.I.get<BoardRepository>();
+
   RxList taskModel = <TaskModel>[].obs;
   RxList listMembers = <AuthModel>[].obs;
   RxList listBoard = <BoardModel>[].obs;
   String idUser = '';
 
   String idTask = Get.arguments['idTask'];
-
+  RxString idProject = ''.obs;
+  RxString idBoard = ''.obs;
   RxBool isLoading = true.obs;
   RxBool isEditTitle = false.obs;
 
@@ -37,11 +41,9 @@ class TaskDetailController extends GetxController {
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     idTask = Get.arguments['idTask'];
-    listBoard.value = Get.arguments['listBoard'];
     await getTaskDetail();
-    featchData();
     await getMembers();
-
+    await featchData();
     super.onInit();
   }
 
@@ -50,18 +52,24 @@ class TaskDetailController extends GetxController {
     super.dispose();
   }
 
-  void featchData() {
-    for (var item in listBoard) {
-      filterData.add(item.name);
-    }
-    dataFilter.value = filterData[0];
+  Future<void> featchData() async {
+    await _taskReponsitory.findBoard(idTask, onSuccess: (data) async {
+      idProject.value = data;
+      _boardReponsitory.find(idProject.value, onSuccess: (data) {
+        listBoard.value = data;
+        listBoard.refresh();
+        for (var item in listBoard) {
+          filterData.add(item.name);
+        }
+        dataFilter.value = filterData[0];
+      }, onError: (error) {});
+    }, onError: (error) {});
   }
 
   Future<void> getMembers() async {
     await _projectReponsitory.findProjectID(
       idUser,
       onSuccess: (data) {
-        // lay
         listMembers.value.addAll(data);
         listMembers.refresh();
         assigneeNameUser.value = listMembers.where((element) => element.id == assigneeIdUser.value).first.full_name;
@@ -85,6 +93,7 @@ class TaskDetailController extends GetxController {
         assignee: assigneeIdUser.value,
       ),
       onSuccess: (data) async {
+        idBoard.value = taskModel[0].boardId;
         await getTaskDetail();
         await getMembers();
       },
