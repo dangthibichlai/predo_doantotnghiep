@@ -35,9 +35,9 @@ Future<void> main() async {
   // Get device token.
   final String? _deviceToken = await messaging.getToken();
 
+  di.sl<SharedPreferenceHelper>().setTokenDevice(_deviceToken.toString());
   log('Device id: $_deviceToken');
 
-  di.sl<SharedPreferenceHelper>().setTokenDevice(_deviceToken.toString());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //set màu cho thanh điều hướng  tệp vào màu appBar mà bạn muốn
     statusBarColor: ColorResources.BGAPP,

@@ -3,6 +3,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/pages/notification/notification_controller.dart';
+import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';
 
 class DashboardBingding extends Bindings {
@@ -12,5 +13,6 @@ class DashboardBingding extends Bindings {
     Get.lazyPut<ProjectController>(() => ProjectController());
     Get.lazyPut<NotificationController>(() => NotificationController());
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<PanelController>(() => PanelController());
   }
 }

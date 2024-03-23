@@ -126,11 +126,14 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style:
-                  TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7))),
+          SizedBox(
+            width: SizeApp.getMaxWidth(),
+            child: Text(title,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7))),
+          ),
           Gap(20),
           Row(
             children: [

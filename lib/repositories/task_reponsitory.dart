@@ -32,6 +32,34 @@ class TaskReponsitory {
     }
   }
 
+  Future<void> findTaskBoard(
+    String id, {
+    String? filter,
+    required Function(TaskModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    String _uri = '${EndPoints.tasks}/$id?populate=boardId.projectId.members.userId';
+    late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as Map<String, dynamic>;
+      log('Task update: $results');
+      onSuccess(TaskModel.fromJson(results));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
   Future<void> find(
     String id, {
     String? filter,
@@ -55,6 +83,34 @@ class TaskReponsitory {
       final results = response.data as Map<String, dynamic>;
       log('Task update: $results');
       onSuccess(TaskModel.fromJson(results));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> findBoard(
+    String id, {
+    String? filter,
+    required Function(String projectId) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    String _uri = '${EndPoints.tasks}/$id?populate=boardId';
+    late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final data = response.data;
+
+      onSuccess(data[0]['boardId']['projectId']);
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }

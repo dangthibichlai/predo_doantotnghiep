@@ -14,8 +14,8 @@ class TaskModel {
   IssueType? issueType;
   bool? isDelete;
   List<dynamic>? activities;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   TaskModel({
     this.id,
@@ -42,8 +42,8 @@ class TaskModel {
     String? parent,
     bool? isDelete,
     List<dynamic>? activities,
-    String? createdAt,
-    String? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     IssueType? issueType,
   }) {
     return TaskModel(
@@ -89,8 +89,8 @@ class TaskModel {
       parent: json['parent'] as String?,
       issueType: issueTypeValues.map[json['issueType']],
       activities: json['activities'] as List<dynamic>?,
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'].toString()).toLocal() : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'].toString()).toLocal() : null,
     );
   }
 

@@ -93,24 +93,15 @@ mixin AppDate {
   }) {
     String? _result;
 
-    if (isShowOnFirst) {
+    if (isShowOnFirst || createAtNow.difference(createAtBefore).inMinutes >= 30) {
       _result = DateFormat('yMd', sl<SharedPreferenceHelper>().getLocale).add_jm().format(createAtNow);
 
-      // If today.
-      if (DateTime.now().compareTo(DateTime.now()) == 0) {
+      // Check if createAtNow is today
+      if (DateTime.now().day == createAtNow.day &&
+          DateTime.now().month == createAtNow.month &&
+          DateTime.now().year == createAtNow.year) {
         _result = _result.replaceAll(_result.split(' ').first, 'Today');
       }
-      return _result;
-    }
-
-    if (createAtNow.difference(createAtBefore).inMinutes >= 30) {
-      _result = DateFormat('yMd', sl<SharedPreferenceHelper>().getLocale).add_jm().format(createAtNow);
-
-      // If today.
-      if (DateTime.now().compareTo(DateTime.now()) == 0) {
-        _result = _result.replaceAll(_result.split(' ').first, 'Today');
-      }
-      return _result;
     }
 
     return _result;
