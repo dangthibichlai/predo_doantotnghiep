@@ -19,6 +19,7 @@ class KabanProjectController extends GetxController {
   String nameProject = Get.arguments['nameProject'];
   String nameProjectItem = Get.arguments['nameProject'];
   String idProjectItem = Get.arguments['idProject'];
+  String keyProjectItem = Get.arguments['keyProject'];
 
   final RefreshController refreshController = RefreshController();
   RxInt currentIndexTab = 0.obs;
@@ -177,7 +178,9 @@ class KabanProjectController extends GetxController {
       DiologApp(
         title: 'Column limit'.tr,
         nameButtonLeft: 'Save'.tr,
-        content: 'We\'ll highlight this column if the number of issue passes this limit.'.tr,
+        content:
+            'We\'ll highlight this column if the number of issue passes this limit.'
+                .tr,
         inputController: nolimitColumn,
         onTap: () {
           // onTap rename
@@ -190,6 +193,10 @@ class KabanProjectController extends GetxController {
   }
 
   void changPageDetail() {
-    Get.toNamed(HomeRouter.SETTINGDETAIL);
+    Get.toNamed(HomeRouter.SETTINGDETAIL, arguments: {
+      'nameProject': nameProject,
+      'keyProject': keyProjectItem,
+      'idProject': idProject
+    });
   }
 }

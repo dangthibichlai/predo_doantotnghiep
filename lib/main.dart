@@ -1,10 +1,10 @@
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:test_intern/app-binding.dart';
 import 'package:test_intern/firebase_options.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -12,8 +12,8 @@ import 'package:test_intern/routers/app-router.dart';
 import 'package:test_intern/routers/auth_router.dart';
 import 'package:test_intern/services/notification_services/firebase_service.dart';
 import 'package:timeago/timeago.dart' as time_ago;
+
 import '../../resources/di_container.dart' as di;
-import 'package:firebase_core/firebase_core.dart';
 
 DateTime? now;
 
