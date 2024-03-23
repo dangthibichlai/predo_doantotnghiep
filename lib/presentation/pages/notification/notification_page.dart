@@ -14,7 +14,7 @@ class NotificationPage extends GetView<NotificationController> {
     // set màu thanh app bar
 
     return Scaffold(
-      body: bodyEmpty(),
+      body: controller.notification.length < 1 ? bodyEmpty() : bodyItem(),
     );
   }
 

@@ -554,7 +554,7 @@ class _IZIInputState extends State<AppInput> {
                 radius: widget.borderRadius ?? SizeApp.RADIUS_2X,
               )),
           width: AppInputType.INCREMENT == widget.type ? widget.width ?? SizeApp.setSize(percent: 0.1) : null,
-          height: widget.miniSize ? 50 : widget.height,
+          height: widget.miniSize ? 30 : widget.height,
           child: TextFormField(
             readOnly: widget.isReadOnly!,
             autofocus: widget.autofocus ?? false,
@@ -613,11 +613,11 @@ class _IZIInputState extends State<AppInput> {
                         fontWeight: FontWeight.normal,
                       ),
               contentPadding: widget.miniSize
-                  ? const EdgeInsets.all(10)
+                  ? const EdgeInsets.all(5)
                   : widget.contentPaddingIncrement ??
                       SizeApp.setEdgeInsetsSymmetric(
-                        vertical: SizeApp.SPACE_2X,
-                        horizontal: SizeApp.SPACE_2X,
+                        vertical: SizeApp.SPACE_1X,
+                        horizontal: SizeApp.SPACE_1X,
                       ),
               isDense: true,
               labelText: widget.isLegend == true ? widget.label : null,

@@ -1,5 +1,8 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:developer';
+
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/core/hepler/app_dropdown.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
@@ -12,190 +15,279 @@ class TaskDetailPage extends GetView<TaskDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.WHITE,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: SafeArea(
-              child: Column(
-                children: [
-                  _header(),
-                  Expanded(child: _body()),
-                ],
+      body: Obx(
+        () {
+          if (controller.isLoading.value) {
+            return Center(
+              child: LoadingApp(
+                titleLoading: 'diy_001'.tr,
               ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: ColorResources.WHITE,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorResources.GREY.withOpacity(.5),
-                    spreadRadius: 1,
-                    blurRadius: 2,
+            );
+          }
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      _header(),
+                      Expanded(
+                          child: Obx(
+                        () => SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 35.0,
+                              bottom: 70.sp,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: ColorResources.GREEN,
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
+                                      height: 16.sp,
+                                      width: 16.sp,
+                                      child: Icon(
+                                        Icons.bookmark_outlined,
+                                        color: ColorResources.WHITE,
+                                        size: 12.sp,
+                                      ),
+                                    ),
+                                    Gap(10.sp),
+                                    Text(
+                                      controller.taskModel.value[0].key ?? "",
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                    ),
+                                  ],
+                                ),
+                                Gap(5.sp),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              CommonHelper.onTapHandler(callback: () {
+                                                controller.showEditTitle();
+                                              });
+                                            },
+                                            child: AppInput(
+                                              controller: controller.titleTask,
+                                              onSubmitted: (p0) {
+                                                controller.updateTask();
+                                              },
+                                              onTap: () {
+                                                CommonHelper.onTapHandler(callback: () {
+                                                  controller.showEditTitle();
+                                                });
+                                              },
+                                              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: ColorResources.BLACK.withOpacity(.4)),
+                                              labelStyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: ColorResources.BLACK.withOpacity(.7)),
+                                              type: AppInputType.TEXT,
+                                              maxLine: 1,
+                                              hintText: controller.taskModel.value[0].title,
+                                              isBorder: true,
+                                              fontSize: 14.sp,
+                                              fillColor: Colors.transparent,
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                          Obx(() {
+                                            return controller.isEditTitle.value
+                                                ? Padding(
+                                                    padding: EdgeInsets.only(right: 5.sp),
+                                                    child: Divider(
+                                                      height: 1,
+                                                      color: ColorResources.MAIN_APP.withOpacity(.2),
+                                                    ),
+                                                  )
+                                                : SizedBox();
+                                          }),
+                                          Obx(
+                                            () => controller.isEditTitle.value
+                                                ? SizedBox(
+                                                    height: 30.sp,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              CommonHelper.onTapHandler(callback: () {
+                                                                controller.showEditTitle();
+                                                                // an ban phim
+                                                                FocusScope.of(context).unfocus();
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.close,
+                                                              size: 20.sp,
+                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
+                                                            )),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              CommonHelper.onTapHandler(callback: () {
+                                                                controller.showEditTitle();
+                                                                controller.updateTask();
+                                                                FocusScope.of(context).unfocus();
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.check,
+                                                              size: 22.sp,
+                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    CircleAvatar(
+                                      radius: 20.sp,
+                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
+                                      child: Icon(
+                                        Icons.person_2_rounded,
+                                        color: ColorResources.GREY.withOpacity(.5),
+                                        size: 30.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Gap(15.sp),
+                                _dropdown(),
+                                Gap(25.sp),
+                                Obx(
+                                  () => AppInput(
+                                    onSubmitted: (p0) {
+                                      controller.updateTask();
+                                    },
+                                    height: 70.sp,
+                                    controller: controller.decriptionTask,
+                                    colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                    label: "Description".tr,
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: ColorResources.BLACK.withOpacity(.4)),
+                                    labelStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.7)),
+                                    type: AppInputType.TEXT,
+                                    maxLine: 4,
+                                    hintText:
+                                        controller.taskModel.value[0].description == '' ? "Add description..." : '',
+                                    isBorder: true,
+                                    fontSize: 14.sp,
+                                    fillColor: Colors.transparent,
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                Gap(5.sp),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Attachment",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.sp,
+                                        color: ColorResources.BLACK,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Gap(25.sp),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _attachItem(
+                                      Icons.camera_enhance_outlined,
+                                      "Take photo",
+                                    ),
+                                    _attachItem(
+                                      Icons.camera_alt,
+                                      "Record video",
+                                    ),
+                                    _attachItem(
+                                      Icons.file_copy_outlined,
+                                      "Choose file",
+                                    ),
+                                    _attachItem(
+                                      Icons.radio_button_checked,
+                                      "Record sreen",
+                                    )
+                                  ],
+                                ),
+                                Gap(20.sp),
+                                Divider(
+                                  color: ColorResources.GREY.withOpacity(.2),
+                                ),
+                                _issueTypeBody(context),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                    ],
                   ),
-                ],
+                ),
               ),
-              child: AppInput(
-                hintText: "Add comment",
-                height: 60.sp,
-                controller: controller.commentTask,
-                autofocus: true,
-                colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                type: AppInputType.TEXT,
-                maxLine: 1,
-                isBorder: true,
-                fontSize: 14.sp,
-                fillColor: Colors.transparent,
-                borderSide: BorderSide.none,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 15.0,
-          right: 15.0,
-          top: 35.0,
-          bottom: 70.sp,
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  alignment: Alignment.center,
+              Positioned(
+                bottom: 0,
+                child: Container(
                   decoration: BoxDecoration(
-                    color: ColorResources.GREEN,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  height: 16.sp,
-                  width: 16.sp,
-                  child: Icon(
-                    Icons.bookmark_outlined,
                     color: ColorResources.WHITE,
-                    size: 12.sp,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorResources.GREY.withOpacity(.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: AppInput(
+                    hintText: "Add comment",
+                    height: 60.sp,
+                    controller: controller.commentTask,
+                    autofocus: false,
+                    colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                    type: AppInputType.TEXT,
+                    maxLine: 1,
+                    isBorder: true,
+                    fontSize: 14.sp,
+                    fillColor: Colors.transparent,
+                    borderSide: BorderSide.none,
                   ),
                 ),
-                Gap(10.sp),
-                Text(
-                  'KAN-1',
-                  style: TextStyle(
-                      fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
-                ),
-              ],
-            ),
-            Gap(5.sp),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Do An Tot Nghiep',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                CircleAvatar(
-                  radius: 20.sp,
-                  backgroundColor: ColorResources.GREY.withOpacity(.1),
-                  child: Icon(
-                    Icons.person_2_rounded,
-                    color: ColorResources.GREY.withOpacity(.5),
-                    size: 30.sp,
-                  ),
-                ),
-              ],
-            ),
-            Gap(15.sp),
-            _dropdown(),
-            Gap(25.sp),
-            InkWell(
-              onTap: () {
-                Get.dialog(
-                  _diolog(),
-                  barrierDismissible: true,
-                  // barrierColor: ColorResources.BG_DOL.withOpacity(.5),
-                  transitionCurve: Curves.easeInOut,
-                  useSafeArea: true,
-                  // barrierLabel: 'barrierLabel',
-                  // routeSettings: RouteSettings(name: 'routeSettings'),
-                );
-              },
-              child: AppInput(
-                allowEdit: false,
-                height: 70.sp,
-                controller: controller.decriptionTask,
-                autofocus: true,
-                colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                label: "Description".tr,
-                style: TextStyle(
-                    fontSize: 10.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.4)),
-                labelStyle: TextStyle(
-                    fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
-                type: AppInputType.TEXT,
-                maxLine: 4,
-                isBorder: true,
-                fontSize: 14.sp,
-                fillColor: Colors.transparent,
-                borderSide: BorderSide.none,
-              ),
-            ),
-            Gap(5.sp),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Attachment",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.sp,
-                    color: ColorResources.BLACK,
-                  ),
-                ),
-              ],
-            ),
-            Gap(25.sp),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _attachItem(
-                  Icons.camera_enhance_outlined,
-                  "Take photo",
-                ),
-                _attachItem(
-                  Icons.camera_alt,
-                  "Record video",
-                ),
-                _attachItem(
-                  Icons.file_copy_outlined,
-                  "Choose file",
-                ),
-                _attachItem(
-                  Icons.radio_button_checked,
-                  "Record sreen",
-                )
-              ],
-            ),
-            Gap(20.sp),
-            Divider(
-              color: ColorResources.GREY.withOpacity(.2),
-            ),
-            _issueTypeBody(),
-          ],
-        ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _issueTypeBody() {
+  Widget _issueTypeBody(BuildContext context) {
     return Column(
       children: [
         Gap(5.sp),
@@ -244,27 +336,46 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ],
         ),
         Gap(5.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 14.sp,
-              backgroundColor: ColorResources.GREY.withOpacity(.1),
-              child: Icon(
-                Icons.person_2_rounded,
-                color: ColorResources.GREY.withOpacity(.5),
-                size: 16.sp,
+        InkWell(
+          onTap: () {
+            showFlexibleBottomSheet(
+              minHeight: 0,
+              initHeight: .4,
+              maxHeight: .4,
+              context: context,
+              builder: _buildBottomSheet,
+              isExpand: false,
+              bottomSheetBorderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-            ),
-            Gap(10.sp),
-            Text(
-              'Đặng Thị Bích Lài',
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 14.sp,
+                backgroundColor: ColorResources.GREY.withOpacity(.1),
+                child: Icon(
+                  Icons.person_2_rounded,
+                  color: ColorResources.GREY.withOpacity(.5),
+                  size: 16.sp,
+                ),
               ),
-            ),
-          ],
+              Gap(10.sp),
+              Obx(
+                () => Text(
+                  controller.assigneeNameUser.value.isEmpty ? "Unassigned" : controller.assigneeNameUser.value,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.BLACK.withOpacity(.5),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         Gap(15.sp),
         Row(
@@ -277,38 +388,6 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ],
         ),
         Gap(35.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Report',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
-            ),
-          ],
-        ),
-        Gap(5.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 14.sp,
-              backgroundColor: ColorResources.GREY.withOpacity(.1),
-              child: Icon(
-                Icons.person_2_rounded,
-                color: ColorResources.GREY.withOpacity(.5),
-                size: 16.sp,
-              ),
-            ),
-            Gap(10.sp),
-            Text(
-              'Bùi Nguyễn Nhật Tân',
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
         Gap(15.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -351,6 +430,98 @@ class TaskDetailPage extends GetView<TaskDetailController> {
     );
   }
 
+  Widget _buildBottomSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        controller: scrollController,
+        physics: NeverScrollableScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp),
+          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+            AppInput(
+              height: SizeApp.setSize(percent: .07),
+              controller: controller.searchMember,
+              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+              style:
+                  TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+              labelStyle:
+                  TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+              type: AppInputType.TEXT,
+              maxLine: 1,
+              hintText: "Search members...",
+              isBorder: true,
+              fontSize: 14.sp,
+              fillColor: Colors.transparent,
+              underLine: UnderlineInputBorder(),
+            ),
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: SizeApp.setSize(percent: .35),
+                minHeight: SizeApp.setSize(percent: .1),
+              ),
+              child: ListView.builder(
+                itemCount: controller.listMembers.value.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      controller.assigneeIdUser.value = controller.listMembers.value[index].id!;
+                      controller.updateTask();
+                      Get.back();
+                    },
+                    child: Obx(
+                      () => Container(
+                        padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                        height: SizeApp.setSize(percent: .07),
+                        decoration: BoxDecoration(
+                          // color: ColorResources.WHITE ,
+                          color: controller.listMembers.value[index].id == controller.assigneeIdUser.value
+                              ? ColorResources.MAIN_APP.withOpacity(.2)
+                              : ColorResources.WHITE,
+                          border: Border(
+                            bottom: BorderSide(
+                              color: ColorResources.GREY.withOpacity(.5),
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 14.sp,
+                              backgroundColor: ColorResources.GREY.withOpacity(.1),
+                              child: Icon(
+                                Icons.person_2_rounded,
+                                color: ColorResources.GREY.withOpacity(.5),
+                                size: 16.sp,
+                              ),
+                            ),
+                            Gap(10.sp),
+                            Text(
+                              controller.listMembers.value[index].full_name ?? "",
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: ColorResources.BLACK.withOpacity(.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+
   Widget _attachItem(IconData icon, String title) {
     return SizedBox(
       width: SizeApp.setSizeWithWidth(percent: .2),
@@ -377,24 +548,24 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             iconDropdown: Icon(
               Icons.arrow_drop_down_outlined,
               color:
-                  controller.dataFilter.value == "TO DO" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
+                  controller.dataFilter.value == "To Do" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
             ),
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               color:
-                  controller.dataFilter.value == "TO DO" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
+                  controller.dataFilter.value == "To Do" ? ColorResources.BLACK.withOpacity(.5) : ColorResources.WHITE,
             ),
             borderRadius: SizeApp.RADIUS_2X,
             height: SizeApp.setSize(percent: .05),
-            backgroundColor: controller.dataFilter.value == "TO DO"
+            backgroundColor: controller.dataFilter.value == "To Do"
                 ? ColorResources.GREY.withOpacity(.1)
-                : controller.dataFilter.value == "IN PROGRESS"
+                : controller.dataFilter.value == "In Progress"
                     ? ColorResources.MAIN_APP
-                    : controller.dataFilter.value == "DONE"
+                    : controller.dataFilter.value == "Done"
                         ? Color.fromARGB(255, 6, 135, 111)
                         : ColorResources.GREY.withOpacity(.1),
-            width: controller.dataFilter.value == "IN PROGRESS"
+            width: controller.dataFilter.value == "In Progress"
                 ? SizeApp.setSizeWithWidth(percent: .4)
                 : SizeApp.setSizeWithWidth(percent: .3),
             value: controller.dataFilter.value,
@@ -408,16 +579,6 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _diolog() {
-    return DiologApp(
-      inputController: controller.decriptionTask,
-      onTap: () {},
-      title: 'Add Column',
-      nameButtonLeft: 'Add',
-      nameButtonRight: 'Cancel',
     );
   }
 

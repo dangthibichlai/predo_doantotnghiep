@@ -11,7 +11,8 @@ import 'package:tiengviet/tiengviet.dart';
 class CreateProjectController extends GetxController {
   TextEditingController nameProjectController = TextEditingController();
   RxString keyProjectController = ''.obs;
-  final ProjectReponsitory _projectRepository = GetIt.I.get<ProjectReponsitory>();
+  final ProjectReponsitory _projectRepository =
+      GetIt.I.get<ProjectReponsitory>();
   RxBool isShowErrorr = false.obs;
 
   @override
@@ -20,7 +21,8 @@ class CreateProjectController extends GetxController {
   }
 
   bool checkInput() {
-    if (nameProjectController.text.isEmpty || nameProjectController.text.length < 4) {
+    if (nameProjectController.text.isEmpty ||
+        nameProjectController.text.length < 4) {
       isShowErrorr.value = true;
       return false;
     }
@@ -44,7 +46,11 @@ class CreateProjectController extends GetxController {
         Get.find<ProjectController>().getProject();
         AppAlert().success(message: 'Add success'.tr);
         EasyLoading.dismiss();
-        Get.offNamed(HomeRouter.KABANPROJECT, arguments: {'idProject': data.id, 'nameProject': data.name});
+        Get.offNamed(HomeRouter.KABANPROJECT, arguments: {
+          'idProject': data.id,
+          'nameProject': data.name,
+          'keyProject': data.key
+        });
       },
       onError: (onError) {
         EasyLoading.dismiss();
@@ -55,8 +61,9 @@ class CreateProjectController extends GetxController {
   void onNameFieldSubmitted(String value) {
     keyProjectController.value = "";
     // lấy 3 ký tự đầu tiên của tên dự án
-    keyProjectController.value =
-        TiengViet.parse(value.substring(0, 3)).replaceAll(RegExp(r'[^a-zA-Z0-9]'), '').toUpperCase();
+    keyProjectController.value = TiengViet.parse(value.substring(0, 3))
+        .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')
+        .toUpperCase();
   }
 
   @override

@@ -1,4 +1,4 @@
-// ignore_for_file: use_setters_to_change_properties
+// ignore_for_file: use_setters_to_change_properties, invalid_use_of_protected_member
 
 import 'dart:developer';
 
@@ -9,8 +9,9 @@ import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
+import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
-import 'package:test_intern/repositories/task_repository.dart';
+import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class KabanProjectController extends GetxController {
@@ -18,6 +19,7 @@ class KabanProjectController extends GetxController {
   String nameProject = Get.arguments['nameProject'];
   String nameProjectItem = Get.arguments['nameProject'];
   String idProjectItem = Get.arguments['idProject'];
+  String keyProjectItem = Get.arguments['keyProject'];
 
   final RefreshController refreshController = RefreshController();
   RxInt currentIndexTab = 0.obs;
@@ -106,6 +108,7 @@ class KabanProjectController extends GetxController {
         await getProject(idProject);
         listBorad.refresh();
         update();
+        Get.find<PanelController>().onInit();
       },
       onError: (e) {
         EasyLoading.dismiss();
@@ -117,7 +120,7 @@ class KabanProjectController extends GetxController {
   }
 
   void routerTaskDetail(String id) {
-    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'id': id});
+    Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id});
   }
 
   void onChangeTabBar(int index) {
@@ -141,7 +144,7 @@ class KabanProjectController extends GetxController {
               boardId: idBoard,
               title: nameColumn.text,
               issueType: IssueType.USER_STORY,
-              createdAt: DateTime.now().toString(),
+              createdAt: DateTime.now(),
               key: "Test",
             ),
           );
@@ -175,7 +178,9 @@ class KabanProjectController extends GetxController {
       DiologApp(
         title: 'Column limit'.tr,
         nameButtonLeft: 'Save'.tr,
-        content: 'We\'ll highlight this column if the number of issue passes this limit.'.tr,
+        content:
+            'We\'ll highlight this column if the number of issue passes this limit.'
+                .tr,
         inputController: nolimitColumn,
         onTap: () {
           // onTap rename
@@ -188,6 +193,10 @@ class KabanProjectController extends GetxController {
   }
 
   void changPageDetail() {
-    Get.toNamed(HomeRouter.SETTINGDETAIL);
+    Get.toNamed(HomeRouter.SETTINGDETAIL, arguments: {
+      'nameProject': nameProject,
+      'keyProject': keyProjectItem,
+      'idProject': idProject
+    });
   }
 }

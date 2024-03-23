@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
@@ -73,12 +75,16 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
               child: RichText(
                 text: TextSpan(
                   text: widget.label,
-                  style: widget.labelStyle ?? Theme.of(context).textTheme.labelMedium,
+                  style: widget.labelStyle ??
+                      Theme.of(context).textTheme.labelMedium,
                   children: [
                     if (widget.isRequired!)
                       TextSpan(
                           text: ' *',
-                          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: ColorResources.RED))
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(color: ColorResources.RED))
                     else
                       const TextSpan(),
                   ],
@@ -95,29 +101,37 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                   decoration: InputDecoration(
                     contentPadding: widget.margin ?? EdgeInsets.zero,
                     border: OutlineInputBorder(
-                      borderRadius: SizeApp.setBorderRadiusAll(radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
+                      borderRadius: SizeApp.setBorderRadiusAll(
+                          radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: widget.colorBorder ?? ColorResources.WHITE.withOpacity(.3),
+                        color: widget.colorBorder ??
+                            ColorResources.WHITE.withOpacity(.3),
                       ),
-                      borderRadius: SizeApp.setBorderRadiusAll(radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
+                      borderRadius: SizeApp.setBorderRadiusAll(
+                          radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: widget.colorBorder ?? ColorResources.WHITE.withOpacity(.3),
+                        color: widget.colorBorder ??
+                            ColorResources.WHITE.withOpacity(.3),
                       ),
-                      borderRadius: SizeApp.setBorderRadiusAll(radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
+                      borderRadius: SizeApp.setBorderRadiusAll(
+                          radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: widget.colorBorder ?? ColorResources.WHITE.withOpacity(.3),
+                        color: widget.colorBorder ??
+                            ColorResources.WHITE.withOpacity(.3),
                       ),
-                      borderRadius: SizeApp.setBorderRadiusAll(radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
+                      borderRadius: SizeApp.setBorderRadiusAll(
+                          radius: widget.borderRadius ?? SizeApp.RADIUS_MEDIUM),
                     ),
                     isDense: true,
                     filled: true,
-                    fillColor: widget.backgroundColor ?? ColorResources.PRIMARY_1,
+                    fillColor:
+                        widget.backgroundColor ?? ColorResources.PRIMARY_1,
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<T>(
@@ -148,7 +162,10 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                                   child: Text(
                                     e.toString(),
                                     style: widget.style ??
-                                        Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
                                               color: ColorResources.BLACK,
                                             ),
                                     maxLines: 1,
@@ -159,7 +176,8 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                             )
                             .toList();
                       },
-                      style: widget.textStyleValue ?? Theme.of(context).textTheme.displayLarge,
+                      style: widget.textStyleValue ??
+                          Theme.of(context).textTheme.displayLarge,
                       alignment: Alignment.center,
                       onChanged: widget.isEnable!
                           ? (val) {
@@ -169,7 +187,8 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                       items: widget.data
                           ?.map(
                             (e) => DropdownMenuItem<T>(
-                              alignment: widget.alignmentText ?? Alignment.centerLeft,
+                              alignment:
+                                  widget.alignmentText ?? Alignment.centerLeft,
                               value: e,
                               child: widget.prefixWidget != null
                                   ? widget.prefixWidget!(e)
@@ -179,13 +198,21 @@ class _AppIDropDownButtonState<T> extends State<AppropDownButton<T>> {
                                         textAlign: TextAlign.center,
                                         maxLines: 3,
                                         style: widget.textStyleValue ??
-                                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                  color: widget.value.hashCode == e.hashCode
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: widget
+                                                              .value.hashCode ==
+                                                          e.hashCode
                                                       ? ColorResources.PRIMARY_1
-                                                      : ColorResources.OUTER_SPACE,
-                                                  fontWeight: widget.value.hashCode == e.hashCode
-                                                      ? FontWeight.w600
-                                                      : FontWeight.w400,
+                                                      : ColorResources
+                                                          .OUTER_SPACE,
+                                                  fontWeight:
+                                                      widget.value.hashCode ==
+                                                              e.hashCode
+                                                          ? FontWeight.w600
+                                                          : FontWeight.w400,
                                                 ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
