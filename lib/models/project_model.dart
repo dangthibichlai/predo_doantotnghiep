@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-ProjectModel projectModelFromMap(String str) => ProjectModel.fromMap(json.decode(str));
+ProjectModel projectModelFromMap(String str) =>
+    ProjectModel.fromMap(json.decode(str));
 
 String projectModelToMap(ProjectModel data) => json.encode(data.toMap());
 
@@ -50,8 +51,8 @@ class ProjectModel {
         leader: json["leader"],
         members: json["members"] == null
             ? []
-            : List<Map<String, dynamic>>.from(
-                json["members"]!.map((x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
+            : List<Map<String, dynamic>>.from(json["members"]!.map((x) =>
+                Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
         name: json["name"],
       );
 
@@ -61,7 +62,13 @@ class ProjectModel {
         "leader": leader,
         "members": members == null
             ? []
-            : List<dynamic>.from(members!.map((x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
+            : List<dynamic>.from(members!.map((x) =>
+                Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
+        "name": name,
+      };
+
+  Map<String, dynamic> toMapUpdate() => {
+        "key": key,
         "name": name,
       };
 }

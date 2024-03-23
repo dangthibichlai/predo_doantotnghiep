@@ -31,9 +31,13 @@ class ProjectReponsitory {
       return;
     }
 
-    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) &&
+        response.statusCode! >= 200 &&
+        response.statusCode! <= 300) {
       final results = response.data as List<dynamic>;
-      onSuccess(results.map((e) => ProjectModel.fromMap(e as Map<String, dynamic>)).toList());
+      onSuccess(results
+          .map((e) => ProjectModel.fromMap(e as Map<String, dynamic>))
+          .toList());
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }
@@ -80,12 +84,60 @@ class ProjectReponsitory {
     late Response response;
 
     try {
-      response = await dioClient!.post(EndPoints.projectAdd, data: data.toMap());
+      response =
+          await dioClient!.post(EndPoints.projectAdd, data: data.toMap());
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) &&
+        response.statusCode! >= 200 &&
+        response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+      onSuccess(ProjectModel.fromMap(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> delete({
+    required String id,
+    required Function(String event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.delete('${EndPoints.projects}/$id');
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) &&
+        response.statusCode! >= 200 &&
+        response.statusCode! <= 300) {
+      onSuccess('Delete success');
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> update({
+    required String id,
+    required ProjectModel data,
+    required Function(ProjectModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!
+          .put('${EndPoints.projects}/$id', data: data.toMapUpdate());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) &&
+        response.statusCode! >= 200 &&
+        response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(ProjectModel.fromMap(results as Map<String, dynamic>));
     } else {

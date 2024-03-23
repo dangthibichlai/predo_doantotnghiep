@@ -79,6 +79,7 @@ dependencies:
   slug_it: ^0.0.1
   converter: ^0.4.0
   tiengviet: ^1.0.0
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

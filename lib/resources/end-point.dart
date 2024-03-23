@@ -6,6 +6,7 @@ class EndPoints {
   // static const String BASE_URL = "http://172.25.88.235:3000";
   static const String users = "";
   static const String projectAdd = "/projects";
+  static const String projects = "/projects";
   static const String project = "/projects/get-by-user";
   static const String boards = "/boards";
   static const String tasks = "/tasks";

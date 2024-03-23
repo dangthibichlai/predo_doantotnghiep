@@ -11,6 +11,23 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Project details".tr),
+        actions: [
+          InkWell(
+            onTap: () {
+              controller.updateProject(
+                  controller.idProjectItem,
+                  controller.nameController.text,
+                  controller.keyController.text);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 20.sp),
+              child: Text(
+                'SAVE',
+                style: TextStyle(color: Colors.blue, fontSize: 12),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -41,7 +58,8 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
                 child: Column(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
                       //add border radius here
                       child: Container(
                         width: SizeApp.setSize(percent: .1),
@@ -63,7 +81,8 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
                         ),
                         Text(
                           'Change avatar',
-                          style: TextStyle(color: ColorResources.GREY, fontSize: 12),
+                          style: TextStyle(
+                              color: ColorResources.GREY, fontSize: 12),
                         ),
                       ],
                     ),
@@ -87,6 +106,7 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
               ),
               Gap(30),
               AppInput(
+                isReadOnly: true,
                 height: SizeApp.setSize(percent: .03),
                 type: AppInputType.TEXT,
                 label: 'Key'.tr,
@@ -114,6 +134,7 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
                       nameButtonLeft: 'Move'.tr,
                       onTap: () {
                         // onTap delete
+                        controller.deleteProject(controller.idProjectItem);
                       },
                     ),
                     barrierDismissible: true,
@@ -146,12 +167,16 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
     return Scaffold(
       backgroundColor: ColorResources.BGAPP,
       body: Padding(
-        padding: EdgeInsets.only(top: SizeApp.setSize(percent: .01), left: 30.sp, right: 30.sp),
+        padding: EdgeInsets.only(
+            top: SizeApp.setSize(percent: .01), left: 30.sp, right: 30.sp),
         child: Column(
           children: [
             Text(
               "Select an avatar".tr,
-              style: TextStyle(color: ColorResources.BLACK, fontSize: 20.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: ColorResources.BLACK,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500),
             ),
             Gap(20),
             Container(
@@ -173,7 +198,8 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
                             margin: EdgeInsets.only(bottom: 5.sp, right: 5.sp),
                             decoration: BoxDecoration(
                               color: CommonHelper.randomColorGenerator(),
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
                             ),
                             child: Image.network(
                               'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png',
@@ -184,7 +210,9 @@ class DetailsSettingPage extends GetView<DetailsSettingController> {
                         Obx(
                           () => controller.avatarIndex.value == index
                               ? Positioned(
-                                  child: Icon(Icons.check_circle, size: 16.sp, color: ColorResources.MAIN_APP),
+                                  child: Icon(Icons.check_circle,
+                                      size: 16.sp,
+                                      color: ColorResources.MAIN_APP),
                                   right: 0,
                                   bottom: 0)
                               : SizedBox.shrink(),

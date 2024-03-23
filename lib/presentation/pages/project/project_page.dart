@@ -94,7 +94,11 @@ class ProjectPage extends GetView<ProjectController> {
                 final item = controller.listProject.value[index];
                 return InkWell(
                     onTap: () => Get.toNamed(HomeRouter.KABANPROJECT,
-                        arguments: {'idProject': item.id, 'nameProject': item.name}),
+                            arguments: {
+                              'idProject': item.id,
+                              'nameProject': item.name,
+                              'keyProject': item.key
+                            }),
                     child: Row(
                       children: [
                         Container(

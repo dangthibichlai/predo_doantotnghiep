@@ -4,6 +4,8 @@ import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_binding
 import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_page.dart';
 import 'package:test_intern/presentation/pages/create_project/create_project_binding.dart';
 import 'package:test_intern/presentation/pages/create_project/create_project_page.dart';
+import 'package:test_intern/presentation/pages/project/project_binding.dart';
+import 'package:test_intern/presentation/pages/project/project_page.dart';
 import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details-setting_page.dart';
 import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details_setting_binding.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.binding.dart';
@@ -13,6 +15,7 @@ import 'package:test_intern/presentation/pages/type_chart.dart/choose_type_chart
 import 'package:test_intern/resources/export/core_export.dart';
 
 mixin HomeRouter {
+  static const String PROJECTS = '/projects';
   static const String HOME = '/home';
   static const String DASHBOARD = '/dashboard';
   static const String PROJECTDETAIL = '/project-detail';
@@ -70,5 +73,7 @@ mixin HomeRouter {
       page: () => ChangeLanguagePage(),
       binding: ChangeLanguageBinding(),
     ),
+    GetPage(
+        name: PROJECTS, page: () => ProjectPage(), binding: ProjectBinding()),
   ];
 }
