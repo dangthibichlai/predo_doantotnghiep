@@ -8,6 +8,8 @@ import 'package:test_intern/presentation/pages/project/project_binding.dart';
 import 'package:test_intern/presentation/pages/project/project_page.dart';
 import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details-setting_page.dart';
 import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details_setting_binding.dart';
+import 'package:test_intern/presentation/pages/settings_project/members-setting-project/members-setting_page.dart';
+import 'package:test_intern/presentation/pages/settings_project/members-setting-project/members_setting_binding.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.binding.dart';
 import 'package:test_intern/presentation/pages/task/task_detail_page.dart';
 import 'package:test_intern/presentation/pages/type_chart.dart/choose_chart_binding.dart';
@@ -26,8 +28,14 @@ mixin HomeRouter {
   static const String PIECHART = '/pie-chart';
   static const String CREATEPROJECT = '/create-project';
   static const String TASKDETAIL = '/task-detail';
+  static const String MEMBERS = '/members-setting';
 
   static List<GetPage> listPage = [
+    GetPage(
+      name: MEMBERS,
+      page: () => MembersSettingPage(),
+      binding: MembersSettingBinding(),
+    ),
     GetPage(
       name: TASKDETAIL,
       page: () => TaskDetailPage(),
@@ -73,7 +81,6 @@ mixin HomeRouter {
       page: () => ChangeLanguagePage(),
       binding: ChangeLanguageBinding(),
     ),
-    GetPage(
-        name: PROJECTS, page: () => ProjectPage(), binding: ProjectBinding()),
+    GetPage(name: PROJECTS, page: () => ProjectPage(), binding: ProjectBinding()),
   ];
 }

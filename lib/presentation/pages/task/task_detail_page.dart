@@ -9,7 +9,9 @@ import 'package:test_intern/presentation/pages/task/task_detail.controller.dart'
 import 'package:test_intern/resources/export/core_export.dart';
 
 class TaskDetailPage extends GetView<TaskDetailController> {
-  const TaskDetailPage({super.key});
+  final double bottomSheetHeight = 0.4.obs.value;
+
+  TaskDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -340,8 +342,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           onTap: () {
             showFlexibleBottomSheet(
               minHeight: 0,
-              initHeight: .4,
-              maxHeight: .4,
+              initHeight: bottomSheetHeight,
+              maxHeight: bottomSheetHeight,
               context: context,
               builder: _buildBottomSheet,
               isExpand: false,
@@ -441,8 +443,18 @@ class TaskDetailPage extends GetView<TaskDetailController> {
         physics: NeverScrollableScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp),
-          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          child: Column(children: [
             AppInput(
+              onChanged: (value) {
+                controller.filterMembers(value);
+              },
+              prefixIcon: (FocusNode) {
+                return Icon(
+                  Icons.search,
+                  color: ColorResources.BLACK.withOpacity(.5),
+                  size: 20.sp,
+                );
+              },
               height: SizeApp.setSize(percent: .07),
               controller: controller.searchMember,
               colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
@@ -459,61 +471,70 @@ class TaskDetailPage extends GetView<TaskDetailController> {
               underLine: UnderlineInputBorder(),
             ),
             Container(
+              margin: EdgeInsets.only(top: 10.sp),
               constraints: BoxConstraints(
                 maxHeight: SizeApp.setSize(percent: .35),
                 minHeight: SizeApp.setSize(percent: .1),
               ),
-              child: ListView.builder(
-                itemCount: controller.listMembers.value.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      controller.assigneeIdUser.value = controller.listMembers.value[index].id!;
-                      controller.updateTask();
-                      Get.back();
-                    },
-                    child: Obx(
-                      () => Container(
-                        padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                        height: SizeApp.setSize(percent: .07),
-                        decoration: BoxDecoration(
-                          // color: ColorResources.WHITE ,
-                          color: controller.listMembers.value[index].id == controller.assigneeIdUser.value
-                              ? ColorResources.MAIN_APP.withOpacity(.2)
-                              : ColorResources.WHITE,
-                          border: Border(
-                            bottom: BorderSide(
-                              color: ColorResources.GREY.withOpacity(.5),
-                            ),
+              child: Obx(
+                () => controller.filteredMembers.value.length == 0
+                    ? Center(
+                        child: Text(
+                          "No members found",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.BLACK.withOpacity(.5),
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 14.sp,
-                              backgroundColor: ColorResources.GREY.withOpacity(.1),
-                              child: Icon(
-                                Icons.person_2_rounded,
-                                color: ColorResources.GREY.withOpacity(.5),
-                                size: 16.sp,
+                      )
+                    : ListView.builder(
+                        itemCount: controller.filteredMembers.value.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {},
+                            child: Obx(
+                              () => Container(
+                                margin: EdgeInsets.only(bottom: 10.sp),
+                                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                                height: SizeApp.setSize(percent: .07),
+                                decoration: BoxDecoration(
+                                  // color: ColorResources.WHITE ,
+                                  color: ColorResources.WHITE,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: ColorResources.GREY.withOpacity(.5),
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 14.sp,
+                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
+                                      child: Icon(
+                                        Icons.person_2_rounded,
+                                        color: ColorResources.GREY.withOpacity(.5),
+                                        size: 16.sp,
+                                      ),
+                                    ),
+                                    Gap(10.sp),
+                                    Text(
+                                      controller.filteredMembers.value[index].full_name ?? "",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Gap(10.sp),
-                            Text(
-                              controller.listMembers.value[index].full_name ?? "",
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                color: ColorResources.BLACK.withOpacity(.5),
-                              ),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                    ),
-                  );
-                },
               ),
             )
           ]),

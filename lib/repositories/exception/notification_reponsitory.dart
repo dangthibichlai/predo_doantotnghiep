@@ -16,7 +16,7 @@ class NotificationRepository {
     required Function(List<NotificationModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
-    String _uri = '${EndPoints.notifications}?userTo=$id';
+    String _uri = '${EndPoints.notifications}?userId=$id';
     late Response response;
 
     if (!AppValidate.nullOrEmpty(filter)) {

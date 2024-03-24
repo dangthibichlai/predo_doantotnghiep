@@ -296,6 +296,11 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             ),
           ),
           InkWell(
+            onTap: () {
+              CommonHelper.onTapHandler(callback: () {
+                controller.changPageMember();
+              });
+            },
             child: Container(
               width: SizeApp.getMaxWidth(),
               padding: SizeApp.setEdgeInsetsOnly(
@@ -311,7 +316,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                 color: ColorResources.GREY.withOpacity(.2),
               ))),
               child: Text(
-                'Features'.tr,
+                'Members'.tr,
                 style: TextStyle(fontSize: 14..sp),
               ),
             ),

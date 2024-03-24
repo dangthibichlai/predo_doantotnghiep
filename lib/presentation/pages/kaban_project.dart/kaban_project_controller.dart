@@ -80,14 +80,12 @@ class KabanProjectController extends GetxController {
   }
 
   Future<void> getProject(String id) async {
+    isLoading.value = true;
     await _boardRepository.find(
       id,
       onSuccess: (data) {
         listBorad.value = data;
         listBorad.refresh();
-        if (isLoading.value) {
-          isLoading.value = false;
-        }
       },
       onError: (onError) {
         EasyLoading.dismiss();
@@ -95,6 +93,7 @@ class KabanProjectController extends GetxController {
         log('Error project at $onError');
       },
     );
+    isLoading.value = false;
   }
 
   void addTaskBoard(TaskModel taskModel) async {
@@ -178,9 +177,7 @@ class KabanProjectController extends GetxController {
       DiologApp(
         title: 'Column limit'.tr,
         nameButtonLeft: 'Save'.tr,
-        content:
-            'We\'ll highlight this column if the number of issue passes this limit.'
-                .tr,
+        content: 'We\'ll highlight this column if the number of issue passes this limit.'.tr,
         inputController: nolimitColumn,
         onTap: () {
           // onTap rename
@@ -193,10 +190,11 @@ class KabanProjectController extends GetxController {
   }
 
   void changPageDetail() {
-    Get.toNamed(HomeRouter.SETTINGDETAIL, arguments: {
-      'nameProject': nameProject,
-      'keyProject': keyProjectItem,
-      'idProject': idProject
-    });
+    Get.toNamed(HomeRouter.SETTINGDETAIL,
+        arguments: {'nameProject': nameProject, 'keyProject': keyProjectItem, 'idProject': idProject});
+  }
+
+  void changPageMember() {
+    Get.toNamed(HomeRouter.MEMBERS, arguments: {'idProject': idProject});
   }
 }

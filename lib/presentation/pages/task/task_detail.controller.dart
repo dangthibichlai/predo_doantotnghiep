@@ -28,6 +28,7 @@ class TaskDetailController extends GetxController {
 
   RxList taskModel = <TaskModel>[].obs;
   RxList listMembers = <AuthModel>[].obs;
+  RxList filteredMembers = <AuthModel>[].obs;
   RxList listBoard = <BoardModel>[].obs;
   String idUser = '';
 
@@ -66,12 +67,21 @@ class TaskDetailController extends GetxController {
     }, onError: (error) {});
   }
 
+  void filterMembers(String query) {
+    filteredMembers.value = listMembers.where((member) {
+      return member.full_name!.toUpperCase().contains(query.toUpperCase());
+    }).toList();
+    filteredMembers.refresh();
+  }
+
   Future<void> getMembers() async {
     await _projectReponsitory.findProjectID(
       idUser,
       onSuccess: (data) {
         listMembers.value.addAll(data);
         listMembers.refresh();
+        filteredMembers.addAll(data);
+        filteredMembers.refresh();
         assigneeNameUser.value = listMembers.where((element) => element.id == assigneeIdUser.value).first.full_name;
         for (var item in listMembers) {
           log('Project: ${item}');
@@ -96,6 +106,8 @@ class TaskDetailController extends GetxController {
         idBoard.value = taskModel[0].boardId;
         await getTaskDetail();
         await getMembers();
+        final kaBanController = Get.find<KabanProjectController>();
+        kaBanController.getProject(idBoard.value);
       },
       onError: (error) {},
     );

@@ -18,7 +18,7 @@ class BoardRepository {
     required Function(List<BoardModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
-    String _uri = '${EndPoints.projectAdd}/$id/get-board-and-task';
+    String _uri = '${EndPoints.projects}/$id/get-board-and-task';
     late Response response;
 
     if (!AppValidate.nullOrEmpty(filter)) {
