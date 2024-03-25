@@ -2,10 +2,10 @@
 
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
-import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
@@ -30,6 +30,8 @@ class TaskDetailController extends GetxController {
   RxList listMembers = <AuthModel>[].obs;
   RxList filteredMembers = <AuthModel>[].obs;
   RxList listBoard = <BoardModel>[].obs;
+  RxList listSubTask = <TaskModel>[].obs;
+
   String idUser = '';
 
   String idTask = Get.arguments['idTask'];
@@ -45,6 +47,7 @@ class TaskDetailController extends GetxController {
     await getTaskDetail();
     await getMembers();
     await featchData();
+    await getSubTask();
     super.onInit();
   }
 
@@ -54,6 +57,7 @@ class TaskDetailController extends GetxController {
   }
 
   Future<void> featchData() async {
+
     await _taskReponsitory.findBoard(idTask, onSuccess: (data) async {
       idProject.value = data;
       _boardReponsitory.find(idProject.value, onSuccess: (data) {
@@ -122,6 +126,7 @@ class TaskDetailController extends GetxController {
   }
 
   Future<void> getTaskDetail() async {
+    print(idTask);
     await _taskReponsitory.find(
       idTask,
       onSuccess: (data) {
@@ -131,6 +136,19 @@ class TaskDetailController extends GetxController {
         decriptionTask.text = taskModel.value[0].description ?? '';
         titleTask.text = taskModel.value[0].title ?? '';
         assigneeIdUser.value = taskModel.value[0].assignee ?? '';
+      },
+      onError: (error) {},
+    );
+    isLoading.value = false;
+  }
+
+  Future<void> getSubTask() async {
+    await _taskReponsitory.getSubtask(
+      idTask,
+      filter: '/get-sub-tasks',
+      onSuccess: (data) {
+        listSubTask.value = data;
+        listSubTask.refresh();
       },
       onError: (error) {},
     );

@@ -1,8 +1,12 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
+import 'package:test_intern/core/hepler/app-validate.dart';
+import 'package:test_intern/core/hepler/loading_app.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/core/hepler/smart_refresher.dart';
 import 'package:test_intern/presentation/pages/notification/notification_controller.dart';
@@ -16,7 +20,7 @@ class NotificationPage extends GetView<NotificationController> {
     // set màu thanh app bar
 
     return Scaffold(
-      body: controller.notification.length == 0 ? bodyEmpty() : bodyItem(),
+      body: bodyItem(),
     );
   }
 
@@ -115,21 +119,32 @@ class NotificationPage extends GetView<NotificationController> {
           ),
         ),
         SizedBox(
-          height: 10.sp,
+          height: 20.sp,
         ),
         Expanded(
           child: AppSmartRefresher(
             onRefresh: () {
               controller.getNotification(isRefresh: true);
             },
-            enablePullUp: false,
+            enablePullUp: true,
             enablePullDown: true,
             onLoading: () {
               controller.getNotification(isRefresh: false);
             },
             refreshController: controller.refreshController,
-            child: Obx(
-              () => ListView.builder(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return LoadingApp(
+                  titleLoading: 'diy_001'.tr,
+                );
+              }
+
+              if (!controller.isLoading.value && controller.notification.isEmpty) {
+                return bodyEmpty();
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
                 itemCount: controller.notification.length,
                 itemBuilder: (context, index) {
                   return Container(
@@ -179,7 +194,9 @@ class NotificationPage extends GetView<NotificationController> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  controller.routeToDetailTask(controller.notification[index].refId!.id ?? '');
+                                  if (!AppValidate.nullOrEmpty(controller.notification[index].refId?.taskId)) {
+                                    controller.routeToDetailTask(controller.notification[index].refId?.taskId ?? '');
+                                  }
                                 },
                                 child: Text('View issue'.tr,
                                     style: TextStyle(fontSize: 12.sp, color: ColorResources.MAIN_APP)),
@@ -197,9 +214,12 @@ class NotificationPage extends GetView<NotificationController> {
                     ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
           ),
+        ),
+        SizedBox(
+          height: 20.sp,
         ),
       ],
     );

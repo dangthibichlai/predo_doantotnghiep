@@ -244,6 +244,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                 Divider(
                                   color: ColorResources.GREY.withOpacity(.2),
                                 ),
+                                _subTask(),
                                 _issueTypeBody(context),
                               ],
                             ),
@@ -558,6 +559,141 @@ class TaskDetailPage extends GetView<TaskDetailController> {
               )),
         ],
       ),
+    );
+  }
+
+  Widget _subTask() {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Subtask',
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
+            ),
+            Spacer(),
+            Text(
+              controller.listSubTask.length.toString(),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.keyboard_arrow_down_outlined,
+                size: 20.sp,
+                color: ColorResources.MAIN_APP,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: SizedBox(
+                width: SizeApp.setSizeWithWidth(percent: .91),
+                child: TweenAnimationBuilder<double>(
+                    duration: const Duration(seconds: 3),
+                    curve: Curves.easeInOut,
+                    tween: Tween<double>(
+                      begin: 0,
+                      end: 1,
+                    ),
+                    builder: (context, value, _) {
+                      return LinearProgressIndicator(
+                        value: value,
+                        valueColor: const AlwaysStoppedAnimation<Color>(ColorResources.GREEN),
+                        backgroundColor: const Color.fromARGB(255, 108, 105, 105),
+                        minHeight: 8,
+                      );
+                    }),
+              ),
+            ),
+          ],
+        ),
+        Gap(20.sp),
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: controller.listSubTask.length,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            final subTask = controller.listSubTask[index];
+            return InkWell(
+              onTap: () {
+                Get.find<TaskDetailController>().onInit();
+              },
+              child: Row(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    height: 20.sp,
+                    width: 20.sp,
+                    child: Icon(
+                      Icons.call_missed_outgoing_outlined,
+                      color: ColorResources.WHITE,
+                      size: 16.sp,
+                    ),
+                  ),
+                  Gap(10.sp),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        subTask.title,
+                        style: TextStyle(
+                            fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            controller.taskModel.value[0].key ?? "",
+                            style: TextStyle(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                color: ColorResources.BLACK.withOpacity(.5)),
+                          ),
+                          Gap(20.sp),
+                          Icon(
+                            Icons.compare_arrows_rounded,
+                            color: ColorResources.YELLOW,
+                            size: 24.sp,
+                          ),
+                          Gap(10.sp),
+                          Container(
+                            padding: EdgeInsets.only(left: 8.sp, right: 8.sp, top: 5.sp, bottom: 5.sp),
+                            decoration: BoxDecoration(
+                              color: ColorResources.GREY.withOpacity(.1),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: Text(
+                              "TO DO",
+                              style: TextStyle(
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorResources.BLACK.withOpacity(.5)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Gap(20.sp);
+          },
+        ),
+        Gap(20),
+      ],
     );
   }
 

@@ -47,10 +47,10 @@ class PanelController extends GetxController {
   Future<void> getTaskDetail() async {
     await _taskReponsitory.findTaskAssgnee(
       idUser,
+      filter: "?assignee=",
       onSuccess: (data) {
         listTask.assignAll(data);
         listTask.refresh();
-        log('listTask: $listTask');
       },
       onError: (error) {
         print(error);

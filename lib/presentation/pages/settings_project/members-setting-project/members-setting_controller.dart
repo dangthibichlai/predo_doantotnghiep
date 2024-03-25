@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/project_model.dart';
@@ -94,7 +95,32 @@ class MembersController extends GetxController {
   }
 
   void copyToClipboard(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: linkProject));
+    Clipboard.setData(ClipboardData(text: linkProject)).then((_) {
+      final _showToast = FToast();
+      _showToast.init(context);
+      _showToast.showToast(
+          child: Container(
+              alignment: Alignment.center,
+              width: SizeApp.setSizeWithWidth(percent: 0.6),
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppImage(
+                    ImagesPath.logoApp,
+                    width: 30.sp,
+                    height: 30.sp,
+                  ),
+                  Gap(5.0),
+                  const Text('Copied to clipboard!'),
+                ],
+              )));
+    });
+    ;
   }
 
   @override

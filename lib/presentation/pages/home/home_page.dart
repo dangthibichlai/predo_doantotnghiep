@@ -64,7 +64,7 @@ class HomePage extends GetView<HomeController> {
           Row(children: <Widget>[
             Container(
               child: Text(
-                '${'Hello'.tr}, Nhật Tân',
+                '${'Hello'.tr} Nhật Tân',
                 textAlign: TextAlign.left,
                 style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 25.sp),
               ),

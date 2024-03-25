@@ -32,7 +32,6 @@ class ProjectController extends GetxController {
       onSuccess: (data) {
         listProject.value = data;
         listProject.refresh();
-        log('listProject: ${listProject.value}');
         isLoading.value = false;
       },
       onError: (error) {
