@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
+import 'package:test_intern/core/hepler/smart_refresher.dart';
 import 'package:test_intern/presentation/pages/notification/notification_controller.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
@@ -14,7 +16,7 @@ class NotificationPage extends GetView<NotificationController> {
     // set màu thanh app bar
 
     return Scaffold(
-      body: controller.notification.length < 1 ? bodyEmpty() : bodyItem(),
+      body: controller.notification.length == 0 ? bodyEmpty() : bodyItem(),
     );
   }
 
@@ -116,71 +118,87 @@ class NotificationPage extends GetView<NotificationController> {
           height: 10.sp,
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.all(8.sp),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: ColorResources.GREY.withOpacity(.5), width: 1),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipOval(
-                      child: AppImage(
-                        ImagesPath.avataImg,
-                        width: 30.sp,
-                        height: 30.sp,
+          child: AppSmartRefresher(
+            onRefresh: () {
+              controller.getNotification(isRefresh: true);
+            },
+            enablePullUp: false,
+            enablePullDown: true,
+            onLoading: () {
+              controller.getNotification(isRefresh: false);
+            },
+            refreshController: controller.refreshController,
+            child: Obx(
+              () => ListView.builder(
+                itemCount: controller.notification.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: EdgeInsets.all(8.sp),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: ColorResources.GREY.withOpacity(.5), width: 1),
                       ),
                     ),
-                    SizedBox(
-                      width: 10.sp,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipOval(
+                          child: AppImage(
+                            ImagesPath.avataImg,
+                            width: 30.sp,
+                            height: 30.sp,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.sp,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    controller.notification[index].title ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Text(
-                                '[Oni18broken] Lỗi phông chữ ',
+                                controller.notification[index].description ?? '',
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
+                              ),
+                              SizedBox(
+                                height: 5.sp,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.routeToDetailTask(controller.notification[index].refId!.id ?? '');
+                                },
+                                child: Text('View issue'.tr,
+                                    style: TextStyle(fontSize: 12.sp, color: ColorResources.MAIN_APP)),
                               ),
                             ],
                           ),
-                          Text(
-                            'Võ Thị Thu Thúy  added an attachment to the issue',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
-                          ),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Text('View issue'.tr,
-                                style: TextStyle(fontSize: 12.sp, color: ColorResources.MAIN_APP)),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          DateFormat('dd/MM/yyyy HH:mm')
+                              .format(DateTime.parse(controller.notification[index].createdAt ?? '')),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
+                        )
+                      ],
                     ),
-                    Text(
-                      'ONI-18-6',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
-                    )
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ],
