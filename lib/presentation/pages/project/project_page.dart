@@ -60,7 +60,7 @@ class ProjectPage extends GetView<ProjectController> {
                       ImagesPath.imgHomeRecentEmpty,
                       width: SizeApp.setSizeWithWidth(percent: .4),
                     ),
-                    Text('No data'),
+                    Text('No data'.tr),
                   ],
                 ),
               )

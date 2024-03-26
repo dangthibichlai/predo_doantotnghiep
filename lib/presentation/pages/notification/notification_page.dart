@@ -133,14 +133,13 @@ class NotificationPage extends GetView<NotificationController> {
             },
             refreshController: controller.refreshController,
             child: Obx(() {
-              if (controller.isLoading.value) {
-                return LoadingApp(
-                  titleLoading: 'diy_001'.tr,
-                );
-              }
-
               if (!controller.isLoading.value && controller.notification.isEmpty) {
                 return bodyEmpty();
+              }
+              if (controller.isLoading.value) {
+                return LoadingApp(
+                  titleLoading: 'smart_refresh_008'.tr,
+                );
               }
               return ListView.builder(
                 shrinkWrap: true,

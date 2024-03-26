@@ -4,6 +4,7 @@ import 'package:test_intern/core/hepler/common_helper.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/widget/indicator_tab_bar_painter.dart';
 import 'package:test_intern/resources/app_color.dart';
+import 'package:test_intern/resources/export/core_export.dart';
 
 class ExpertsTabBar extends StatefulWidget {
   const ExpertsTabBar({super.key, required this.onTap});
@@ -16,9 +17,9 @@ class ExpertsTabBar extends StatefulWidget {
 class _ExpertsTabBarState extends State<ExpertsTabBar> {
   int _currentIndex = 0;
   List<String> _tabBar = [
-    'Board',
-    'Reports',
-    'Settings',
+    'Board'.tr,
+    'Reports'.tr,
+    'Settings'.tr,
   ];
 
   ///

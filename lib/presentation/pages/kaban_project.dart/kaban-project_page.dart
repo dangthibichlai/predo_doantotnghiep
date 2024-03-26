@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member, unused_element
 
-import 'dart:developer';
 
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -62,7 +61,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             Container(
               height: SizeApp.setSize(percent: .8),
               child: LoadingApp(
-                titleLoading: 'diy_001'.tr,
+                titleLoading: 'smart_refresh_008'.tr,
               ),
             ),
           ],

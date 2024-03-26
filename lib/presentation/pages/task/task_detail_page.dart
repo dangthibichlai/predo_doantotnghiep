@@ -1,10 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'dart:developer';
-
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/core/hepler/app_dropdown.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
+import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -22,7 +22,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           if (controller.isLoading.value) {
             return Center(
               child: LoadingApp(
-                titleLoading: 'diy_001'.tr,
+                titleLoading: 'smart_refresh_008'.tr,
               ),
             );
           }
@@ -30,230 +30,230 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             children: [
               Positioned.fill(
                 child: SafeArea(
-                  child: Column(
-                    children: [
-                      _header(),
-                      Expanded(
-                          child: Obx(
-                        () => SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 35.0,
-                              bottom: 70.sp,
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: ColorResources.GREEN,
-                                        borderRadius: BorderRadius.circular(3),
-                                      ),
-                                      height: 16.sp,
-                                      width: 16.sp,
-                                      child: Icon(
-                                        Icons.bookmark_outlined,
-                                        color: ColorResources.WHITE,
-                                        size: 12.sp,
-                                      ),
+                    child: Column(
+                  children: [
+                    _header(),
+                    Expanded(
+                        child: Obx(
+                      () => SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: 15.0,
+                            right: 15.0,
+                            top: 35.0,
+                            bottom: 70.sp,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: ColorResources.GREEN,
+                                      borderRadius: BorderRadius.circular(3),
                                     ),
-                                    Gap(10.sp),
-                                    Text(
-                                      controller.taskModel.value[0].key ?? "",
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                    height: 16.sp,
+                                    width: 16.sp,
+                                    child: Icon(
+                                      Icons.bookmark_outlined,
+                                      color: ColorResources.WHITE,
+                                      size: 12.sp,
                                     ),
-                                  ],
-                                ),
-                                Gap(5.sp),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          InkWell(
+                                  ),
+                                  Gap(10.sp),
+                                  Text(
+                                    controller.taskModel.value[0].key ?? "",
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.5)),
+                                  ),
+                                ],
+                              ),
+                              Gap(5.sp),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            CommonHelper.onTapHandler(callback: () {
+                                              controller.showEditTitle();
+                                            });
+                                          },
+                                          child: AppInput(
+                                            controller: controller.titleTask,
+                                            onSubmitted: (p0) {
+                                              controller.updateTask();
+                                            },
                                             onTap: () {
                                               CommonHelper.onTapHandler(callback: () {
                                                 controller.showEditTitle();
                                               });
                                             },
-                                            child: AppInput(
-                                              controller: controller.titleTask,
-                                              onSubmitted: (p0) {
-                                                controller.updateTask();
-                                              },
-                                              onTap: () {
-                                                CommonHelper.onTapHandler(callback: () {
-                                                  controller.showEditTitle();
-                                                });
-                                              },
-                                              colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: ColorResources.BLACK.withOpacity(.4)),
-                                              labelStyle: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: ColorResources.BLACK.withOpacity(.7)),
-                                              type: AppInputType.TEXT,
-                                              maxLine: 1,
-                                              hintText: controller.taskModel.value[0].title,
-                                              isBorder: true,
-                                              fontSize: 14.sp,
-                                              fillColor: Colors.transparent,
-                                              borderSide: BorderSide.none,
-                                            ),
+                                            colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorResources.BLACK.withOpacity(.4)),
+                                            labelStyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: ColorResources.BLACK.withOpacity(.7)),
+                                            type: AppInputType.TEXT,
+                                            maxLine: 1,
+                                            hintText: controller.taskModel.value[0].title,
+                                            isBorder: true,
+                                            fontSize: 14.sp,
+                                            fillColor: Colors.transparent,
+                                            borderSide: BorderSide.none,
                                           ),
-                                          Obx(() {
-                                            return controller.isEditTitle.value
-                                                ? Padding(
-                                                    padding: EdgeInsets.only(right: 5.sp),
-                                                    child: Divider(
-                                                      height: 1,
-                                                      color: ColorResources.MAIN_APP.withOpacity(.2),
-                                                    ),
-                                                  )
-                                                : SizedBox();
-                                          }),
-                                          Obx(
-                                            () => controller.isEditTitle.value
-                                                ? SizedBox(
-                                                    height: 30.sp,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      children: [
-                                                        IconButton(
-                                                            onPressed: () {
-                                                              CommonHelper.onTapHandler(callback: () {
-                                                                controller.showEditTitle();
-                                                                // an ban phim
-                                                                FocusScope.of(context).unfocus();
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.close,
-                                                              size: 20.sp,
-                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
-                                                            )),
-                                                        IconButton(
-                                                            onPressed: () {
-                                                              CommonHelper.onTapHandler(callback: () {
-                                                                controller.showEditTitle();
-                                                                controller.updateTask();
-                                                                FocusScope.of(context).unfocus();
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.check,
-                                                              size: 22.sp,
-                                                              color: ColorResources.MAIN_APP.withOpacity(.5),
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  )
-                                                : SizedBox(),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        Obx(() {
+                                          return controller.isEditTitle.value
+                                              ? Padding(
+                                                  padding: EdgeInsets.only(right: 5.sp),
+                                                  child: Divider(
+                                                    height: 1,
+                                                    color: ColorResources.MAIN_APP.withOpacity(.2),
+                                                  ),
+                                                )
+                                              : SizedBox();
+                                        }),
+                                        Obx(
+                                          () => controller.isEditTitle.value
+                                              ? SizedBox(
+                                                  height: 30.sp,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            CommonHelper.onTapHandler(callback: () {
+                                                              controller.showEditTitle();
+                                                              // an ban phim
+                                                              FocusScope.of(context).unfocus();
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.close,
+                                                            size: 20.sp,
+                                                            color: ColorResources.MAIN_APP.withOpacity(.5),
+                                                          )),
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            CommonHelper.onTapHandler(callback: () {
+                                                              controller.showEditTitle();
+                                                              controller.updateTask();
+                                                              FocusScope.of(context).unfocus();
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.check,
+                                                            size: 22.sp,
+                                                            color: ColorResources.MAIN_APP.withOpacity(.5),
+                                                          )),
+                                                    ],
+                                                  ),
+                                                )
+                                              : SizedBox(),
+                                        ),
+                                      ],
                                     ),
-                                    CircleAvatar(
-                                      radius: 20.sp,
-                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
-                                      child: Icon(
-                                        Icons.person_2_rounded,
-                                        color: ColorResources.GREY.withOpacity(.5),
-                                        size: 30.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Gap(15.sp),
-                                _dropdown(),
-                                Gap(25.sp),
-                                Obx(
-                                  () => AppInput(
-                                    onSubmitted: (p0) {
-                                      controller.updateTask();
-                                    },
-                                    height: 70.sp,
-                                    controller: controller.decriptionTask,
-                                    colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                                    label: "Description".tr,
-                                    style: TextStyle(
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w300,
-                                        color: ColorResources.BLACK.withOpacity(.4)),
-                                    labelStyle: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK.withOpacity(.7)),
-                                    type: AppInputType.TEXT,
-                                    maxLine: 4,
-                                    hintText:
-                                        controller.taskModel.value[0].description == '' ? "Add description..." : '',
-                                    isBorder: true,
-                                    fontSize: 14.sp,
-                                    fillColor: Colors.transparent,
-                                    borderSide: BorderSide.none,
                                   ),
-                                ),
-                                Gap(5.sp),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Attachment",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16.sp,
-                                        color: ColorResources.BLACK,
-                                      ),
+                                  CircleAvatar(
+                                    radius: 20.sp,
+                                    backgroundColor: ColorResources.GREY.withOpacity(.1),
+                                    child: Icon(
+                                      Icons.person_2_rounded,
+                                      color: ColorResources.GREY.withOpacity(.5),
+                                      size: 30.sp,
                                     ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                              Gap(15.sp),
+                              _dropdown(),
+                              Gap(25.sp),
+                              Obx(
+                                () => AppInput(
+                                  onSubmitted: (p0) {
+                                    controller.updateTask();
+                                  },
+                                  height: 70.sp,
+                                  controller: controller.decriptionTask,
+                                  colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                                  label: "Description".tr,
+                                  style: TextStyle(
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: ColorResources.BLACK.withOpacity(.4)),
+                                  labelStyle: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: ColorResources.BLACK.withOpacity(.7)),
+                                  type: AppInputType.TEXT,
+                                  maxLine: 4,
+                                  hintText:
+                                      controller.taskModel.value[0].description == '' ? "Add description...".tr : '',
+                                  isBorder: true,
+                                  fontSize: 14.sp,
+                                  fillColor: Colors.transparent,
+                                  borderSide: BorderSide.none,
                                 ),
-                                Gap(25.sp),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    _attachItem(
-                                      Icons.camera_enhance_outlined,
-                                      "Take photo",
+                              ),
+                              Gap(5.sp),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Attachment".tr,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.sp,
+                                      color: ColorResources.BLACK,
                                     ),
-                                    _attachItem(
-                                      Icons.camera_alt,
-                                      "Record video",
-                                    ),
-                                    _attachItem(
-                                      Icons.file_copy_outlined,
-                                      "Choose file",
-                                    ),
-                                    _attachItem(
-                                      Icons.radio_button_checked,
-                                      "Record sreen",
-                                    )
-                                  ],
-                                ),
-                                Gap(20.sp),
-                                Divider(
-                                  color: ColorResources.GREY.withOpacity(.2),
-                                ),
-                                _subTask(),
-                                _issueTypeBody(context),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                              Gap(25.sp),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _attachItem(
+                                    Icons.camera_enhance_outlined,
+                                    "Take photo".tr,
+                                  ),
+                                  _attachItem(
+                                    Icons.camera_alt,
+                                    "Record video".tr,
+                                  ),
+                                  _attachItem(
+                                    Icons.file_copy_outlined,
+                                    "Choose file".tr,
+                                  ),
+                                  _attachItem(
+                                    Icons.radio_button_checked,
+                                    "Record sreen".tr,
+                                  )
+                                ],
+                              ),
+                              Gap(20.sp),
+                              Divider(
+                                color: ColorResources.GREY.withOpacity(.2),
+                              ),
+                              _subTask(),
+                              // controller.listSubTask.length != 0 ? _subTask() : SizedBox(),
+                              _issueTypeBody(context),
+                            ],
                           ),
                         ),
-                      )),
-                    ],
-                  ),
-                ),
+                      ),
+                    )),
+                  ],
+                )),
               ),
               Positioned(
                 bottom: 0,
@@ -269,7 +269,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                     ],
                   ),
                   child: AppInput(
-                    hintText: "Add comment",
+                    hintText: "Add comment".tr,
                     height: 60.sp,
                     controller: controller.commentTask,
                     autofocus: false,
@@ -298,7 +298,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Issue type',
+              'Issue type'.tr,
               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
@@ -322,7 +322,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             ),
             Gap(10.sp),
             Text(
-              'Task',
+              'Task'.tr,
               style:
                   TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
             ),
@@ -333,7 +333,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Assignee',
+              'Assignee'.tr,
               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
@@ -342,6 +342,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
         InkWell(
           onTap: () {
             showFlexibleBottomSheet(
+              isSafeArea: true,
+              duration: Duration(milliseconds: 300),
               minHeight: 0,
               initHeight: bottomSheetHeight,
               maxHeight: bottomSheetHeight,
@@ -369,7 +371,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
               Gap(10.sp),
               Obx(
                 () => Text(
-                  controller.assigneeNameUser.value.isEmpty ? "Unassigned" : controller.assigneeNameUser.value,
+                  controller.assigneeNameUser.value.isEmpty ? "Unassigned".tr : controller.assigneeNameUser.value,
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
@@ -385,7 +387,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Labels',
+              'Labels'.tr,
               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
           ],
@@ -396,7 +398,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'More',
+              'More'.tr,
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
@@ -405,11 +407,11 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Activity:',
+              'Activity:'.tr,
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
             ),
             Text(
-              'Comments',
+              'Comments'.tr,
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
@@ -424,7 +426,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             ),
             Gap(20),
             Text(
-              'Add comment',
+              'Add comment'.tr,
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
           ],
@@ -465,7 +467,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                   TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
               type: AppInputType.TEXT,
               maxLine: 1,
-              hintText: "Search members...",
+              hintText: "Search members...".tr,
               isBorder: true,
               fontSize: 14.sp,
               fillColor: Colors.transparent,
@@ -474,68 +476,111 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Container(
               margin: EdgeInsets.only(top: 10.sp),
               constraints: BoxConstraints(
-                maxHeight: SizeApp.setSize(percent: .35),
+                maxHeight: SizeApp.setSize(percent: .4),
                 minHeight: SizeApp.setSize(percent: .1),
               ),
-              child: Obx(
-                () => controller.filteredMembers.value.length == 0
-                    ? Center(
-                        child: Text(
-                          "No members found",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: ColorResources.BLACK.withOpacity(.5),
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      controller.assigneeNameUser.value = 'Unassigned'.tr;
+                      controller.assigneeIdUser.value = '';
+                      controller.updateTask();
+                      Get.back();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10.sp),
+                      padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                      height: SizeApp.setSize(percent: .07),
+                      decoration: BoxDecoration(
+                        // color: ColorResources.WHITE ,
+                        color: ColorResources.WHITE,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: ColorResources.GREY.withOpacity(.5),
                           ),
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: controller.filteredMembers.value.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {},
-                            child: Obx(
-                              () => Container(
-                                margin: EdgeInsets.only(bottom: 10.sp),
-                                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                                height: SizeApp.setSize(percent: .07),
-                                decoration: BoxDecoration(
-                                  // color: ColorResources.WHITE ,
-                                  color: ColorResources.WHITE,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: ColorResources.GREY.withOpacity(.5),
-                                    ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 14.sp,
+                            backgroundColor: ColorResources.GREY.withOpacity(.1),
+                            child: Icon(
+                              Icons.person_2_rounded,
+                              color: ColorResources.GREY.withOpacity(.5),
+                              size: 16.sp,
+                            ),
+                          ),
+                          Gap(10.sp),
+                          Text(
+                            'Unassigned'.tr,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: ColorResources.BLACK.withOpacity(.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: controller.filteredMembers.value.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            controller.assigneeNameUser.value = controller.filteredMembers.value[index].full_name;
+                            controller.assigneeIdUser.value = controller.filteredMembers.value[index].id;
+                            controller.updateTask();
+                            Get.back();
+                          },
+                          child: Obx(
+                            () => Container(
+                              margin: EdgeInsets.only(bottom: 10.sp),
+                              padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                              height: SizeApp.setSize(percent: .07),
+                              decoration: BoxDecoration(
+                                // color: ColorResources.WHITE ,
+                                color: ColorResources.WHITE,
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: ColorResources.GREY.withOpacity(.5),
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 14.sp,
-                                      backgroundColor: ColorResources.GREY.withOpacity(.1),
-                                      child: Icon(
-                                        Icons.person_2_rounded,
-                                        color: ColorResources.GREY.withOpacity(.5),
-                                        size: 16.sp,
-                                      ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 14.sp,
+                                    backgroundColor: ColorResources.GREY.withOpacity(.1),
+                                    child: Icon(
+                                      Icons.person_2_rounded,
+                                      color: ColorResources.GREY.withOpacity(.5),
+                                      size: 16.sp,
                                     ),
-                                    Gap(10.sp),
-                                    Text(
-                                      controller.filteredMembers.value[index].full_name ?? "",
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK.withOpacity(.5),
-                                      ),
+                                  ),
+                                  Gap(10.sp),
+                                  Text(
+                                    controller.filteredMembers.value[index].full_name ?? "",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: ColorResources.BLACK.withOpacity(.5),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             )
           ]),
@@ -569,128 +614,153 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Subtask',
+              'Subtask'.tr,
               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
             Spacer(),
-            Text(
-              controller.listSubTask.length.toString(),
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
-            ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.addTaskBoard(
+                  TaskModel(
+                    boardId: controller.taskModel.value[0].boardId,
+                    title: controller.nameSubTask.text,
+                    issueType: IssueType.SUB_TASK,
+                    createdAt: DateTime.now(),
+                    key: "KEY",
+                  ),
+                );
+              },
               icon: Icon(
-                Icons.keyboard_arrow_down_outlined,
+                Icons.add,
                 size: 20.sp,
                 color: ColorResources.MAIN_APP,
               ),
             ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: SizedBox(
-                width: SizeApp.setSizeWithWidth(percent: .91),
-                child: TweenAnimationBuilder<double>(
-                    duration: const Duration(seconds: 3),
-                    curve: Curves.easeInOut,
-                    tween: Tween<double>(
-                      begin: 0,
-                      end: 1,
-                    ),
-                    builder: (context, value, _) {
-                      return LinearProgressIndicator(
-                        value: value,
-                        valueColor: const AlwaysStoppedAnimation<Color>(ColorResources.GREEN),
-                        backgroundColor: const Color.fromARGB(255, 108, 105, 105),
-                        minHeight: 8,
-                      );
-                    }),
-              ),
+            Text(
+              controller.listSubTask.length.toString(),
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK),
             ),
+            controller.listSubTask.length != 0
+                ? IconButton(
+                    onPressed: () {
+                      controller.changeShowSubTask();
+                    },
+                    icon: Icon(
+                      controller.isShowSubTask.value ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_outlined,
+                      size: 20.sp,
+                      color: controller.isShowSubTask.value ? ColorResources.GREY : ColorResources.MAIN_APP,
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
-        Gap(20.sp),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: controller.listSubTask.length,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            final subTask = controller.listSubTask[index];
-            return InkWell(
-              onTap: () {
-                Get.find<TaskDetailController>().onInit();
-              },
-              child: Row(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    height: 20.sp,
-                    width: 20.sp,
-                    child: Icon(
-                      Icons.call_missed_outgoing_outlined,
-                      color: ColorResources.WHITE,
-                      size: 16.sp,
-                    ),
-                  ),
-                  Gap(10.sp),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subTask.title,
-                        style: TextStyle(
-                            fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            controller.taskModel.value[0].key ?? "",
-                            style: TextStyle(
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.w500,
-                                color: ColorResources.BLACK.withOpacity(.5)),
-                          ),
-                          Gap(20.sp),
-                          Icon(
-                            Icons.compare_arrows_rounded,
-                            color: ColorResources.YELLOW,
-                            size: 24.sp,
-                          ),
-                          Gap(10.sp),
-                          Container(
-                            padding: EdgeInsets.only(left: 8.sp, right: 8.sp, top: 5.sp, bottom: 5.sp),
-                            decoration: BoxDecoration(
-                              color: ColorResources.GREY.withOpacity(.1),
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            child: Text(
-                              "TO DO",
-                              style: TextStyle(
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorResources.BLACK.withOpacity(.5)),
+        Obx(
+          () => controller.isShowSubTask.value && controller.listSubTask.length != 0
+              ? Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: SizedBox(
+                            width: SizeApp.setSizeWithWidth(percent: .91),
+                            child: LinearProgressIndicator(
+                              value: controller.progress.value,
+                              valueColor: const AlwaysStoppedAnimation<Color>(ColorResources.GREEN),
+                              backgroundColor: const Color.fromARGB(255, 108, 105, 105),
+                              minHeight: 8,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Gap(20.sp);
-          },
+                        ),
+                      ],
+                    ),
+                    Gap(20.sp),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: controller.listSubTask.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        final subTask = controller.listSubTask[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.offNamed(
+                                preventDuplicates: false, HomeRouter.TASKDETAIL, arguments: {"idTask": subTask.id});
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                height: 20.sp,
+                                width: 20.sp,
+                                child: Icon(
+                                  Icons.call_missed_outgoing_outlined,
+                                  color: ColorResources.WHITE,
+                                  size: 16.sp,
+                                ),
+                              ),
+                              Gap(10.sp),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    subTask.title,
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.5)),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        controller.taskModel.value[0].key ?? "",
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: ColorResources.BLACK.withOpacity(.5)),
+                                      ),
+                                      Gap(20.sp),
+                                      Icon(
+                                        Icons.compare_arrows_rounded,
+                                        color: ColorResources.YELLOW,
+                                        size: 24.sp,
+                                      ),
+                                      Gap(10.sp),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 8.sp, right: 8.sp, top: 5.sp, bottom: 5.sp),
+                                        decoration: BoxDecoration(
+                                          color: ColorResources.GREY.withOpacity(.1),
+                                          borderRadius: BorderRadius.circular(3),
+                                        ),
+                                        child: Text(
+                                          // lấy giá trị của enum status
+                                          statusValues.reverse[subTask.status] ?? "",
+                                          style: TextStyle(
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: ColorResources.BLACK.withOpacity(.5)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Gap(20.sp);
+                      },
+                    ),
+                  ],
+                )
+              : SizedBox(),
         ),
         Gap(20),
       ],

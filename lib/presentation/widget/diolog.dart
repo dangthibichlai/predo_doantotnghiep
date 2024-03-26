@@ -45,7 +45,7 @@ class DiologApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title ?? 'Add Column',
+                Text(title ?? 'Add Column'.tr,
                     style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 IconButton(
                     onPressed: () {
@@ -95,7 +95,7 @@ class DiologApp extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      nameButtonLeft ?? 'Add',
+                      nameButtonLeft ?? 'Add'.tr,
                       style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
                     ),
                   ),

@@ -15,7 +15,7 @@ class MembersSettingPage extends GetView<MembersController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Members',
+          'Members'.tr,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
         actions: [
@@ -42,7 +42,7 @@ class MembersSettingPage extends GetView<MembersController> {
                     child: Column(
                       children: [
                         Text(
-                          "Invite members",
+                          "Invite members".tr,
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
@@ -54,7 +54,7 @@ class MembersSettingPage extends GetView<MembersController> {
                           width: SizeApp.getMaxWidth(),
                           child: Center(
                             child: Text(
-                              "Đường dẫn sẽ hết hiệu lực trong 24h",
+                              "experied".tr,
                               style: TextStyle(
                                 fontSize: 11.sp,
                                 fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class MembersSettingPage extends GetView<MembersController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Đường dẫn: ",
+                              "path".tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14.sp,
@@ -113,7 +113,7 @@ class MembersSettingPage extends GetView<MembersController> {
                               onPressed: () {
                                 Get.back();
                               },
-                              child: Text("Hủy"),
+                              child: Text("Cancel".tr),
                             ),
                             AppButton(
                                 padding: EdgeInsets.all(8),
@@ -121,7 +121,7 @@ class MembersSettingPage extends GetView<MembersController> {
                                 onTap: () {
                                   controller.copyToClipboard(context);
                                 },
-                                label: "Copy",
+                                label: "Copy".tr,
                                 colorText: ColorResources.MAIN_APP.withOpacity(.7),
                                 type: AppButtonType.OUTLINE,
                                 width: 80.sp,
@@ -138,7 +138,7 @@ class MembersSettingPage extends GetView<MembersController> {
                 useSafeArea: true,
               );
             },
-            label: "Mời thành viên ",
+            label: "Add members".tr,
             fontSizedLabel: 12.sp,
           )
         ],
@@ -168,7 +168,7 @@ class MembersSettingPage extends GetView<MembersController> {
                 TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
             type: AppInputType.TEXT,
             maxLine: 1,
-            hintText: "Search members...",
+            hintText: "Search members...".tr,
             isBorder: true,
             fontSize: 14.sp,
             fillColor: Colors.transparent,
@@ -184,7 +184,7 @@ class MembersSettingPage extends GetView<MembersController> {
               () => controller.filteredMembers.value.length == 0
                   ? Center(
                       child: Text(
-                        "No members found",
+                        "No members found".tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -239,7 +239,7 @@ class MembersSettingPage extends GetView<MembersController> {
                                       ),
                                       controller.idLeader == controller.filteredMembers.value[index].id
                                           ? Text(
-                                              "Quản trị viên",
+                                              "Manager".tr,
                                               style: TextStyle(
                                                 fontSize: 10.sp,
                                                 fontWeight: FontWeight.w500,
@@ -247,7 +247,7 @@ class MembersSettingPage extends GetView<MembersController> {
                                               ),
                                             )
                                           : Text(
-                                              "Thành viên",
+                                              "Members".tr,
                                               style: TextStyle(
                                                 fontSize: 10.sp,
                                                 fontWeight: FontWeight.w500,

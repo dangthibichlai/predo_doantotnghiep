@@ -11,15 +11,7 @@ class RegisterPage extends GetView<RegisterController> {
       backgroundColor: ColorResources.WHITE,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child:
-              //  Obx(() {
-              //   if (controller.isLoading.isTrue) {
-              //     return const Center(
-              //       child: LoadingApp(),
-              //     );
-              //   }
-              //   return
-              Column(
+          child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +83,7 @@ class RegisterPage extends GetView<RegisterController> {
           ),
         ),
         Container(
-          width: SizeApp.setSize(percent: .45),
+          width: SizeApp.setSizeWithWidth(percent: .8),
           margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
           child: RichText(
             textAlign: TextAlign.center,
