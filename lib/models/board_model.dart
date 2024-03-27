@@ -75,6 +75,33 @@ class BoardModel {
         "status": statusValues.reverse[status],
         "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x.toJson())),
       };
+  Map<String, dynamic> toAddMap() => {
+        "isDelete": isDelete,
+        "label": label == null ? [] : List<dynamic>.from(label!.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        "name": name,
+        "position": position,
+        "projectId": projectId,
+        "status": statusValues.reverse[status],
+      };
+  Map<String, dynamic> toMapUpdate() => {
+        "isDelete": isDelete,
+        "label": label == null ? [] : List<dynamic>.from(label!.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        "name": name,
+        "position": position,
+        "projectId": projectId,
+      };
+
+  factory BoardModel.fromAddMap(Map<String, dynamic> json) => BoardModel(
+        id: json["_id"],
+        isDelete: json["isDelete"],
+        label: json["label"] == null
+            ? []
+            : List<List<String>>.from(json["label"]!.map((x) => List<String>.from(x.map((x) => x)))),
+        name: json["name"],
+        position: json["position"]?.toDouble(),
+        projectId: json["projectId"],
+        status: statusValues.map[json["status"]]!,
+      );
 }
 
 enum Status { DONE, IN_PROGRESS, TODO }

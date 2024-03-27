@@ -37,8 +37,10 @@ class TaskDetailController extends GetxController {
   RxBool isLoading = true.obs;
   RxBool isEditTitle = false.obs;
   IssueType issueType = IssueType.USER_STORY;
+  RxString issueTypeName = ''.obs;
   RxDouble progress = 0.0.obs;
   RxBool isShowSubTask = false.obs;
+  RxBool isShowAddSubTask = false.obs;
   TextEditingController nameSubTask = TextEditingController();
 
   @override
@@ -61,9 +63,11 @@ class TaskDetailController extends GetxController {
     isShowSubTask.value = !isShowSubTask.value;
   }
 
+  void changeShowAddSubTask() {
+    isShowAddSubTask.value = !isShowAddSubTask.value;
+  }
 
   void addTaskBoard(TaskModel taskModel) async {
-    Get.back();
     EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.add(
       data: taskModel,
@@ -155,10 +159,12 @@ class TaskDetailController extends GetxController {
         taskModel = <TaskModel>[].obs;
         taskModel.add(data);
         taskModel.refresh();
+        idBoard.value = taskModel.value[0].boardId;
         decriptionTask.text = taskModel.value[0].description ?? '';
         titleTask.text = taskModel.value[0].title ?? '';
         assigneeIdUser.value = taskModel.value[0].assignee ?? '';
         issueType = taskModel.value[0].issueType ?? '';
+        issueTypeName.value = issueTypeValues.reverse[issueType] ?? '';
       },
       onError: (error) {},
     );

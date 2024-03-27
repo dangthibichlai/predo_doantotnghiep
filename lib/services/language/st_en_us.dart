@@ -1,4 +1,21 @@
 const Map<String, String> en = {
+  'BUG': 'BUG',
+  'EPIC': 'EPIC',
+  'USER_STORY': 'USER_STORY',
+  'SUB_TASK': 'SUB_TASK',
+  'A task represents work that needs to be done.': 'A task represents work that needs to be done.',
+  'A bug represents a problem that needs to be fixed.': 'A bug represents a problem that needs to be fixed.',
+  'An epic represents a big user story that needs to be broken down.':
+      'An epic represents a big user story that needs to be broken down.',
+  'A sub-task represents a small piece of work that needs to be done.':
+      'A sub-task represents a small piece of work that needs to be done.',
+
+  'decriptionIssue':
+      'These are the issues types you can choose from when creating a new issue. You can also customize this list in the project settings',
+  'Add success': 'Add success',
+  'Please enter the task name': 'Please enter the task name',
+  'Please enter information': 'Please enter information',
+  'Add subtask': 'Add subtask',
   'No data': 'No data',
   'Dashboards': 'Dashboards',
   'empty issue': 'No issues to show',

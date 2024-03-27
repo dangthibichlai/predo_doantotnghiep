@@ -48,7 +48,6 @@ class _BoardListState extends ConsumerState<BoardList> {
                 ((prov.board.lists[widget.index].x! + prov.board.lists[widget.index].width! >
                     prov.draggedItemState!.width + prov.valueNotifier.value.dx)) &&
                 (prov.board.dragItemOfListIndex! != widget.index)) {
-
               if (prov.board.lists[widget.index].items.isEmpty) {
                 log("LIST 0 RIGHT");
                 prov.move = "REPLACE";

@@ -10,6 +10,7 @@ import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/kaban_project.dart/UI_modelChart.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
+import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -20,7 +21,7 @@ class KabanProjectController extends GetxController {
   String nameProjectItem = Get.arguments['nameProject'];
   String idProjectItem = Get.arguments['idProject'];
   String keyProjectItem = Get.arguments['keyProject'];
-
+  TextEditingController nameBoard = TextEditingController();
   final RefreshController refreshController = RefreshController();
   RxInt currentIndexTab = 0.obs;
   TextEditingController nameColumn = TextEditingController();
@@ -90,7 +91,6 @@ class KabanProjectController extends GetxController {
       onError: (onError) {
         EasyLoading.dismiss();
         AppAlert().info(message: onError);
-        log('Error project at $onError');
       },
     );
     isLoading.value = false;
@@ -156,14 +156,15 @@ class KabanProjectController extends GetxController {
     );
   }
 
-  void renameColumnPopup() {
+  void renameColumnPopup(String id, String name) {
+    renameColumn.text = name;
     Get.dialog(
       DiologApp(
         title: 'Rename column'.tr,
         nameButtonLeft: 'Rename'.tr,
         inputController: renameColumn,
         onTap: () {
-          // onTap rename
+          updateBoard(id);
         },
       ),
       barrierDismissible: true,
@@ -187,6 +188,67 @@ class KabanProjectController extends GetxController {
       transitionCurve: Curves.easeInOut,
       useSafeArea: true,
     );
+  }
+
+  void addBoard(BoardModel boardModel) {
+    // EasyLoading.show(status: 'loading'.tr);
+    isLoading.value = true;
+
+    _boardRepository.add(
+        data: boardModel,
+        onSuccess: (data) {
+          getProject(idProject);
+          listBorad.refresh();
+
+          EasyLoading.dismiss();
+          Get.back();
+        },
+        onError: (e) {
+          EasyLoading.dismiss();
+          AppAlert().info(message: e);
+          log('Error add board at $e');
+        });
+    isLoading.value = false;
+  }
+
+  void updateBoard(String id) {
+    isLoading.value = true;
+    _boardRepository.update(
+      id: id,
+      data: BoardModel(id: id, name: renameColumn.text, projectId: idProject),
+      onSuccess: (data) {
+        getProject(idProject);
+        listBorad.refresh();
+        EasyLoading.dismiss();
+        Get.back();
+      },
+      onError: (e) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: e);
+        log('Error delete board at $e');
+      },
+    );
+
+    isLoading.value = false;
+  }
+
+  void deleteBoard(String id) {
+    isLoading.value = true;
+
+    _boardRepository.delete(
+      id: id,
+      onSuccess: (data) {
+        getProject(idProject);
+        listBorad.refresh();
+        EasyLoading.dismiss();
+      },
+      onError: (e) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: e);
+        log('Error delete board at $e');
+      },
+    );
+    isLoading.value = true;
   }
 
   void changPageDetail() {

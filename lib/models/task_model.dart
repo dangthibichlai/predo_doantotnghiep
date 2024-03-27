@@ -3,6 +3,7 @@
 //     final taskModel = taskModelFromMap(jsonString);
 
 import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/resources/export/core_export.dart';
 
 ///CreateTaskDto
 class TaskModel {
@@ -177,8 +178,12 @@ class Activities {
 
 enum IssueType { BUG, EPIC, USER_STORY, SUB_TASK }
 
-final issueTypeValues = EnumValues(
-    {"BUG": IssueType.BUG, "EPIC": IssueType.EPIC, "USER_STORY": IssueType.USER_STORY, "SUB_TASK": IssueType.SUB_TASK});
+final issueTypeValues = EnumValues({
+  "BUG".tr: IssueType.BUG,
+  "EPIC".tr: IssueType.EPIC,
+  "USER_STORY".tr: IssueType.USER_STORY,
+  "SUB_TASK".tr: IssueType.SUB_TASK
+});
 
 class EnumValues<T> {
   Map<String, T> map;

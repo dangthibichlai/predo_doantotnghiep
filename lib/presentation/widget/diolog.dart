@@ -1,3 +1,4 @@
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 
 import '../../resources/export/core_export.dart';
@@ -12,6 +13,7 @@ class DiologApp extends StatelessWidget {
       this.nameButtonLeft,
       this.nameButtonRight,
       this.lable,
+      
       this.isInput = true});
   final TextEditingController? inputController;
   final Function onTap;
@@ -89,6 +91,10 @@ class DiologApp extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    if (inputController!.text.isEmpty) {
+                      AppAlert().warring(message: 'Please enter information'.tr);
+                      return;
+                    }
                     onTap();
                   },
                   borderRadius: BorderRadius.circular(10.sp),

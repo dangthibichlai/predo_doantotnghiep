@@ -1,4 +1,25 @@
 const Map<String, String> vi = {
+  'setting_001': 'Thay đổi ngôn ngữ',
+  'setting_002': 'Cài đặt thông báo',
+  'setting_003': 'Đăng xuất',
+  'setting_004': 'Đánh giá ứng dụng',
+  'BUG': 'Lỗi',
+  'EPIC': 'Epic',
+  'USER_STORY': 'Người dùng',
+  'SUB_TASK': 'Công việc con',
+
+  'A task represents work that needs to be done.': 'Một công việc đại diện cho công việc cần phải làm',
+  'A bug represents a problem that needs to be fixed.': 'Một lỗi đại diện cho một vấn đề cần phải sửa',
+  'An epic represents a big user story that needs to be broken down.':
+      'Một epic đại diện cho một câu chuyện người dùng lớn cần phải được chia nhỏ',
+  'A sub-task represents a small piece of work that needs to be done.':
+      'Một công việc con đại diện cho một phần nhỏ công việc cần phải làm',
+  'decriptionIssue':
+      'Đây là các loại vấn đề bạn có thể chọn khi tạo một vấn đề mới. Bạn cũng có thể tùy chỉnh danh sách này trong cài đặt dự án',
+  'Add success': 'Thêm thành công',
+  'Please enter the task name': 'Vui lòng nhập tên công việc',
+  'Please enter information': 'Vui lòng nhập thông tin',
+  'Add subtask': 'Thêm công việc con',
   'No data': 'Không có dữ liệu',
   'Dashboards': 'Bảng điều khiển',
   'empty issue': 'Không có vấn đề nào để hiển thị',

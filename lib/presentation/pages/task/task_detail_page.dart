@@ -1,11 +1,13 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/core/hepler/app_dropdown.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class TaskDetailPage extends GetView<TaskDetailController> {
@@ -19,6 +21,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
       backgroundColor: ColorResources.WHITE,
       body: Obx(
         () {
+          final uiIssueTypeItem = UIIssueType.getUIIssueType(controller.issueTypeName.value);
+
           if (controller.isLoading.value) {
             return Center(
               child: LoadingApp(
@@ -33,9 +37,8 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                     child: Column(
                   children: [
                     _header(),
-                    Expanded(
-                        child: Obx(
-                      () => SingleChildScrollView(
+                    Expanded(child: Obx(() {
+                      return SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.only(
                             left: 15.0,
@@ -50,13 +53,13 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                   Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: ColorResources.GREEN,
+                                      color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                     height: 16.sp,
                                     width: 16.sp,
                                     child: Icon(
-                                      Icons.bookmark_outlined,
+                                      uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
                                       color: ColorResources.WHITE,
                                       size: 12.sp,
                                     ),
@@ -244,14 +247,14 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                               Divider(
                                 color: ColorResources.GREY.withOpacity(.2),
                               ),
-                              _subTask(),
+                              _subTask(context),
                               // controller.listSubTask.length != 0 ? _subTask() : SizedBox(),
                               _issueTypeBody(context),
                             ],
                           ),
                         ),
-                      ),
-                    )),
+                      );
+                    })),
                   ],
                 )),
               ),
@@ -304,29 +307,51 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ],
         ),
         Gap(5.sp),
-        Row(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: ColorResources.GREEN,
-                borderRadius: BorderRadius.circular(3),
+        InkWell(
+          onTap: () {
+            showFlexibleBottomSheet(
+              isSafeArea: true,
+              duration: Duration(milliseconds: 300),
+              minHeight: 0,
+              initHeight: .6,
+              maxHeight: .6,
+              context: context,
+              builder: _buildBottomIssueType,
+              isExpand: false,
+              bottomSheetBorderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-              height: 16.sp,
-              width: 16.sp,
-              child: Icon(
-                Icons.bookmark_outlined,
-                color: ColorResources.WHITE,
-                size: 12.sp,
-              ),
-            ),
-            Gap(10.sp),
-            Text(
-              'Task'.tr,
-              style:
-                  TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
-            ),
-          ],
+            );
+          },
+          child: Obx(() {
+            // lấy giá trị của enum issueType
+            final uiIssueTypeItem = UIIssueType.getUIIssueType(controller.issueTypeName.value);
+            return Row(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  height: 20.sp,
+                  width: 20.sp,
+                  child: Icon(
+                    uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
+                    color: ColorResources.WHITE,
+                    size: 12.sp,
+                  ),
+                ),
+                Gap(10.sp),
+                Text(
+                  controller.issueTypeName.value,
+                  style: TextStyle(
+                      fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
+                ),
+              ],
+            );
+          }),
         ),
         Gap(15.sp),
         Row(
@@ -432,6 +457,95 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildBottomIssueType(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(top: 30.sp, right: 20.sp, left: 20.sp),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Issue type'.tr,
+            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
+          ),
+          Gap(5.sp),
+          Text(
+            'decriptionIssue'.tr,
+            style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK.withOpacity(.5)),
+          ),
+          Gap(20),
+          ListView.separated(
+            itemBuilder: (context, index) {
+              final item = uiIssueType[index];
+              return InkWell(
+                onTap: () {
+                  controller.issueType = issueTypeValues.map[item.name] ?? IssueType.USER_STORY;
+                  controller.updateTask();
+                  Get.back();
+                },
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: item.color ?? ColorResources.GREEN,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          height: 16.sp,
+                          width: 16.sp,
+                          child: Icon(
+                            item.icon ?? Icons.bookmark_outlined,
+                            color: ColorResources.WHITE,
+                            size: 12.sp,
+                          ),
+                        ),
+                        Gap(10.sp),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name ?? "",
+                              style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorResources.BLACK.withOpacity(.5)),
+                            ),
+                            SizedBox(
+                              width: SizeApp.setSizeWithWidth(percent: .8),
+                              child: Text(
+                                item.description ?? "",
+                                style: TextStyle(
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w300,
+                                    color: ColorResources.BLACK.withOpacity(.5)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+            itemCount: uiIssueType.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            separatorBuilder: (BuildContext context, int index) {
+              return Gap(20.sp);
+            },
+          ),
+        ]),
+      ),
     );
   }
 
@@ -607,7 +721,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
     );
   }
 
-  Widget _subTask() {
+  Widget _subTask(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -620,15 +734,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             Spacer(),
             IconButton(
               onPressed: () {
-                controller.addTaskBoard(
-                  TaskModel(
-                    boardId: controller.taskModel.value[0].boardId,
-                    title: controller.nameSubTask.text,
-                    issueType: IssueType.SUB_TASK,
-                    createdAt: DateTime.now(),
-                    key: "KEY",
-                  ),
-                );
+                controller.changeShowAddSubTask();
               },
               icon: Icon(
                 Icons.add,
@@ -763,6 +869,106 @@ class TaskDetailPage extends GetView<TaskDetailController> {
               : SizedBox(),
         ),
         Gap(20),
+        Obx(
+          () => controller.isShowAddSubTask.value
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          AppInput(
+                            controller: controller.nameSubTask,
+                            onSubmitted: (p0) {
+                              controller.addTaskBoard(
+                                TaskModel(
+                                    boardId: controller.idBoard.value,
+                                    title: controller.nameSubTask.text,
+                                    issueType: IssueType.SUB_TASK,
+                                    createdAt: DateTime.now(),
+                                    key: "KEY",
+                                    parent: controller.idTask),
+                              );
+                              controller.nameSubTask.clear();
+                              controller.changeShowAddSubTask();
+                            },
+                            colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: ColorResources.BLACK.withOpacity(.4)),
+                            labelStyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: ColorResources.BLACK.withOpacity(.7)),
+                            type: AppInputType.TEXT,
+                            maxLine: 1,
+                            autofocus: true,
+                            hintText: 'Add subtask'.tr,
+                            isBorder: true,
+                            fontSize: 14.sp,
+                            fillColor: Colors.transparent,
+                            borderSide: BorderSide.none,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 5.sp),
+                            child: Divider(
+                              height: 1,
+                              color: ColorResources.MAIN_APP.withOpacity(.5),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30.sp,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      CommonHelper.onTapHandler(callback: () {
+                                        controller.changeShowAddSubTask();
+                                        // an ban phim
+                                        FocusScope.of(context).unfocus();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      size: 20.sp,
+                                      color: ColorResources.MAIN_APP.withOpacity(.8),
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      CommonHelper.onTapHandler(callback: () {
+                                        if (controller.nameSubTask.text.isEmpty) {
+                                          AppAlert().warring(message: 'Please enter the task name'.tr);
+                                          return;
+                                        }
+                                        controller.addTaskBoard(
+                                          TaskModel(
+                                              boardId: controller.idBoard.value,
+                                              title: controller.nameSubTask.text,
+                                              issueType: IssueType.SUB_TASK,
+                                              createdAt: DateTime.now(),
+                                              key: "KEY",
+                                              parent: controller.idTask),
+                                        );
+                                        FocusScope.of(context).unfocus();
+                                        controller.changeShowAddSubTask();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.check,
+                                      size: 22.sp,
+                                      color: ColorResources.MAIN_APP.withOpacity(.8),
+                                    )),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              : SizedBox(),
+        ),
       ],
     );
   }

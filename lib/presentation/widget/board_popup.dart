@@ -1,7 +1,11 @@
 import 'package:test_intern/resources/export/core_export.dart';
 
 class PopupMenuWidget extends GetView<KabanProjectController> {
-  const PopupMenuWidget({
+  final String idBoard;
+  final String nameBoard;
+  const PopupMenuWidget(
+    this.idBoard,
+    this.nameBoard, {
     super.key,
   });
 
@@ -57,7 +61,7 @@ class PopupMenuWidget extends GetView<KabanProjectController> {
       onSelected: (value) {
         switch (value) {
           case 'rename':
-            controller.renameColumnPopup();
+            controller.renameColumnPopup(idBoard, nameBoard);
             break;
 
           case 'move':
@@ -69,6 +73,7 @@ class PopupMenuWidget extends GetView<KabanProjectController> {
             //limit
             break;
           case 'delete':
+            controller.deleteBoard(idBoard);
             //delete
             break;
         }

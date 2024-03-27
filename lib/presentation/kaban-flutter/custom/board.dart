@@ -323,11 +323,14 @@ class _BoardState extends ConsumerState<Board> {
                                                         bottom: 20,
                                                       ),
                                                       width: 300,
-                                                      color: const Color.fromARGB(
-                                                        255,
-                                                        247,
-                                                        248,
-                                                        252,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(15),
+                                                        color: const Color.fromARGB(
+                                                          255,
+                                                          247,
+                                                          248,
+                                                          252,
+                                                        ),
                                                       ),
                                                       child: Wrap(
                                                         children: [
@@ -373,26 +376,29 @@ class _BoardState extends ConsumerState<Board> {
                                                         ],
                                                       ),
                                                     )
-                                                  : GestureDetector(
-                                                      onTap: () {
-                                                        if (boardProv.newCardState.isFocused == true) {
-                                                          ref.read(ProviderList.cardProvider).saveNewCard();
-                                                        }
-                                                        boardListProv.newList = true;
-                                                        setState(() {});
-                                                      },
-                                                      child: Container(
-                                                          height: 50,
-                                                          width: 300,
-                                                          margin: const EdgeInsets.only(top: 10, left: 20),
-                                                          decoration: BoxDecoration(
-                                                              color: Colors.transparent,
-                                                              borderRadius: BorderRadius.circular(6)),
-                                                          child: DottedBorder(
-                                                            child: Center(
-                                                                child: Text("Add List", style: widget.textStyle)),
-                                                          )),
-                                                    )
+                                                  : SizedBox(),
+                                              //xử lí
+                                              // : GestureDetector(
+                                              //     onTap: () {
+                                              //       if (boardProv.newCardState.isFocused == true) {
+                                              //           ref.read(ProviderList.cardProvider).saveNewCard();
+
+                                              //       }
+                                              //       boardListProv.newList = true;
+                                              //       setState(() {});
+                                              //     },
+                                              //     child: Container(
+                                              //         height: 50,
+                                              //         width: 300,
+                                              //         margin: const EdgeInsets.only(top: 10, left: 20),
+                                              //         decoration: BoxDecoration(
+                                              //             color: Colors.transparent,
+                                              //             borderRadius: BorderRadius.circular(6)),
+                                              //         child: DottedBorder(
+                                              //           child: Center(
+                                              //               child: Text("Add List", style: widget.textStyle)),
+                                              //         )),
+                                              //   )
                                             ],
                                           ))
                                     .toList()),
