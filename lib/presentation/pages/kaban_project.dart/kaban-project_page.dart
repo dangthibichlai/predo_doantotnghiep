@@ -1,8 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member, unused_element
 
-import 'package:test_intern/models/board_model.dart';
-import 'package:test_intern/models/task_model.dart';
-import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -28,7 +25,10 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                         color: ColorResources.BLACK.withOpacity(.5),
                       )),
                   Text(controller.nameProject,
-                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: ColorResources.MAIN_APP)),
                 ],
               ),
               ExpertsTabBar(
@@ -50,7 +50,10 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                   inputController: controller.nameBoard,
                   onTap: () {
                     controller.addBoard(
-                      BoardModel(name: controller.nameBoard.text, projectId: controller.idProject, status: Status.TODO),
+                      BoardModel(
+                          name: controller.nameBoard.text,
+                          projectId: controller.idProject,
+                          status: Status.TODO),
                     );
                   },
                 ),
@@ -96,45 +99,55 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         );
       }
       return Container(
-          constraints:
-              BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
+          constraints: BoxConstraints(
+              minHeight: SizeApp.setSize(percent: .02),
+              maxHeight: SizeApp.setSize(percent: .75)),
           child: KanbanBoard(
             List.generate(controller.listBorad.length, (index) {
               final item = controller.listBorad.value[index];
 
               return BoardListsData(
-                  header: Obx(() =>
-                      _title(item.name, controller.listBorad.value[index].tasks!.length, item.id ?? '', item.name)),
+                  header: Obx(() => _title(item.name,
+                      controller.listBorad.value[index].tasks!.length)),
                   footer: _footer(item.id ?? ''),
                   width: SizeApp.setSizeWithWidth(percent: .8),
-                  items: List.generate(growable: true, item.tasks!.length, (index) {
+                  items: List.generate(growable: true, item.tasks!.length,
+                      (index) {
                     return InkWell(
                       onTap: () {
                         CommonHelper.onTapHandler(callback: () {
-                          controller.routerTaskDetail(item.tasks![index].id ?? "");
+                          controller
+                              .routerTaskDetail(item.tasks![index].id ?? "");
                         });
                       },
                       child: _contentItem(
                           title: item.tasks![index].title ?? "",
                           nameProject: item.tasks![index].key ?? "",
-                          issueType: issueTypeValues.reverse[item.tasks![index].issueType] ?? ''),
+                          issueType: issueTypeValues
+                                  .reverse[item.tasks![index].issueType] ??
+                              ''),
                     );
                   }));
             }),
             onItemLongPress: (cardIndex, listIndex) {},
-            onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
+            onItemReorder:
+                (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {},
             onListLongPress: (listIndex) {},
             onListReorder: (oldListIndex, newListIndex) {},
             onItemTap: (cardIndex, listIndex) {},
             onListTap: (listIndex) {},
             onListRename: (oldName, newName) {},
             backgroundColor: Colors.white,
-            textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+            textStyle: const TextStyle(
+                fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
           ));
     });
   }
 
-  Widget _contentItem({required String title, required String nameProject, required String issueType}) {
+  Widget _contentItem(
+      {required String title,
+      required String nameProject,
+      required String issueType}) {
     final uiIssueTypeItem = UIIssueType.getUIIssueType(issueType);
 
     return Container(
@@ -164,7 +177,9 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7))),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.BLACK.withOpacity(.7))),
           ),
           Gap(20),
           Row(
@@ -187,7 +202,9 @@ class KabanProjectPage extends GetView<KabanProjectController> {
               Text(
                 nameProject,
                 style: TextStyle(
-                    fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.BLACK.withOpacity(.5)),
               ),
             ],
           )
@@ -222,7 +239,10 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                 ),
                 Gap(10),
                 Text('Create'.tr,
-                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP)),
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: ColorResources.MAIN_APP)),
               ],
             ),
           ),
@@ -251,8 +271,10 @@ class KabanProjectPage extends GetView<KabanProjectController> {
         children: [
           // popup
           Text('${title}  ${count}',
-              style:
-                  TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.3))),
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.BLACK.withOpacity(.3))),
 
           PopupMenuWidget(id, nameBoard),
         ],
@@ -264,7 +286,10 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     return Expanded(
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text('Choose the type of chart to display'.tr,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: ColorResources.GREY)),
+            style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: ColorResources.GREY)),
         Gap(20),
         Container(
           padding: SizeApp.setEdgeInsetsOnly(
@@ -272,16 +297,23 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             right: SizeApp.setSizeWithWidth(percent: .02),
             top: SizeApp.setSize(percent: .005),
           ),
-          constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .2), maxHeight: SizeApp.setSize(percent: .7)),
+          constraints: BoxConstraints(
+              minHeight: SizeApp.setSize(percent: .2),
+              maxHeight: SizeApp.setSize(percent: .7)),
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 10.sp, childAspectRatio: 0.7),
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.sp,
+                childAspectRatio: 0.7),
             itemBuilder: (context, index) {
               final item = controller.listChart[index];
               return InkWell(
                 onTap: () {
                   CommonHelper.onTapHandler(callback: () {
-                    Get.toNamed(HomeRouter.CHOOSECHART, arguments: {'title': item.description});
+                    Get.toNamed(HomeRouter.CHOOSECHART, arguments: {
+                      'title': item.description,
+                      'projectId': controller.idProject
+                    });
                   });
                 },
                 child: Column(
@@ -291,13 +323,19 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                       width: SizeApp.setSizeWithWidth(percent: .4),
                     ),
                     Text(item.nameChart ?? '',
-                        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK)),
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.BLACK)),
                     Text(
                         item.description ??
                             'The bar chart is a chart with rectangular bars. Each bar has a height proportional to the value it represents. The bars can be plotted vertically or horizontally. The vertical bar chart is sometimes called a column chart.',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: ColorResources.GREY)),
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: ColorResources.GREY)),
                   ],
                 ),
               );
