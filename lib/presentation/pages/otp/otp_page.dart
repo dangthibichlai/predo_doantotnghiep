@@ -6,7 +6,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:test_intern/core/enums/enums.dart';
 import 'package:test_intern/core/hepler/app-button.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
-import 'package:test_intern/core/hepler/loading_app.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/otp/otp_controller.dart';
 import 'package:test_intern/resources/app_color.dart';
@@ -70,7 +69,7 @@ class OtpPage extends GetView<OtpController> {
             height: 20,
           ),
           SizedBox(
-            width: SizeApp.setSize(percent: .45),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             child: Align(
               alignment: Alignment.center,
               child: Text(
@@ -85,7 +84,7 @@ class OtpPage extends GetView<OtpController> {
             ),
           ),
           Container(
-            width: SizeApp.setSize(percent: .45),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X, left: SizeApp.SPACE_2X, right: SizeApp.SPACE_2X),
             child: Text(
               'opt_02'.tr,
@@ -96,7 +95,7 @@ class OtpPage extends GetView<OtpController> {
             ),
           ),
           Container(
-            width: SizeApp.setSize(percent: .45),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
             child: Text(
               controller.email,
@@ -133,7 +132,7 @@ class OtpPage extends GetView<OtpController> {
               fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
               fontWeight: FontWeight.bold),
           Container(
-            width: SizeApp.setSize(percent: .45),
+            width: SizeApp.setSizeWithWidth(percent: .8),
             margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
             child: Text(
               'opt_04'.tr,

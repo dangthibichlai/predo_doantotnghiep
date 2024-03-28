@@ -34,10 +34,10 @@ class OtpController extends GetxController {
 
   void verifyOtp(BuildContext context) {
     if (AppValidate.nullOrEmpty(otpController.text)) {
-      AppAlert().warring(message: 'Vui lòng điền đầy đủ thông tin'.tr);
+      AppAlert().warring(message: 'opt_05'.tr);
       return;
     }
-    EasyLoading.show(status: 'loading'.tr);
+    EasyLoading.show(status: 'smart_refresh_008'.tr);
     final AuthModel _authOTP = AuthModel();
     _authOTP.email = email;
     _authRepository.verify_sendOTP(
@@ -54,13 +54,11 @@ class OtpController extends GetxController {
 
         EasyLoading.dismiss();
 
-        log('Send OTP success at $data');
         return;
       },
       onError: (e) {
         EasyLoading.dismiss();
 
-        log('Error sending OTP at $e');
         final locale = sl<SharedPreferenceHelper>().getLocale;
         if (locale == 'en') {
           AppAlert().info(message: e);
@@ -89,7 +87,7 @@ class OtpController extends GetxController {
     if (!checkValidated()) {
       return;
     }
-    EasyLoading.show(status: 'loading'.tr);
+    EasyLoading.show(status: 'smart_refresh_008'.tr);
 
     final AuthModel _authModel = AuthModel();
     _authModel.email = email;
@@ -101,7 +99,6 @@ class OtpController extends GetxController {
       onSuccess: (data) {
         AppAlert().success(message: 'other_0023'.tr);
         Get.toNamed(AuthRouter.LOGIN, arguments: {'emailRegister': email});
-        log('Sign up success at $data');
       },
       onError: (e) {
         log('Error sign up at $e');
@@ -178,7 +175,7 @@ class OtpController extends GetxController {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Email đã được xác thực thành công !',
+                          'veryfied'.tr,
                           style: GoogleFonts.roboto(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
@@ -194,7 +191,7 @@ class OtpController extends GetxController {
                       ],
                     ),
                     Text(
-                      '\nHãy tiếp tục việc thiết lập tài khoản của mình',
+                      '\nopt_06'.tr,
                       style: GoogleFonts.roboto(
                         height: .5,
                         fontSize: 11.sp,
@@ -206,8 +203,8 @@ class OtpController extends GetxController {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        hintText: 'Nhập họ và tên'.tr,
-                        label: Text('Họ và tên'),
+                        hintText: 'field_name'.tr,
+                        label: Text('full_name'.tr),
                         contentPadding: EdgeInsets.only(left: 10, right: 10),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
@@ -223,7 +220,7 @@ class OtpController extends GetxController {
                         ? Row(
                             children: [
                               Text(
-                                'Họ và tên không được để trống'.tr,
+                                'null_name'.tr,
                                 style: GoogleFonts.roboto(
                                   fontSize: 11.sp,
                                   color: ColorResources.RED,
@@ -259,8 +256,9 @@ class OtpController extends GetxController {
                               showPassword();
                             },
                           ),
-                          hintText: 'Nhập mật khẩu của bạn',
-                          label: Text('Mật khẩu'),
+                          hintText: 'field_password'.tr,
+                          label: Text('password'.tr,
+                              style: GoogleFonts.roboto(fontSize: 12.sp, color: ColorResources.GREY)),
                           contentPadding: EdgeInsets.only(left: 10, right: 10),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
@@ -274,7 +272,7 @@ class OtpController extends GetxController {
                       ),
                     ),
                     Gap(7),
-                    Text("Mật khẩu phải chứa ít nhất 8 ký tự",
+                    Text("veryfied_pass".tr,
                         style: GoogleFonts.roboto(
                             fontSize: 11.sp,
                             color: isPasswordRegister.value ? ColorResources.RED : ColorResources.GREY)),

@@ -1,4 +1,3 @@
-
 import '../../../resources/export/core_export.dart';
 
 class ChangeLanguageController extends GetxController {
@@ -9,6 +8,12 @@ class ChangeLanguageController extends GetxController {
       'value': 'en',
       'name': 'English'.tr,
       'image': ImagesPath.enFlag,
+      'isSelected': false,
+    },
+    {
+      'value': 'vi',
+      'name': 'Vietnamese'.tr,
+      'image': ImagesPath.vnFlag,
       'isSelected': false,
     },
     {
@@ -41,12 +46,6 @@ class ChangeLanguageController extends GetxController {
       'image': ImagesPath.ruFlag,
       'isSelected': false,
     },
-    {
-      'value': 'vi',
-      'name': 'Vietnamese'.tr,
-      'image': ImagesPath.vnFlag,
-      'isSelected': false,
-    },
   ];
 
   bool isLoading = true;
@@ -54,7 +53,8 @@ class ChangeLanguageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    String locale = sl<SharedPreferenceHelper>().getLocale;
+    print('locale: $locale');
     // Check is selected language.
     _checkIsSelectedLanguage();
   }

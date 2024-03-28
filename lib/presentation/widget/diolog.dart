@@ -1,3 +1,4 @@
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 
 import '../../resources/export/core_export.dart';
@@ -12,6 +13,7 @@ class DiologApp extends StatelessWidget {
       this.nameButtonLeft,
       this.nameButtonRight,
       this.lable,
+      
       this.isInput = true});
   final TextEditingController? inputController;
   final Function onTap;
@@ -45,7 +47,7 @@ class DiologApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title ?? 'Add Column',
+                Text(title ?? 'Add Column'.tr,
                     style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 IconButton(
                     onPressed: () {
@@ -89,13 +91,17 @@ class DiologApp extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    if (inputController!.text.isEmpty) {
+                      AppAlert().warring(message: 'Please enter information'.tr);
+                      return;
+                    }
                     onTap();
                   },
                   borderRadius: BorderRadius.circular(10.sp),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      nameButtonLeft ?? 'Add',
+                      nameButtonLeft ?? 'Add'.tr,
                       style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
                     ),
                   ),

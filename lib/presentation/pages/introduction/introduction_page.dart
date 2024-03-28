@@ -8,10 +8,8 @@ import 'package:test_intern/core/hepler/app-image.dart';
 import 'package:test_intern/core/hepler/app_lazy_index_stack.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/introduction/introduction_controller.dart';
-import 'package:test_intern/presentation/widget/introduction_component/close_button_widget.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
-import 'package:test_intern/routers/auth_router.dart';
 
 class IntroductionPage extends GetView<IntroductionController> {
   const IntroductionPage({super.key});
@@ -52,9 +50,6 @@ class IntroductionPage extends GetView<IntroductionController> {
                   controller.onChangePageIndex(index: value);
                 },
                 controller: controller.pageController,
-                physics: controller.isShowButton.value
-                    ? const ClampingScrollPhysics()
-                    : const NeverScrollableScrollPhysics(),
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return LazyIndexedStack(
@@ -62,23 +57,23 @@ class IntroductionPage extends GetView<IntroductionController> {
                     alignment: Alignment.center,
                     children: [
                       itemIntro(
-                        'intro_001',
+                        'intro_001'.tr,
                         ImagesPath.introduceIssueImg,
                       ),
                       itemIntro(
-                        'intro_002',
+                        'intro_002'.tr,
                         ImagesPath.introduceQueuesImg,
                       ),
                       itemIntro(
-                        'intro_003',
+                        'intro_003'.tr,
                         ImagesPath.introduceSlaImg,
                       ),
                       itemIntro(
-                        'intro_004',
+                        'intro_004'.tr,
                         ImagesPath.introduceStayInTheLoopImg,
                       ),
                       itemIntro(
-                        'intro_005',
+                        'intro_005'.tr,
                         ImagesPath.introduceIssueImg,
                       ),
                     ],

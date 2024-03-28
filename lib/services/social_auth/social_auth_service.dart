@@ -48,42 +48,11 @@ class SocialAuthService {
   }
 
   ///
-  /// Facebook auth.
-  ///
-  Future<UserCredential?> facebookAuth() async {
-    final _loginResult = await FacebookAuth.instance.login();
-
-    EasyLoading.show(status: 'other_0025'.tr);
-
-    if (_loginResult.status == LoginStatus.success) {
-      // Obtain the auth request.
-      final OAuthCredential _credential = FacebookAuthProvider.credential(_loginResult.accessToken!.token);
-
-      return FirebaseAuth.instance.signInWithCredential(_credential);
-    } else {
-      log('Facebook auth ResultStatus: ${_loginResult.status}');
-      log('Facebook auth Message: ${_loginResult.message}');
-
-      return null;
-    }
-  }
-
-  ///
   /// Google logout.
   ///
   Future<void> socialLogout({required SocialType socialType}) async {
     await FacebookAuth.instance.logOut();
     switch (socialType) {
-      case SocialType.FACEBOOK:
-        await FacebookAuth.instance.logOut();
-
-        log('Facebook logout');
-
-        break;
-      // case SocialType.APPLE:
-      //   log('Apple logout');
-
-      //   break;
       default:
         _googleSignIn.signOut();
 

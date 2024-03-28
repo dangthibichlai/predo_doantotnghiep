@@ -24,7 +24,7 @@ class ProjectController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
+ 
   getProject() async {
     isLoading.value = true;
     await _cartRepository.find(
@@ -32,7 +32,6 @@ class ProjectController extends GetxController {
       onSuccess: (data) {
         listProject.value = data;
         listProject.refresh();
-        log('listProject: ${listProject.value}');
         isLoading.value = false;
       },
       onError: (error) {

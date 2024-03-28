@@ -51,7 +51,7 @@ class LoginPage extends GetView<LoginController> {
           height: 20,
         ),
         Text(
-          'Đăng nhập để tiếp tục',
+          'Login to continue'.tr,
           style: GoogleFonts.lexend(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
@@ -64,7 +64,7 @@ class LoginPage extends GetView<LoginController> {
           child: TextField(
             controller: controller.emailController,
             decoration: InputDecoration(
-              hintText: 'Nhập email của bạn',
+              hintText: 'Enter your email'.tr,
               contentPadding: EdgeInsets.only(left: 10, right: 10),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
@@ -82,7 +82,7 @@ class LoginPage extends GetView<LoginController> {
               ? SizedBox(
                   width: SizeApp.setSizeWithWidth(percent: .8),
                   child: Text(
-                    'Vui lòng nhập Email của bạn',
+                    'Please enter your password'.tr,
                     style: GoogleFonts.lexend(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w300,
@@ -121,7 +121,7 @@ class LoginPage extends GetView<LoginController> {
                     controller.showPassword();
                   },
                 ),
-                hintText: 'Nhập mật khẩu của bạn',
+                hintText: 'Enter your password'.tr,
                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: ColorResources.MAIN_APP, width: 2),
@@ -140,7 +140,7 @@ class LoginPage extends GetView<LoginController> {
               ? SizedBox(
                   width: SizeApp.setSizeWithWidth(percent: .8),
                   child: Text(
-                    'Vui lòng nhập password của bạn',
+                    'Please enter your password'.tr,
                     style: GoogleFonts.lexend(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w300,

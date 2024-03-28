@@ -2,6 +2,9 @@
 //
 //     final taskModel = taskModelFromMap(jsonString);
 
+import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/resources/export/core_export.dart';
+
 ///CreateTaskDto
 class TaskModel {
   String? id;
@@ -16,6 +19,7 @@ class TaskModel {
   List<dynamic>? activities;
   DateTime? createdAt;
   DateTime? updatedAt;
+  Status? status;
 
   TaskModel({
     this.id,
@@ -30,6 +34,7 @@ class TaskModel {
     this.activities,
     this.createdAt,
     this.updatedAt,
+    this.status,
   });
 
   TaskModel copyWith({
@@ -45,6 +50,7 @@ class TaskModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     IssueType? issueType,
+    Status? status,
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -59,6 +65,7 @@ class TaskModel {
       activities: activities ?? this.activities,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      status: status ?? this.status,
     );
   }
 
@@ -73,6 +80,8 @@ class TaskModel {
       'issueType': issueTypeValues.reverse[issueType] ?? IssueType.USER_STORY.toString(),
       'isDelete': isDelete ?? false,
       'activities': activities ?? [],
+      "status": statusValues.reverse[status],
+
       // 'createdAt': createdAt ?? DateTime.now().toString(),
       // 'updatedAt': updatedAt ?? DateTime.now().toString(),
     };
@@ -88,6 +97,7 @@ class TaskModel {
       assignee: json['assignee'] as String?,
       parent: json['parent'] as String?,
       issueType: issueTypeValues.map[json['issueType']],
+      status: statusValues.map[json["status"]]!,
       activities: json['activities'] as List<dynamic>?,
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'].toString()).toLocal() : null,
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'].toString()).toLocal() : null,
@@ -166,9 +176,10 @@ class Activities {
       other is Activities && runtimeType == other.runtimeType && description == other.description && id == other.id;
 }
 
-enum IssueType { BUG, EPIC, USER_STORY }
+enum IssueType { BUG, EPIC, USER_STORY, SUB_TASK }
 
-final issueTypeValues = EnumValues({"BUG": IssueType.BUG, "EPIC": IssueType.EPIC, "USER_STORY": IssueType.USER_STORY});
+final issueTypeValues = EnumValues(
+    {"BUG": IssueType.BUG, "EPIC": IssueType.EPIC, "USER_STORY": IssueType.USER_STORY, "SUB_TASK": IssueType.SUB_TASK});
 
 class EnumValues<T> {
   Map<String, T> map;

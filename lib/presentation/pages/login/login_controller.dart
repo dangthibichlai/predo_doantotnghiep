@@ -95,11 +95,6 @@ class LoginController extends GetxController {
         }
         EasyLoading.dismiss();
     }
-    // _callAPILogin(
-    //   auth: AuthModel(email: emailController.text, password: passwordController.text, fcm_token: [deviceID]),
-    //   isLoginWithLocal: true,
-    //   socialType: socialType,
-    // );
   }
 
   void _callAPILogin({required AuthModel auth, required bool isLoginWithLocal, required SocialType socialType}) {

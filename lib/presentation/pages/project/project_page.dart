@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:intl/intl.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';
 import 'package:test_intern/presentation/widget/title_custom.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -60,7 +61,7 @@ class ProjectPage extends GetView<ProjectController> {
                       ImagesPath.imgHomeRecentEmpty,
                       width: SizeApp.setSizeWithWidth(percent: .4),
                     ),
-                    Text('No data'),
+                    Text('No data'.tr),
                   ],
                 ),
               )
@@ -94,11 +95,7 @@ class ProjectPage extends GetView<ProjectController> {
                 final item = controller.listProject.value[index];
                 return InkWell(
                     onTap: () => Get.toNamed(HomeRouter.KABANPROJECT,
-                            arguments: {
-                              'idProject': item.id,
-                              'nameProject': item.name,
-                              'keyProject': item.key
-                            }),
+                        arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key}),
                     child: Row(
                       children: [
                         Container(
@@ -169,7 +166,8 @@ class ProjectPage extends GetView<ProjectController> {
 
                   return GestureDetector(
                     onTap: () => CommonHelper.onTapHandler(callback: () {
-                      Get.toNamed(HomeRouter.KABANPROJECT, arguments: {'idProject': item.id, 'nameProject': item.name});
+                      Get.toNamed(HomeRouter.KABANPROJECT,
+                          arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key});
                     }),
                     child: Container(
                       margin: REdgeInsets.all(5.sp),
@@ -197,6 +195,7 @@ class ProjectPage extends GetView<ProjectController> {
                             ),
                             Expanded(
                               child: Container(
+                                width: SizeApp.getMaxWidth(),
                                 padding: EdgeInsets.all(10.sp),
                                 decoration: BoxDecoration(
                                   color: ColorResources.WHITE,
@@ -210,11 +209,11 @@ class ProjectPage extends GetView<ProjectController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Project name',
+                                      item.name,
                                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'dangbichlai21@gmail.com',
+                                      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(item.createdAt.toString())),
                                       maxLines: 1,
                                       style: TextStyle(
                                           fontSize: 14.sp,
@@ -233,11 +232,11 @@ class ProjectPage extends GetView<ProjectController> {
                               width: SizeApp.setSize(percent: .06),
                               height: SizeApp.setSize(percent: .06),
                               decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: CommonHelper.randomColorGenerator(),
                                 borderRadius: BorderRadius.circular(5.sp),
                               ),
                               child: Icon(
-                                Icons.beach_access,
+                                Icons.polyline_rounded,
                                 color: Colors.white,
                                 size: 36.0,
                               ),

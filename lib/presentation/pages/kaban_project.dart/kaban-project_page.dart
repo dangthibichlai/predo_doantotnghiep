@@ -1,7 +1,8 @@
 // ignore_for_file: invalid_use_of_protected_member, unused_element
 
-import 'dart:developer';
-
+import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -38,6 +39,32 @@ class KabanProjectPage extends GetView<KabanProjectController> {
               body(),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            CommonHelper.onTapHandler(callback: () {
+              Get.dialog(
+                DiologApp(
+                  title: 'Add column'.tr,
+                  nameButtonLeft: 'Add'.tr,
+                  inputController: controller.nameBoard,
+                  onTap: () {
+                    controller.addBoard(
+                      BoardModel(name: controller.nameBoard.text, projectId: controller.idProject, status: Status.TODO),
+                    );
+                  },
+                ),
+                barrierDismissible: true,
+                transitionCurve: Curves.easeInOut,
+                useSafeArea: true,
+              );
+            });
+          },
+          child: Icon(
+            Icons.add,
+            color: ColorResources.WHITE,
+          ),
+          backgroundColor: ColorResources.MAIN_APP,
         ));
   }
 
@@ -62,7 +89,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             Container(
               height: SizeApp.setSize(percent: .8),
               child: LoadingApp(
-                titleLoading: 'diy_001'.tr,
+                titleLoading: 'smart_refresh_008'.tr,
               ),
             ),
           ],
@@ -72,11 +99,12 @@ class KabanProjectPage extends GetView<KabanProjectController> {
           constraints:
               BoxConstraints(minHeight: SizeApp.setSize(percent: .02), maxHeight: SizeApp.setSize(percent: .75)),
           child: KanbanBoard(
-            List.generate(growable: true, controller.listBorad.length, (index) {
+            List.generate(controller.listBorad.length, (index) {
               final item = controller.listBorad.value[index];
 
               return BoardListsData(
-                  header: Obx(() => _title(item.name, controller.listBorad.value[index].tasks!.length)),
+                  header: Obx(() =>
+                      _title(item.name, controller.listBorad.value[index].tasks!.length, item.id ?? '', item.name)),
                   footer: _footer(item.id ?? ''),
                   width: SizeApp.setSizeWithWidth(percent: .8),
                   items: List.generate(growable: true, item.tasks!.length, (index) {
@@ -87,7 +115,9 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                         });
                       },
                       child: _contentItem(
-                          title: item.tasks![index].title ?? "", nameProject: item.tasks![index].key ?? ""),
+                          title: item.tasks![index].title ?? "",
+                          nameProject: item.tasks![index].key ?? "",
+                          issueType: issueTypeValues.reverse[item.tasks![index].issueType] ?? ''),
                     );
                   }));
             }),
@@ -104,7 +134,9 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     });
   }
 
-  Widget _contentItem({required String title, required String nameProject}) {
+  Widget _contentItem({required String title, required String nameProject, required String issueType}) {
+    final uiIssueTypeItem = UIIssueType.getUIIssueType(issueType);
+
     return Container(
       margin: SizeApp.setEdgeInsetsOnly(
         top: SizeApp.setSize(percent: .01),
@@ -137,15 +169,26 @@ class KabanProjectPage extends GetView<KabanProjectController> {
           Gap(20),
           Row(
             children: [
-              Icon(
-                Icons.check_box_rounded,
-                color: Colors.blue,
-                size: 24.sp,
+              Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                height: 20.sp,
+                width: 20.sp,
+                child: Icon(
+                  uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
+                  color: ColorResources.WHITE,
+                  size: 12.sp,
+                ),
               ),
-              Gap(10),
-              Text(nameProject,
-                  style: TextStyle(
-                      fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.3))),
+              Gap(10.sp),
+              Text(
+                nameProject,
+                style: TextStyle(
+                    fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
+              ),
             ],
           )
         ],
@@ -196,7 +239,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
     );
   }
 
-  Widget _title(String title, int? count) {
+  Widget _title(String title, int? count, String id, String nameBoard) {
     return Padding(
       padding: SizeApp.setEdgeInsetsOnly(
         top: SizeApp.setSize(percent: .01),
@@ -211,7 +254,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
               style:
                   TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.3))),
 
-          PopupMenuWidget(),
+          PopupMenuWidget(id, nameBoard),
         ],
       ),
     );
@@ -296,6 +339,11 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             ),
           ),
           InkWell(
+            onTap: () {
+              CommonHelper.onTapHandler(callback: () {
+                controller.changPageMember();
+              });
+            },
             child: Container(
               width: SizeApp.getMaxWidth(),
               padding: SizeApp.setEdgeInsetsOnly(
@@ -311,11 +359,32 @@ class KabanProjectPage extends GetView<KabanProjectController> {
                 color: ColorResources.GREY.withOpacity(.2),
               ))),
               child: Text(
-                'Features'.tr,
+                'Members'.tr,
                 style: TextStyle(fontSize: 14..sp),
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget addColumn() {
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorResources.WHITE,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.sp),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.add,
+            color: ColorResources.MAIN_APP,
+            size: 24.sp,
+          ),
+          Text("Add Column"),
         ],
       ),
     );

@@ -50,7 +50,7 @@ class AuthModel {
     String? full_name,
     String? email,
     String? avatar,
-    String? otp,
+    String? a,
     bool? isNewAccount,
     List<String>? fcm_token,
   }) {

@@ -73,7 +73,7 @@ class LocalizationService extends Translations {
   });
 
   // Multi Language data to change.
-   final multiLangs = LinkedHashMap.from({
+  final multiLangs = LinkedHashMap.from({
     'en': 'language_001'.tr,
     'vi': 'Tiếng Việt',
     'zh': 'Trung quốc',

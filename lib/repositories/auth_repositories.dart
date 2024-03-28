@@ -213,4 +213,25 @@ class AuthRepository {
       onError(ApiErrorHandler.getMessage(response.data));
     }
   }
+
+  Future<void> signOut({
+    required AuthModel data,
+    required Function(AuthModel data) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+
+    try {
+      response = await _dio.post(EndPoints.signout, data: data.toMap());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+      onSuccess(AuthModel.fromMap(results));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
 }

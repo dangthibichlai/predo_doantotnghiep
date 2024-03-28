@@ -18,7 +18,7 @@ class BoardRepository {
     required Function(List<BoardModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
-    String _uri = '${EndPoints.projectAdd}/$id/get-board-and-task';
+    String _uri = '${EndPoints.projects}/$id/get-board-and-task';
     late Response response;
 
     if (!AppValidate.nullOrEmpty(filter)) {
@@ -36,6 +36,68 @@ class BoardRepository {
       List<BoardModel> boards = results.map((data) => BoardModel.fromMap(data)).toList();
 
       onSuccess(boards);
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> add({
+    required BoardModel data,
+    required Function(BoardModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+
+    try {
+      response = await dioClient!.post(EndPoints.boards, data: data.toAddMap());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+
+      onSuccess(BoardModel.fromAddMap(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> update({
+    required String id,
+    required BoardModel data,
+    required Function(BoardModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.put('${EndPoints.boards}/$id', data: data.toAddMap());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+      onSuccess(BoardModel.fromMap(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> delete({
+    required String id,
+    required Function(String event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.delete('${EndPoints.boards}/$id');
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      onSuccess('Delete success');
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }

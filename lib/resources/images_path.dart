@@ -1,6 +1,6 @@
 mixin ImagesPath {
   static String createProjectImg = 'assets/features/create_project.jpg';
-
+  static String icLogout = 'assets/features/ic_logout.png';
   // report image
   static String imgBarChart1 = 'assets/features/bar_chart_sample_1.gif';
   static String imgBarChart2 = 'assets/features/bar_chart_sample_2.gif';

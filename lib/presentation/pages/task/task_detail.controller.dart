@@ -2,10 +2,11 @@
 
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
-import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
@@ -21,21 +22,26 @@ class TaskDetailController extends GetxController {
   TextEditingController searchMember = TextEditingController();
   RxString assigneeIdUser = ''.obs;
   RxString assigneeNameUser = ''.obs;
-
   TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
   ProjectReponsitory _projectReponsitory = GetIt.I.get<ProjectReponsitory>();
   BoardRepository _boardReponsitory = GetIt.I.get<BoardRepository>();
-
   RxList taskModel = <TaskModel>[].obs;
   RxList listMembers = <AuthModel>[].obs;
+  RxList filteredMembers = <AuthModel>[].obs;
   RxList listBoard = <BoardModel>[].obs;
+  RxList listSubTask = <TaskModel>[].obs;
   String idUser = '';
-
   String idTask = Get.arguments['idTask'];
   RxString idProject = ''.obs;
   RxString idBoard = ''.obs;
   RxBool isLoading = true.obs;
   RxBool isEditTitle = false.obs;
+  IssueType issueType = IssueType.USER_STORY;
+  RxString issueTypeName = ''.obs;
+  RxDouble progress = 0.0.obs;
+  RxBool isShowSubTask = true.obs;
+  RxBool isShowAddSubTask = false.obs;
+  TextEditingController nameSubTask = TextEditingController();
 
   @override
   void onInit() async {
@@ -44,12 +50,41 @@ class TaskDetailController extends GetxController {
     await getTaskDetail();
     await getMembers();
     await featchData();
+    await getSubTask();
     super.onInit();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void changeShowSubTask() {
+    isShowSubTask.value = !isShowSubTask.value;
+  }
+
+  void changeShowAddSubTask() {
+    isShowAddSubTask.value = !isShowAddSubTask.value;
+  }
+
+  void addTaskBoard(TaskModel taskModel) async {
+    EasyLoading.show(status: 'loading'.tr);
+    await _taskReponsitory.add(
+      data: taskModel,
+      onSuccess: (data) async {
+        EasyLoading.dismiss();
+        nameSubTask.clear();
+        await getSubTask();
+        listSubTask.refresh();
+        update();
+      },
+      onError: (e) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: e);
+
+        log('Error task at $e');
+      },
+    );
   }
 
   Future<void> featchData() async {
@@ -66,16 +101,24 @@ class TaskDetailController extends GetxController {
     }, onError: (error) {});
   }
 
+  void filterMembers(String query) {
+    filteredMembers.value = listMembers.where((member) {
+      return member.full_name!.toUpperCase().contains(query.toUpperCase());
+    }).toList();
+    filteredMembers.refresh();
+  }
+
   Future<void> getMembers() async {
+    listMembers.clear();
+    filteredMembers.clear();
     await _projectReponsitory.findProjectID(
       idUser,
       onSuccess: (data) {
         listMembers.value.addAll(data);
         listMembers.refresh();
+        filteredMembers.addAll(data);
+        filteredMembers.refresh();
         assigneeNameUser.value = listMembers.where((element) => element.id == assigneeIdUser.value).first.full_name;
-        for (var item in listMembers) {
-          log('Project: ${item}');
-        }
       },
       onError: (error) {},
     );
@@ -88,7 +131,7 @@ class TaskDetailController extends GetxController {
         boardId: taskModel[0].boardId,
         title: titleTask.text,
         key: taskModel[0].key,
-        issueType: taskModel[0].issueType,
+        issueType: issueType,
         description: decriptionTask.text,
         assignee: assigneeIdUser.value,
       ),
@@ -96,6 +139,8 @@ class TaskDetailController extends GetxController {
         idBoard.value = taskModel[0].boardId;
         await getTaskDetail();
         await getMembers();
+        final kabanProjectController = Get.find<KabanProjectController>();
+        kabanProjectController.getProject();
       },
       onError: (error) {},
     );
@@ -116,9 +161,33 @@ class TaskDetailController extends GetxController {
         taskModel = <TaskModel>[].obs;
         taskModel.add(data);
         taskModel.refresh();
+        idBoard.value = taskModel.value[0].boardId;
         decriptionTask.text = taskModel.value[0].description ?? '';
         titleTask.text = taskModel.value[0].title ?? '';
         assigneeIdUser.value = taskModel.value[0].assignee ?? '';
+        issueType = taskModel.value[0].issueType ?? IssueType.USER_STORY;
+        issueTypeName.value = issueTypeValues.reverse[issueType] ?? '';
+      },
+      onError: (error) {},
+    );
+    isLoading.value = false;
+  }
+
+  Future<void> getSubTask() async {
+    listSubTask.clear();
+    await _taskReponsitory.getSubtask(
+      idTask,
+      filter: '/get-sub-tasks',
+      onSuccess: (data) {
+        listSubTask.value = data;
+        listSubTask.refresh();
+        int count = 0;
+        for (var item in listSubTask) {
+          if (item.status == Status.DONE) {
+            count++;
+          }
+        }
+        progress.value = count / listSubTask.length;
       },
       onError: (error) {},
     );

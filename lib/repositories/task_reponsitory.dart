@@ -53,7 +53,7 @@ class TaskReponsitory {
 
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as Map<String, dynamic>;
-      log('Task update: $results');
+
       onSuccess(TaskModel.fromJson(results));
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
@@ -81,7 +81,6 @@ class TaskReponsitory {
 
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as Map<String, dynamic>;
-      log('Task update: $results');
       onSuccess(TaskModel.fromJson(results));
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
@@ -95,24 +94,26 @@ class TaskReponsitory {
     required Function(dynamic error) onError,
   }) async {
     String _uri = '${EndPoints.tasks}/$id?populate=boardId';
-    late Response response;
 
     if (!AppValidate.nullOrEmpty(filter)) {
       _uri += filter.toString();
     }
+
     try {
-      response = await dioClient!.get(_uri);
+      final response = await dioClient!.get(_uri);
+
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! <= 300) {
+        final data = response.data;
+
+        final boardIdData = data['boardId'];
+        final projectId = boardIdData['projectId'];
+
+        onSuccess(projectId);
+      } else {
+        onError(ApiErrorHandler.getMessage(response.data));
+      }
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
-      return;
-    }
-
-    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final data = response.data;
-
-      onSuccess(data[0]['boardId']['projectId']);
-    } else {
-      onError(ApiErrorHandler.getMessage(response.data));
     }
   }
 
@@ -137,7 +138,33 @@ class TaskReponsitory {
 
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as List<dynamic>;
-      log('Task assignee: $results');
+      onSuccess(results.map((e) => TaskModel.fromJson(e as Map<String, dynamic>)).toList());
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> getSubtask(
+    String id, {
+    String? filter,
+    required Function(List<TaskModel> event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    String _uri = '${EndPoints.tasks}/$id';
+    late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as List<dynamic>;
       onSuccess(results.map((e) => TaskModel.fromJson(e as Map<String, dynamic>)).toList());
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
