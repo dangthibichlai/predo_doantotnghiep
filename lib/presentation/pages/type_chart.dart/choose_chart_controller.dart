@@ -4,17 +4,16 @@ class ChooseChartController extends GetxController {
   RxList<String> filterData = <String>[].obs;
   Rx<String> dataFilter = 'all'.tr.obs;
   String title = '';
- var touchedIndex = (-1).obs;
+  RxInt index = 0.obs;
+  var touchedIndex = (-1).obs;
 
-  
   @override
   void onInit() {
     title = Get.arguments['title'] ?? 'Choose Type Chart';
-    filterData.addAll(<String>['Theo công việc'.tr, 'Theo số lỗi'.tr, 'Theo thời gian'.tr]);
+    filterData.addAll(<String>['BY_TYPE'.tr, 'BY_ASSIGNEE'.tr, 'BY_STATUS'.tr]);
+
     dataFilter.value = filterData[0];
- 
-    //
-    // Call API get tool collection.
+
     super.onInit();
   }
 
@@ -25,10 +24,13 @@ class ChooseChartController extends GetxController {
     filterData.close();
     super.onClose();
   }
-void updateTouchedIndex(int index) {
+
+  void updateTouchedIndex(int index) {
     touchedIndex.value = index;
   }
+
   void onChangFilter({required String value}) {
     dataFilter.value = value;
+    index.value = filterData.indexOf(value);
   }
 }
