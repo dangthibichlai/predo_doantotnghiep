@@ -1,5 +1,8 @@
 // ignore_for_file: invalid_use_of_protected_member, unused_element
 
+import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/presentation/widget/board_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -107,8 +110,11 @@ class KabanProjectPage extends GetView<KabanProjectController> {
               final item = controller.listBorad.value[index];
 
               return BoardListsData(
-                  header: Obx(() => _title(item.name,
-                      controller.listBorad.value[index].tasks!.length)),
+                  header: Obx(() => _title(
+                      item.name,
+                      controller.listBorad.value[index].tasks!.length,
+                      item.id ?? '',
+                      item.name)),
                   footer: _footer(item.id ?? ''),
                   width: SizeApp.setSizeWithWidth(percent: .8),
                   items: List.generate(growable: true, item.tasks!.length,
