@@ -39,7 +39,7 @@ class TaskDetailController extends GetxController {
   IssueType issueType = IssueType.USER_STORY;
   RxString issueTypeName = ''.obs;
   RxDouble progress = 0.0.obs;
-  RxBool isShowSubTask = false.obs;
+  RxBool isShowSubTask = true.obs;
   RxBool isShowAddSubTask = false.obs;
   TextEditingController nameSubTask = TextEditingController();
 
@@ -139,6 +139,8 @@ class TaskDetailController extends GetxController {
         idBoard.value = taskModel[0].boardId;
         await getTaskDetail();
         await getMembers();
+        final kabanProjectController = Get.find<KabanProjectController>();
+        kabanProjectController.getProject();
       },
       onError: (error) {},
     );
@@ -163,7 +165,7 @@ class TaskDetailController extends GetxController {
         decriptionTask.text = taskModel.value[0].description ?? '';
         titleTask.text = taskModel.value[0].title ?? '';
         assigneeIdUser.value = taskModel.value[0].assignee ?? '';
-        issueType = taskModel.value[0].issueType ?? '';
+        issueType = taskModel.value[0].issueType ?? IssueType.USER_STORY;
         issueTypeName.value = issueTypeValues.reverse[issueType] ?? '';
       },
       onError: (error) {},

@@ -69,7 +69,7 @@ class KabanProjectController extends GetxController {
   void onInit() {
     idProject = Get.arguments['idProject'] ?? idProjectItem;
     nameProject = Get.arguments['nameProject'] ?? nameProjectItem;
-    getProject(idProject);
+    getProject();
     super.onInit();
   }
 
@@ -80,10 +80,11 @@ class KabanProjectController extends GetxController {
     super.onClose();
   }
 
-  Future<void> getProject(String id) async {
+  Future<void> getProject() async {
+    listBorad.clear();
     isLoading.value = true;
     await _boardRepository.find(
-      id,
+      idProject,
       onSuccess: (data) {
         listBorad.value = data;
         listBorad.refresh();
@@ -104,7 +105,7 @@ class KabanProjectController extends GetxController {
       onSuccess: (data) async {
         EasyLoading.dismiss();
         nameColumn.clear();
-        await getProject(idProject);
+        await getProject();
         listBorad.refresh();
         update();
         Get.find<PanelController>().onInit();
@@ -197,7 +198,7 @@ class KabanProjectController extends GetxController {
     _boardRepository.add(
         data: boardModel,
         onSuccess: (data) {
-          getProject(idProject);
+          getProject();
           listBorad.refresh();
 
           EasyLoading.dismiss();
@@ -217,7 +218,7 @@ class KabanProjectController extends GetxController {
       id: id,
       data: BoardModel(id: id, name: renameColumn.text, projectId: idProject),
       onSuccess: (data) {
-        getProject(idProject);
+        getProject();
         listBorad.refresh();
         EasyLoading.dismiss();
         Get.back();
@@ -238,7 +239,7 @@ class KabanProjectController extends GetxController {
     _boardRepository.delete(
       id: id,
       onSuccess: (data) {
-        getProject(idProject);
+        getProject();
         listBorad.refresh();
         EasyLoading.dismiss();
       },
