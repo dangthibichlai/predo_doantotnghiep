@@ -11,6 +11,31 @@ import 'package:test_intern/services/dio/dio_client.dart';
 
 class TaskReponsitory {
   DioClient? dioClient = GetIt.I.get<DioClient>();
+  Future<void> paginate(
+    String id,
+    String filter,
+    int page,
+    int limit, {
+    required Function(List<TaskModel> event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    String _uri = '${EndPoints.tasks}/paginate?$filter&page=$page&limit=$limit';
+
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data['results'] as List<dynamic>;
+      onSuccess(results.map((e) => TaskModel.fromJson(e as Map<String, dynamic>)).toList());
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
   Future<void> update({
     required String id,
     required TaskModel data,

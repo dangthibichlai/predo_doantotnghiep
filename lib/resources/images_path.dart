@@ -7,6 +7,8 @@ mixin ImagesPath {
   static String imgLine = 'assets/features/line_chart_sample_1_anim.gif';
   static String imgPieChart1 = 'assets/features/pie_chart_sample_1.gif';
   static String imgPieChart2 = 'assets/features/pie_chart_sample_2.gif';
+  static String backgraoundGeneral = 'assets/features/Text to audio.png';
+  static String permissionIcOpen = 'assets/features/permission_ic_open_setting.svg';
 
   //home image
   static String imgHomeAccessEmpty = 'assets/features/home/quick_access_empty.png';
@@ -61,6 +63,12 @@ mixin ImagesPath {
   static String porFlag = 'assets/base/flags/por_flag.png';
   static String ruFlag = 'assets/base/flags/ru_flag.png';
   static String vnFlag = 'assets/base/flags/vn_flag.png';
+  // premium
+  static String premiumIcon = 'assets/features/premium_img.png';
+  static String premiumIcon_1 = 'assets/features/premium_img_1.png';
+  static String premiumIcon_2 = 'assets/features/premium_row_1.png';
+  static String premiumIcon_3 = 'assets/features/premium_row_2.png';
+  static String premiumIcon_4 = 'assets/features/premium_row_3.png';
 
   //Icon
   static String googleIcon = 'assets/features/login/google_icon.png';

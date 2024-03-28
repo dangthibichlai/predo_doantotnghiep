@@ -3,6 +3,7 @@ import '../../../resources/export/core_export.dart';
 class ChooseChartController extends GetxController {
   RxList<String> filterData = <String>[].obs;
   Rx<String> dataFilter = 'all'.tr.obs;
+  String projectId = Get.arguments['projectId'];
   String title = '';
   RxInt index = 0.obs;
   var touchedIndex = (-1).obs;

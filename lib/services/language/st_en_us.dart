@@ -1,7 +1,30 @@
 const Map<String, String> en = {
+  'My open issues': 'My open issues',
+  'All issues': 'All issues',
+  'In Progress issues': 'In Progress issues',
+  'Done issues': 'Done issues',
+  'To Do issues': 'To Do issues',
+  'Unassigned issues': 'Unassigned issues',
   'alert_03': 'Are you sure you want to \nlog out?',
   'action_01': 'Back',
   'action_02': 'OK',
+  'setting_001': 'Change language',
+  'setting_002': 'App permissions',
+  'setting_003': 'Log out',
+  'setting_004': 'Rate app',
+  'setting_005': 'Feed back',
+// Permission
+  'permission_01': 'Grant Permission',
+  'permission_02': 'The app needs to uses Read & Write external storage and Record permission for recording feature',
+  'permission_03': 'Notify the app',
+  'permission_04': 'Record audio permission',
+  'permission_05': 'Camera permission',
+  'permission_06': 'Open Setting',
+  'permission_07': 'Cancel',
+  'permission_08': 'Audio record permission is needed to use this feature',
+  'permission_09': 'Storage permission is needed to use this feature',
+  'permission_10': 'Video and audio record permission is needed to use this feature',
+  'permission_11': 'Select one audio file to continue',
 
   'BUG': 'BUG',
   'EPIC': 'EPIC',
@@ -119,12 +142,10 @@ const Map<String, String> en = {
 
   // issue page
   'Issues': 'Issues',
-  'My open issues': 'My open issues',
   'No issues to show': 'No issues to show',
   'Nice!': 'Nice!',
   'issue_When you': 'When you\'re  assigned new issues, you\'ll see them here.',
   'Create issue': 'Create issue',
-  'All issues': 'All issues',
   'Open issues': 'Open issues',
   'Recent filters': 'Recent filters',
   'Default filters': 'Default filters',
@@ -206,4 +227,5 @@ const Map<String, String> en = {
   'language_06': 'Français',
   'language_07': 'Language',
 //--
+  'alert_01': 'Email exists',
 };

@@ -42,7 +42,11 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   time_ago.setLocaleMessages('vi', time_ago.ViMessages());
+//   PermissionStatus status = await Permission.notification.status;
 
+//   if (!status.isGranted) {
+// // The permission is not granted, request it. status = await Permission.notification.request();
+//   }
   runApp(const MyApp());
 }
 

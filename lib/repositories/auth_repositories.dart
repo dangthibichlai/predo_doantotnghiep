@@ -96,8 +96,9 @@ class AuthRepository {
 
     try {
       response = await _dio.post(_uri, data: data.toJson());
-    } catch (e) {
-      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      log('a');
+    } on DioException catch (e) {
+      onError(e.response?.data['message']);
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
@@ -230,6 +231,30 @@ class AuthRepository {
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(AuthModel.fromMap(results));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  // USER
+  Future<void> checkExistEmail(
+    String email, {
+    required Function(bool isEmailExist) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+
+    final String _uri = '${EndPoints.users}?email=$email&social_type=NONE';
+
+    try {
+      response = await _dio.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final totalResults = response.data.length;
+      onSuccess(totalResults > 0);
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }

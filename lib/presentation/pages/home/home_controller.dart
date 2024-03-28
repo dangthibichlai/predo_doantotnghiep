@@ -38,7 +38,7 @@ class HomeController extends GetxController {
         Get.toNamed(HomeRouter.CHANGELANGUAGE);
         break;
       case 1:
-        Get.toNamed('/setting');
+        Get.toNamed(HomeRouter.GRANT_PERMISSION);
         break;
       case 2:
         Get.toNamed('/about');

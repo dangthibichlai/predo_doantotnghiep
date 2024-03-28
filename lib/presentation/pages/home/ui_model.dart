@@ -1,4 +1,3 @@
-import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class UIModelHomeSetting {
@@ -22,11 +21,18 @@ List<UIModelHomeSetting> uiModelHomeSetting = [
   UIModelHomeSetting(
     title: 'setting_002',
     icon: Icons.notifications_active,
-    onTap: () {},
+    onTap: () {
+      Get.toNamed(HomeRouter.GRANT_PERMISSION);
+    },
   ),
   UIModelHomeSetting(
     title: 'setting_004',
     icon: Icons.rate_review,
+    onTap: () {},
+  ),
+  UIModelHomeSetting(
+    title: 'setting_005',
+    icon: Icons.logout,
     onTap: () {},
   ),
   UIModelHomeSetting(

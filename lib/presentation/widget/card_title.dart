@@ -8,7 +8,6 @@ class CardTitle extends StatelessWidget {
       {super.key,
       this.icon,
       this.title,
-      this.onTap,
       this.subTitle,
       this.iconRight,
       this.onTapRight,
@@ -26,7 +25,6 @@ class CardTitle extends StatelessWidget {
       this.borderRadius});
   final IconData? icon;
   final String? title;
-  final Function()? onTap;
   final String? subTitle;
   final IconData? iconRight;
   final Function()? onTapRight;

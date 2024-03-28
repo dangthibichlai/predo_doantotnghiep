@@ -16,6 +16,9 @@ import 'package:test_intern/presentation/pages/type_chart.dart/choose_chart_bind
 import 'package:test_intern/presentation/pages/type_chart.dart/choose_type_chart.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
+import '../presentation/pages/grant_permission/grant_permission_binding.dart';
+import '../presentation/pages/grant_permission/grant_permission_page.dart';
+
 mixin HomeRouter {
   static const String PROJECTS = '/projects';
   static const String HOME = '/home';
@@ -29,8 +32,14 @@ mixin HomeRouter {
   static const String CREATEPROJECT = '/create-project';
   static const String TASKDETAIL = '/task-detail';
   static const String MEMBERS = '/members-setting';
+  static const String GRANT_PERMISSION = '/grand_permissions';
 
   static List<GetPage> listPage = [
+    GetPage(
+      name: GRANT_PERMISSION,
+      page: () => GrantPermissionPage(),
+      binding: GrantPermissionBinding(),
+    ),
     GetPage(
       name: MEMBERS,
       page: () => MembersSettingPage(),
