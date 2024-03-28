@@ -222,7 +222,7 @@ class AuthRepository {
     late Response response;
 
     try {
-      response = await _dio.post('/auth/sign-out', data: data.toMap());
+      response = await _dio.post(EndPoints.signout, data: data.toMap());
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;

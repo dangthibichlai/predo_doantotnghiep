@@ -1,4 +1,6 @@
 const Map<String, String> vi = {
+  'alert_03': 'Bạn có chắc chắn muốn đăng xuất \nkhông?',
+
   'setting_001': 'Thay đổi ngôn ngữ',
   'setting_002': 'Cài đặt thông báo',
   'setting_003': 'Đăng xuất',
@@ -7,6 +9,8 @@ const Map<String, String> vi = {
   'EPIC': 'Epic',
   'USER_STORY': 'Người dùng',
   'SUB_TASK': 'Công việc con',
+  'action_01': 'Quay lại',
+  'action_02': 'Đồng ý',
 
   'A task represents work that needs to be done.': 'Một công việc đại diện cho công việc cần phải làm',
   'A bug represents a problem that needs to be fixed.': 'Một lỗi đại diện cho một vấn đề cần phải sửa',

@@ -38,6 +38,9 @@ class NotificationController extends GetxController {
       _limitPage,
       onSuccess: (data) {
         if (data.isEmpty) {
+          if (isLoading.value) {
+            isLoading.value = false;
+          }
           refreshController.loadNoData();
           refreshController.refreshCompleted();
         } else {

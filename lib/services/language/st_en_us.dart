@@ -1,4 +1,8 @@
 const Map<String, String> en = {
+  'alert_03': 'Are you sure you want to \nlog out?',
+  'action_01': 'Back',
+  'action_02': 'OK',
+
   'BUG': 'BUG',
   'EPIC': 'EPIC',
   'USER_STORY': 'USER_STORY',

@@ -1,4 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/auth_model.dart';
@@ -43,7 +44,7 @@ class HomeController extends GetxController {
         Get.toNamed('/about');
         break;
       case 3:
-        Get.toNamed('/help');
+        signOut();
         break;
     }
   }
@@ -67,13 +68,13 @@ class HomeController extends GetxController {
           Center(
             child: Container(
               color: Colors.transparent,
-              height: 250,
+              height: SizeApp.setSize(percent: .3),
               width: SizeApp.getMaxWidth() * .85,
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    height: 210,
+                    height: SizeApp.setSize(percent: .28),
                     padding: const EdgeInsets.only(top: 60),
                     width: SizeApp.getMaxWidth(),
                     decoration: BoxDecoration(
@@ -83,7 +84,7 @@ class HomeController extends GetxController {
                     child: Column(
                       children: [
                         Text(
-                          'acount_12'.tr,
+                          'setting_003'.tr,
                           style: TextStyle(
                             color: ColorResources.PRIMARY_1,
                             fontWeight: FontWeight.w700,
@@ -110,21 +111,16 @@ class HomeController extends GetxController {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               AppButton(
+                                type: AppButtonType.OUTLINE,
                                 onTap: () {
                                   Get.back();
                                 },
-                                // : TextStyle(
-                                //     fontWeight: FontWeight.w600,
-                                //     fontSize: SizeApp.LABEL_SMALL_FONT_SIZE,
-                                //     color: ColorResources.PRIMARY_1),
                                 width: SizeApp.setSizeWithWidth(percent: 0.35),
                                 height: 40,
                                 label: 'action_01'.tr,
-                                fillColor: ColorResources.WHITE,
-                                // : const BorderSide(
-                                //     color: ColorResources.PRIMARY_1),
+                                colorBG: ColorResources.MAIN_APP,
                               ),
-                              InkWell(
+                              AppButton(
                                 onTap: () async {
                                   EasyLoading.show(status: 'status_01'.tr);
                                   await removeLocalData();
@@ -133,13 +129,11 @@ class HomeController extends GetxController {
                                   AppAlert().success(message: 'alert_04'.tr);
                                   signOutWithApi();
                                 },
-                                // textStyle: TextStyle(
-                                //   fontWeight: FontWeight.w600,
-                                //   fontSize: SizeApp.LABEL_SMALL_FONT_SIZE,
-                                // ),
-                                // width: SizeApp.setSizeWithWidth(percent: 0.35),
-                                // height: 40,
-                                // content: 'action_02'.tr,
+                                width: SizeApp.setSizeWithWidth(percent: 0.35),
+                                height: 40,
+                                label: 'action_02'.tr,
+                                colorBG: ColorResources.MAIN_APP,
+                                borderRadius: 10,
                               ),
                             ],
                           );
@@ -147,17 +141,17 @@ class HomeController extends GetxController {
                       ],
                     ),
                   ),
-                  // Positioned(
-                  //   top: 0,
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(100),
-                  //     child: SizedBox(
-                  //       height: 80,
-                  //       width: 80,
-                  //       child: AppImage(ImagesPath.icLogout),
-                  //     ),
-                  //   ),
-                  // )
+                  Positioned(
+                    top: 0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: AppImage(ImagesPath.icLogout),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -20,13 +20,14 @@ class NotificationPage extends GetView<NotificationController> {
     // set màu thanh app bar
 
     return Scaffold(
-      body: bodyItem(),
+      body: !controller.isLoading.value && controller.notification.isEmpty ? bodyEmpty() : bodyItem(),
     );
   }
 
   Widget bodyEmpty() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           padding: EdgeInsets.only(
@@ -65,6 +66,7 @@ class NotificationPage extends GetView<NotificationController> {
             color: ColorResources.WHITE,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AppImage(
                   ImagesPath.notificationEmpty,
@@ -79,10 +81,15 @@ class NotificationPage extends GetView<NotificationController> {
                 ),
                 SizedBox(
                   width: SizeApp.setSizeWithWidth(percent: .9),
-                  child: Text(
-                    'notification_002'.tr,
-                    style: TextStyle(
-                        fontSize: 12.5.sp, color: ColorResources.BLACK.withOpacity(.5), fontWeight: FontWeight.normal),
+                  child: Center(
+                    child: Text(
+                      'notification_002'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 12.5.sp,
+                          color: ColorResources.BLACK.withOpacity(.5),
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
                 ),
               ],
@@ -133,9 +140,6 @@ class NotificationPage extends GetView<NotificationController> {
             },
             refreshController: controller.refreshController,
             child: Obx(() {
-              if (!controller.isLoading.value && controller.notification.isEmpty) {
-                return bodyEmpty();
-              }
               if (controller.isLoading.value) {
                 return LoadingApp(
                   titleLoading: 'smart_refresh_008'.tr,
