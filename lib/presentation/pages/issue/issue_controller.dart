@@ -1,8 +1,8 @@
 // ignore_for_file: use_setters_to_change_properties
 
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -11,49 +11,54 @@ class IssueController extends GetxController {
   RxList listData = [].obs;
   final RefreshController refreshController = RefreshController();
   String idUser = '';
-
+  RxString option = ''.obs;
+  RxInt index = 0.obs;
   int _startPage = 1;
   RxBool isLoading = true.obs;
+  RxBool isShowSearch = false.obs;
+  RxList filteredDataList = [].obs;
+  TextEditingController searchProject = TextEditingController();
 
   final int _limitPage = 10;
 
   @override
   Future<void> onInit() async {
-    idUser = sl<SharedPreferenceHelper>().getIdUser;
-    await getDoneIssues(isRefresh: true);
+    option.value = optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '';
+    await getDoneIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
     super.onInit();
   }
 
-  void getIssuetyByFillter(int index) {
-    switch (index) {
-      case 0:
-        print('All');
-        break;
-      case 1:
-        print('Open');
-        break;
-      case 2:
-        print('Closed');
-        break;
-      case 3:
-        print('My Issue');
-        break;
-      default:
-    }
+  void changeIndex(int value) {
+    index.value = value;
   }
 
-  Future<void> getDoneIssues({required bool isRefresh}) async {
+  void showSearch() {
+    isShowSearch.value = !isShowSearch.value;
+  }
+
+  void searchProjectFilter(String value) {
+    filteredDataList.value = listData.where((element) {
+      return element.title.toLowerCase().contains(value.toLowerCase());
+    }).toList();
+    filteredDataList.refresh();
+  }
+
+  void changeOption(String value, bool isRefresh) {
+    option.value = value;
+    getDoneIssues(isRefresh: isRefresh, option: value);
+  }
+
+  Future<void> getDoneIssues({required bool isRefresh, required String option}) async {
     if (isRefresh) {
       _startPage = 1;
       isLoading.value = true;
+
       listData.clear();
       refreshController.resetNoData();
     } else {
       _startPage++;
     }
     await _taskReponsitory.paginate(
-      idUser,
-      "status=DONE",
       _startPage,
       _limitPage,
       onSuccess: (data) {
@@ -71,6 +76,8 @@ class IssueController extends GetxController {
           }
 
           listData.value = data;
+          filteredDataList.value = data;
+
           if (isLoading.value) {
             isLoading.value = false;
           }
@@ -79,6 +86,7 @@ class IssueController extends GetxController {
       onError: (error) {
         print(error);
       },
+      option: option,
     );
   }
 

@@ -1,13 +1,16 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:test_intern/core/hepler/common_helper.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/panel/assignee_detail.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
+import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
 
@@ -26,13 +29,28 @@ class PanelPage extends GetView<PanelController> {
         backgroundColor: ColorResources.BGAPP,
         title: Text('Dashboards'.tr, style: TextStyle(fontSize: 20)),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: ClipOval(
-              child: AppImage(
-                ImagesPath.avataImg,
-                width: 30.sp,
-                height: 30.sp,
+          InkWell(
+            onTap: () {
+              CommonHelper.onTapHandler(callback: () {
+                showFlexibleBottomSheet(
+                  duration: Duration(milliseconds: 500),
+                  minHeight: 0,
+                  initHeight: 1,
+                  maxHeight: 1,
+                  context: context,
+                  builder: buildBottomSheet,
+                  isExpand: false,
+                );
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: ClipOval(
+                child: AppImage(
+                  ImagesPath.avataImg,
+                  width: 30.sp,
+                  height: 30.sp,
+                ),
               ),
             ),
           ),
@@ -289,14 +307,16 @@ class PanelPage extends GetView<PanelController> {
                   },
                 ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Spacer(),
-            Icon(Icons.autorenew, color: Colors.blue),
-            Text("Just now", style: TextStyle(color: Colors.black)),
-          ],
-        )
+        controller.notification.value.length != 0
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Spacer(),
+                  Icon(Icons.autorenew, color: Colors.blue),
+                  Text("Just now", style: TextStyle(color: Colors.black))
+                ],
+              )
+            : SizedBox()
       ]),
     );
   }

@@ -1,4 +1,6 @@
 const Map<String, String> vi = {
+  'opt_success': 'Gửi mã thành công.Vui lòng kiểm tra email của bạn',
+  'Search project...': 'Tìm kiếm dự án...',
   'All issues': 'Tất cả các vấn đề',
   'In Progress issues': 'Vấn đề đang tiến hành',
   'Done issues': 'Vấn đề đã hoàn thành',
@@ -228,4 +230,7 @@ const Map<String, String> vi = {
   'language_06': 'Pháp',
   'language_07': 'Ngôn ngữ',
   'alert_01': 'Email đã tồn tại',
+  'alert_02': 'Hệ thống đã khóa tài khoản của bạn',
+  'alert_04': 'Đăng xuất thành công',
+  'alert_05': 'Họ và tên không được để trống',
 };

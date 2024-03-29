@@ -138,9 +138,9 @@ class RegisterPage extends GetView<RegisterController> {
             ),
             borderRadius: 5.sp,
             onTap: () {
+              FocusScope.of(Get.context!).unfocus();
+           
               CommonHelper.onTapHandler(callback: () {
-                FocusScope.of(Get.context!).unfocus();
-
                 controller.register();
               });
             },

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -12,15 +11,14 @@ import 'package:test_intern/services/dio/dio_client.dart';
 class TaskReponsitory {
   DioClient? dioClient = GetIt.I.get<DioClient>();
   Future<void> paginate(
-    String id,
-    String filter,
     int page,
     int limit, {
+    required String option,
     required Function(List<TaskModel> event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
     late Response response;
-    String _uri = '${EndPoints.tasks}/paginate?$filter&page=$page&limit=$limit';
+    String _uri = '${EndPoints.tasks}/aggregate-issues?options=$option&page=$page&limit=$limit';
 
     try {
       response = await dioClient!.get(_uri);

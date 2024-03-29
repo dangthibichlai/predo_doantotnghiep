@@ -5,10 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:test_intern/core/enums/enums.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
+import 'package:test_intern/core/hepler/app_input.dart';
+import 'package:test_intern/core/hepler/common_helper.dart';
+import 'package:test_intern/core/hepler/loading_app.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
+import 'package:test_intern/core/hepler/smart_refresher.dart';
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
 import 'package:test_intern/presentation/pages/issue/ui_model.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
+import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/presentation/widget/card_title.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
@@ -34,28 +42,43 @@ class IssuePage extends GetView<IssueController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  // margin: EdgeInsets.all(
-                  //   SizeApp.setSize(percent: .019),
-                  // ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    //add border radius here
-                    child: Container(
-                      width: SizeApp.setSize(percent: 0.04),
-                      height: SizeApp.setSize(percent: 0.04),
-                      decoration: const BoxDecoration(
-                        color: ColorResources.GREY,
-                      ),
-                      child: Image.network(
-                          'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png'),
-                    ), //add image location here
+                InkWell(
+                  onTap: () {
+                    CommonHelper.onTapHandler(callback: () {
+                      showFlexibleBottomSheet(
+                        duration: Duration(milliseconds: 500),
+                        minHeight: 0,
+                        initHeight: 1,
+                        maxHeight: 1,
+                        context: context,
+                        builder: buildBottomSheet,
+                        isExpand: false,
+                      );
+                    });
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                      //add border radius here
+                      child: Container(
+                        width: SizeApp.setSize(percent: 0.04),
+                        height: SizeApp.setSize(percent: 0.04),
+                        decoration: const BoxDecoration(
+                          color: ColorResources.GREY,
+                        ),
+                        child: Image.network(
+                            'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png'),
+                      ), //add image location here
+                    ),
                   ),
                 ),
                 Row(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                    IconButton(
+                        onPressed: () {
+                          controller.showSearch();
+                        },
+                        icon: Icon(Icons.search)),
                   ],
                 ),
               ],
@@ -74,16 +97,53 @@ class IssuePage extends GetView<IssueController> {
                   isExpand: false,
                 );
               },
-              child: CardTitle(
-                icon: Icons.person_2_outlined,
-                title: 'My open issues'.tr,
-                colorTitle: ColorResources.BLACK,
-                sizeTitle: 12.sp,
-                iconRight: Icons.keyboard_arrow_down_rounded,
-                sizeIconRight: 20.sp,
+              child: Obx(
+                () => CardTitle(
+                  icon: filterList[controller.index.value].icon,
+                  title: filterList[controller.index.value].title,
+                  colorTitle: ColorResources.BLACK,
+                  sizeTitle: 12.sp,
+                  iconRight: Icons.keyboard_arrow_down_rounded,
+                  sizeIconRight: 20.sp,
+                ),
               ),
             ),
-            Obx(() => controller.listData.value.length != 0 ? bodyItem() : bodyEmpy()),
+            Obx(
+              () => controller.isShowSearch.value
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                      child: AppInput(
+                        onChanged: (value) {
+                          controller.searchProjectFilter(value);
+                        },
+                        prefixIcon: (FocusNode) {
+                          return Icon(
+                            Icons.search,
+                            color: ColorResources.BLACK.withOpacity(.5),
+                            size: 20.sp,
+                          );
+                        },
+                        height: SizeApp.setSize(percent: .07),
+                        controller: controller.searchProject,
+                        colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+                        labelStyle: TextStyle(
+                            fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+                        type: AppInputType.TEXT,
+                        maxLine: 1,
+                        hintText: "Search project...".tr,
+                        isBorder: true,
+                        fontSize: 14.sp,
+                        fillColor: Colors.transparent,
+                        underLine: UnderlineInputBorder(),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ),
+            Obx(() => controller.filteredDataList.value.length == 0 && controller.isLoading.value != true
+                ? bodyEmpy()
+                : bodyItem()),
           ],
         ),
       ),
@@ -91,90 +151,108 @@ class IssuePage extends GetView<IssueController> {
   }
 
   Widget bodyItem() {
-    return Container(
-      constraints: BoxConstraints(maxHeight: SizeApp.setSize(percent: .6), minHeight: SizeApp.setSize(percent: .1)),
-      width: SizeApp.getMaxWidth(),
-      margin: EdgeInsets.only(top: 20.sp),
-      padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 10.sp, bottom: 10.sp),
-      decoration: BoxDecoration(
-        color: ColorResources.WHITE,
-        borderRadius: BorderRadius.circular(10.sp),
-      ),
-      child: Column(
-        children: [
-          ListView.separated(
-            itemBuilder: (context, index) {
-              // final item = uiIssueType[index];
-              return InkWell(
-                onTap: () {
-                  // controller.issueType = issueTypeValues.map[item.name] ?? IssueType.USER_STORY;
-                  // controller.updateTask();
-                  // Get.back();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 7.0, top: 7.0),
-                  child: Column(
-                    children: [
-                      Row(
+    return Obx(
+      () => Expanded(
+        child: Container(
+          width: SizeApp.getMaxWidth(),
+          margin: EdgeInsets.only(top: 20.sp, bottom: 20.sp),
+          padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 10.sp, bottom: 10.sp),
+          decoration: BoxDecoration(
+            color: ColorResources.WHITE,
+            borderRadius: BorderRadius.circular(10.sp),
+          ),
+          child: AppSmartRefresher(
+              onRefresh: () {
+                controller.changeOption(controller.option.value, true);
+              },
+              enablePullUp: true,
+              enablePullDown: true,
+              onLoading: () {
+                controller.changeOption(controller.option.value, false);
+              },
+              refreshController: controller.refreshController,
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  final item = controller.filteredDataList.value[index];
+                  final uiIssueTypeItem = UIIssueType.getUIIssueType(
+                      issueTypeValues.reverse[item.issueType] ?? IssueType.USER_STORY.toString());
+
+                  if (controller.isLoading.value) {
+                    return LoadingApp(
+                      titleLoading: 'smart_refresh_008'.tr,
+                    );
+                  }
+                  return InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 7.0, top: 7.0),
+                      child: Column(
                         children: [
-                          Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              // color: item.color ?? ColorResources.GREEN,
-                              color: ColorResources.GREEN,
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            height: 16.sp,
-                            width: 16.sp,
-                            child: Icon(
-                              //item.icon ??
-                              Icons.bookmark_outlined,
-                              color: ColorResources.WHITE,
-                              size: 12.sp,
-                            ),
-                          ),
-                          Gap(10.sp),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                controller.listData[index].title ?? "",
-                                //item.name ?? "",
-                                style: TextStyle(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorResources.BLACK.withOpacity(.5)),
-                              ),
-                              SizedBox(
-                                width: SizeApp.setSizeWithWidth(percent: .7),
-                                child: Text(
-                                  controller.listData[index].key ?? "",
-                                  style: TextStyle(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w300,
-                                      color: ColorResources.BLACK.withOpacity(.5)),
+                              Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  // color: item.color ?? ColorResources.GREEN,
+                                  color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
+                                  borderRadius: BorderRadius.circular(3),
                                 ),
+                                height: 16.sp,
+                                width: 16.sp,
+                                child: Icon(
+                                  //item.icon ??
+                                  uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
+                                  color: ColorResources.WHITE,
+                                  size: 12.sp,
+                                ),
+                              ),
+                              Gap(10.sp),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: SizeApp.setSizeWithWidth(percent: .7),
+                                    child: Text(
+                                      controller.filteredDataList.value[index].title ?? "",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      //item.name ?? "",
+                                      style: TextStyle(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: SizeApp.setSizeWithWidth(percent: .7),
+                                    child: Text(
+                                      controller.filteredDataList.value[index].key ?? "",
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            itemCount: controller.listData.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: ColorResources.GREY.withOpacity(.2),
-              );
-            },
-          ),
-        ],
+                    ),
+                  );
+                },
+                itemCount: controller.filteredDataList.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    color: ColorResources.GREY.withOpacity(.2),
+                  );
+                },
+              )),
+        ),
       ),
     );
   }
@@ -199,13 +277,6 @@ class IssuePage extends GetView<IssueController> {
               ),
             ),
           ),
-          // Text(
-          //   'Nice!'.tr,
-          //   style: TextStyle(
-          //     fontSize: 20.sp,
-          //     color: ColorResources.BLACK,
-          //   ),
-          // ),
           SizedBox(
             width: SizeApp.setSizeWithWidth(percent: .7),
             height: SizeApp.setSize(percent: .1),
@@ -216,13 +287,6 @@ class IssuePage extends GetView<IssueController> {
                 color: ColorResources.BLACK.withOpacity(.5),
               ),
               textAlign: TextAlign.center,
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Create issue'.tr,
-              style: TextStyle(color: ColorResources.MAIN_APP, fontSize: 14.sp, fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -247,22 +311,22 @@ class IssuePage extends GetView<IssueController> {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    TitleCustom(
-                      title: "Recent filters",
-                      sizeTitle: 11.sp,
-                    ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => CardTitle(
-                              icon: Icons.person_2_outlined,
-                              title: 'My open issues'.tr,
-                              colorTitle: ColorResources.BLACK,
-                              sizeTitle: 12.sp,
-                              iconRight: Icons.star_border_rounded,
-                              sizeIconRight: 24.sp,
-                            ),
-                        itemCount: 3),
+                    // TitleCustom(
+                    //   title: "Recent filters",
+                    //   sizeTitle: 11.sp,
+                    // ),
+                    // ListView.builder(
+                    //     shrinkWrap: true,
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     itemBuilder: (context, index) => CardTitle(
+                    //           icon: Icons.person_2_outlined,
+                    //           title: 'My open issues'.tr,
+                    //           colorTitle: ColorResources.BLACK,
+                    //           sizeTitle: 12.sp,
+                    //           iconRight: Icons.star_border_rounded,
+                    //           sizeIconRight: 24.sp,
+                    //         ),
+                    //     itemCount: 3),
                     Padding(
                       padding: SizeApp.setEdgeInsetsOnly(top: 10.sp, bottom: 5.sp),
                       child: TitleCustom(
@@ -283,7 +347,7 @@ class IssuePage extends GetView<IssueController> {
 
   Widget defaultBottomSheet() {
     return Container(
-      height: SizeApp.setSize(percent: .6),
+      height: SizeApp.setSize(percent: .375),
       padding: EdgeInsets.all(5.sp),
       decoration: BoxDecoration(
         color: ColorResources.WHITE,
@@ -294,7 +358,11 @@ class IssuePage extends GetView<IssueController> {
         itemBuilder: (context, index) {
           final item = filterList[index];
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              controller.changeIndex(index);
+              controller.changeOption(item.option, true);
+              Get.back();
+            },
             child: CardTitle(
               padding: SizeApp.setEdgeInsetsOnly(
                 left: 10.sp,
@@ -347,14 +415,6 @@ class IssuePage extends GetView<IssueController> {
           'Filters',
           style: TextStyle(
             fontSize: 16.sp,
-          ),
-        ),
-        Spacer(),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'Create'.tr,
-            style: TextStyle(fontSize: 16.sp, color: ColorResources.MAIN_APP, fontWeight: FontWeight.normal),
           ),
         ),
       ],

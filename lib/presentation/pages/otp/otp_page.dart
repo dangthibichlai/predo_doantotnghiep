@@ -8,6 +8,7 @@ import 'package:test_intern/core/hepler/app-button.dart';
 import 'package:test_intern/core/hepler/app-image.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/presentation/pages/otp/otp_controller.dart';
+import 'package:test_intern/presentation/pages/register/register_controller.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
 
@@ -18,6 +19,7 @@ class OtpPage extends GetView<OtpController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.BGAPP,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Column(
         children: [
@@ -27,6 +29,7 @@ class OtpPage extends GetView<OtpController> {
               IconButton(
                   onPressed: () {
                     Get.back();
+                    controller.otpController.clear();
                   },
                   icon: const Icon(Icons.arrow_back)),
             ],
@@ -131,16 +134,21 @@ class OtpPage extends GetView<OtpController> {
               colorText: ColorResources.WHITE,
               fontSizedLabel: SizeApp.LABEL_SMALL_FONT_SIZE,
               fontWeight: FontWeight.bold),
-          Container(
-            width: SizeApp.setSizeWithWidth(percent: .8),
-            margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
-            child: Text(
-              'opt_04'.tr,
-              style: GoogleFonts.lexend(
-                fontSize: 12.sp,
-                color: ColorResources.MAIN_APP,
+          InkWell(
+            onTap: () {
+              controller.sendOtp();
+            },
+            child: Container(
+              width: SizeApp.setSizeWithWidth(percent: .8),
+              margin: SizeApp.setEdgeInsetsOnly(top: SizeApp.SPACE_2X),
+              child: Text(
+                'opt_04'.tr,
+                style: GoogleFonts.lexend(
+                  fontSize: 12.sp,
+                  color: ColorResources.MAIN_APP,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -156,6 +164,7 @@ class OtpPage extends GetView<OtpController> {
       ),
       width: SizeApp.setSize(percent: 0.45),
       child: PinCodeTextField(
+        autoFocus: true,
         controller: controller.otpController,
         keyboardType: TextInputType.number,
         appContext: context,

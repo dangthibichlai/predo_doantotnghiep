@@ -1,4 +1,7 @@
 const Map<String, String> en = {
+  'opt_success': 'Send code successfully. Please check your email',
+
+  'Search project...': 'Search project...',
   'My open issues': 'My open issues',
   'All issues': 'All issues',
   'In Progress issues': 'In Progress issues',
@@ -57,7 +60,7 @@ const Map<String, String> en = {
   'null_name': 'Name cannot be empty',
   'full_name': 'Full name',
   'field_name': 'Enter your full name',
-  'opt_06': 'Email has been verified successfully !',
+  'opt_06': 'Continue to set up your account',
   'veryfied': 'Email has been verified successfully !',
   'opt_05': 'You cannot log in or register an account?',
   'Manager': 'Manager',
@@ -197,8 +200,8 @@ const Map<String, String> en = {
   'Or login with': 'Or login with',
   "other_0022": "The account has been removed from the system.",
   "other_0023": "Login successful!",
-  "other_0024": "Logging in with Google...",
-  "other_0025": "Logging in with Facebook...",
+  "other_0024": "Loging in with Google...",
+  "other_0025": "Loging in with Facebook...",
   "other_0005": "Back",
   "other_0006": "Setting",
 
@@ -228,4 +231,7 @@ const Map<String, String> en = {
   'language_07': 'Language',
 //--
   'alert_01': 'Email exists',
+  'alert_02': 'The system has locked your account',
+  'alert_04': 'Logged out successfully',
+  'alert_05': 'Full name cannot blank',
 };

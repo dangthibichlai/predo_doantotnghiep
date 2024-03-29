@@ -27,13 +27,11 @@ class LoginController extends GetxController {
   RxBool isShowPassword = false.obs; // ẩn hiện lỗi
   RxBool isEmail = false.obs;
   RxBool isPassword = false.obs;
-  // String emailRouter = Get.arguments['emailRegister'] ?? '';
+  String emailRouter = '';
   RxBool isLogin = false.obs;
 
   @override
   void onInit() {
-    // emailRouter = Get.arguments['emailRegister'] ?? '';
-    // emailController.text = emailRouter;
     super.onInit();
   }
 
@@ -106,9 +104,11 @@ class LoginController extends GetxController {
           sl<SharedPreferenceHelper>().setJwtToken(data.accessToken.toString());
           sl<SharedPreferenceHelper>().setLogger(idLogger: true);
           sl<SharedPreferenceHelper>().setIdUser(idUser: data.id.toString());
+          await _dioClient.refreshToken();
+
+          print("after login" + sl<SharedPreferenceHelper>().getJwtToken);
         }
         // Refresh dio.
-        await _dioClient.refreshToken();
         EasyLoading.dismiss();
         if (isLoginWithLocal) {
           sl<SharedPreferenceHelper>().setJwtToken(data.accessToken.toString());
@@ -118,6 +118,8 @@ class LoginController extends GetxController {
           Get.offAllNamed(HomeRouter.DASHBOARD);
           emailController.clear();
           passwordController.clear();
+          await _dioClient.refreshToken();
+
           return;
         } else {
           AppAlert().success(message: 'other_0023'.tr);

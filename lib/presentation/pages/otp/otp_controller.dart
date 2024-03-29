@@ -98,7 +98,10 @@ class OtpController extends GetxController {
       data: _authModel,
       onSuccess: (data) {
         AppAlert().success(message: 'other_0023'.tr);
-        Get.toNamed(AuthRouter.LOGIN, arguments: {'emailRegister': email});
+        Get.offNamed(AuthRouter.LOGIN, arguments: {'emailRegister': _authModel.email});
+        otpController.text = '';
+        nameController.text = '';
+        passwordController.text = '';
       },
       onError: (e) {
         log('Error sign up at $e');
@@ -107,14 +110,28 @@ class OtpController extends GetxController {
     EasyLoading.dismiss();
   }
 
-  @override
-  void onClose() {
-    otpController.dispose();
-    nameController.dispose();
-    passwordController.dispose();
+  Future<void> sendOtp() async {
+    final AuthModel _authOTP = AuthModel();
+    _authOTP.email = email;
+    _authRepository.sendOTP(
+      data: _authOTP,
+      onSuccess: (data) {
+        AppAlert().success(message: 'opt_success'.tr);
+      },
+      onError: (e) {
+        log('Error sending OTP at $e');
+        EasyLoading.dismiss();
+        final locale = sl<SharedPreferenceHelper>().getLocale;
+        if (locale == 'en') {
+          AppAlert().info(message: e);
+        } else if (locale == 'vi' && e == 'Account has been removed from the system.') {
+          AppAlert().info(message: 'other_0022'.tr);
+        } else {
+          AppAlert().info(message: e);
+        }
+      },
+    );
     EasyLoading.dismiss();
-
-    super.onClose();
   }
 
   Widget _buildBottomSheet(
@@ -190,14 +207,20 @@ class OtpController extends GetxController {
                         ),
                       ],
                     ),
-                    Text(
-                      '\nopt_06'.tr,
-                      style: GoogleFonts.roboto(
-                        height: .5,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w300,
-                        color: ColorResources.MAIN_APP,
-                      ),
+                    Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'opt_06'.tr,
+                          style: GoogleFonts.roboto(
+                            height: .5,
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w300,
+                            color: ColorResources.MAIN_APP,
+                          ),
+                        ),
+                      ],
                     ),
                     Gap(20),
                     TextField(

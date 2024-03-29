@@ -18,6 +18,7 @@ class IntroductionPage extends GetView<IntroductionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.MAIN_APP,
+      resizeToAvoidBottomInset: false,
       body: GetBuilder(
         init: IntroductionController(),
         builder: (context) {
@@ -130,8 +131,7 @@ class IntroductionPage extends GetView<IntroductionController> {
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               Container(
                 width: 250,
-                margin: SizeApp.setEdgeInsetsOnly(
-                    bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+                margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -172,8 +172,7 @@ class IntroductionPage extends GetView<IntroductionController> {
               ),
               Container(
                 width: 250,
-                margin: SizeApp.setEdgeInsetsOnly(
-                    bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
+                margin: SizeApp.setEdgeInsetsOnly(bottom: SizeApp.SPACE_2X, top: SizeApp.SPACE_2X),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -244,20 +243,13 @@ class IntroductionPage extends GetView<IntroductionController> {
                 (index) {
                   return Obx(() {
                     return Container(
-                      margin: EdgeInsets.only(
-                          left: index != 0 ? SizeApp.SPACE_1X : 0),
+                      margin: EdgeInsets.only(left: index != 0 ? SizeApp.SPACE_1X : 0),
                       height: 10,
                       width: 10,
                       decoration: BoxDecoration(
-                        color: controller.currentPageIndex.value == index
-                            ? ColorResources.WHITE
-                            : ColorResources.GREY,
-                        shape: controller.currentPageIndex.value == index
-                            ? BoxShape.rectangle
-                            : BoxShape.circle,
-                        borderRadius: controller.currentPageIndex.value == index
-                            ? BorderRadius.circular(100)
-                            : null,
+                        color: controller.currentPageIndex.value == index ? ColorResources.WHITE : ColorResources.GREY,
+                        shape: controller.currentPageIndex.value == index ? BoxShape.rectangle : BoxShape.circle,
+                        borderRadius: controller.currentPageIndex.value == index ? BorderRadius.circular(100) : null,
                       ),
                     );
                   });

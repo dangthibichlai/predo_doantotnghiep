@@ -192,3 +192,13 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
+
+enum OptionsType { MY_OPEN_ISSUE, DONE_ISSUE, IN_PROGRESS_ISSUE, TO_DO_ISSUE, UNASSIGNED_ISSUE }
+
+final optionValues = EnumValues({
+  "MY_OPEN_ISSUES": OptionsType.MY_OPEN_ISSUE,
+  "DONE_ISSUES": OptionsType.DONE_ISSUE,
+  "IN_PROGRESS_ISSUES": OptionsType.IN_PROGRESS_ISSUE,
+  "TO_DO_ISSUES": OptionsType.TO_DO_ISSUE,
+  "UNASSIGNED_ISSUES": OptionsType.UNASSIGNED_ISSUE
+});

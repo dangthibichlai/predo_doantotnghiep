@@ -41,9 +41,12 @@ class HomeController extends GetxController {
         Get.toNamed(HomeRouter.GRANT_PERMISSION);
         break;
       case 2:
-        Get.toNamed('/about');
+        //dánh giá ứng dụng
         break;
       case 3:
+        //feekback
+        break;
+      case 4:
         signOut();
         break;
     }

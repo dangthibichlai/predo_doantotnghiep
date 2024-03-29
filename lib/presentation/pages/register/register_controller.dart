@@ -26,31 +26,24 @@ class RegisterController extends GetxController {
   }
 
   void register() {
+    EasyLoading.show(status: 'loading'.tr);
+
     if (AppValidate.nullOrEmpty(emailController.text)) {
       AppAlert().warring(message: 'Vui lòng điền đầy đủ thông tin'.tr);
+      EasyLoading.dismiss();
       return;
     }
     if (!AppValidate.isValidEmail(emailController.text)) {
       AppAlert().warring(message: 'Email không hợp lệ'.tr);
+      EasyLoading.dismiss();
       return;
     }
+    EasyLoading.dismiss();
     _sendOtp();
   }
 
-  Future<bool> checkEmailExits() async {
-    await _authRepository.checkExistEmail(emailController.text, onSuccess: (data) {
-      return true;
-    }, onError: (e) {});
-    return false;
-  }
-
   Future<void> _sendOtp() async {
-    if (await checkEmailExits()) {
-      AppAlert().warring(message: "alert_01".tr);
-      return;
-    }
     EasyLoading.show(status: 'loading'.tr);
-
     final AuthModel _authOTP = AuthModel();
     _authOTP.email = emailController.text;
     _authRepository.sendOTP(
@@ -58,7 +51,10 @@ class RegisterController extends GetxController {
       onSuccess: (data) {
         // ẩn bàn phím
         isLoading.value = false;
+        EasyLoading.dismiss();
+
         Get.toNamed(AuthRouter.OTP, arguments: {'email': emailController.text});
+        emailController.text = '';
         log('Send OTP success at $data');
       },
       onError: (e) {
@@ -74,12 +70,11 @@ class RegisterController extends GetxController {
         }
       },
     );
-    EasyLoading.dismiss();
   }
 
   @override
   void onClose() {
-    emailController.dispose();
+    emailController.text = '';
     EasyLoading.dismiss();
 
     super.onClose();

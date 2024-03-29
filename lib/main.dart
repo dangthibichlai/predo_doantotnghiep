@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
             locale: LocalizationService.locale,
             fallbackLocale: LocalizationService.fallbackLocale,
             translations: LocalizationService(),
+              
             getPages: AppPages.list,
             debugShowCheckedModeBanner: false,
             builder: EasyLoading.init(

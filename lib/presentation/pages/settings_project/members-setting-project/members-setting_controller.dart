@@ -2,16 +2,11 @@
 
 import 'dart:developer';
 
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:test_intern/models/auth_model.dart';
-import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
-import 'package:test_intern/resources/di_container.dart';
 import 'package:test_intern/resources/end-point.dart';
 import 'package:test_intern/resources/export/core_export.dart';
-import 'package:test_intern/services/share_preference._helper.dart';
 
 class MembersController extends GetxController {
   ProjectReponsitory _projectReponsitory = ProjectReponsitory();
@@ -20,6 +15,7 @@ class MembersController extends GetxController {
   String idProjectItem = Get.arguments['idProject'];
   String linkProject = '';
   RxString idLeader = ''.obs;
+  RxBool isLoading = true.obs;
 
   String idUser = '';
   TextEditingController searchMember = TextEditingController();
@@ -72,6 +68,7 @@ class MembersController extends GetxController {
   }
 
   Future<void> getMembers() async {
+    isLoading.value = true;
     await _projectReponsitory.findProjectID(
       idUser,
       onSuccess: (data) {
@@ -82,6 +79,7 @@ class MembersController extends GetxController {
       },
       onError: (error) {},
     );
+    isLoading.value = false;  
   }
 
   Future<void> getLeader() async {

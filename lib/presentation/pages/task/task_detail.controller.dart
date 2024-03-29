@@ -8,6 +8,7 @@ import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
@@ -141,6 +142,8 @@ class TaskDetailController extends GetxController {
         await getMembers();
         final kabanProjectController = Get.find<KabanProjectController>();
         kabanProjectController.getProject();
+        Get.find<IssueController>()
+            .getDoneIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
       },
       onError: (error) {},
     );
