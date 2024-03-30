@@ -52,6 +52,7 @@ class PieChartPage extends GetView<PieChartController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  //list name
                   Indicator(
                     color: ColorResources.MAIN_APP,
                     text: 'First',
@@ -97,7 +98,8 @@ class PieChartPage extends GetView<PieChartController> {
   }
 
   List<PieChartSectionData> showingSections(int touchedIndex) {
-    return List.generate(4, (i) {
+    final items = controller.chartData;
+    return List.generate(controller.chartData.length, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -106,8 +108,8 @@ class PieChartPage extends GetView<PieChartController> {
         case 0:
           return PieChartSectionData(
             color: ColorResources.MAIN_APP,
-            value: 40,
-            title: '40%',
+            value: items[i].value,
+            title: '${items[i].value}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
