@@ -42,7 +42,8 @@ class LoginController extends GetxController {
   }
 
   bool _validateLoginWithLocal() {
-    if (!AppValidate.nullOrEmpty(emailController.text) && !AppValidate.nullOrEmpty(passwordController.text)) {
+    if (!AppValidate.nullOrEmpty(emailController.text) &&
+        !AppValidate.nullOrEmpty(passwordController.text)) {
       return true;
     } else {
       if (AppValidate.nullOrEmpty(emailController.text)) {
@@ -72,7 +73,10 @@ class LoginController extends GetxController {
               _authModel.email = gUser.user!.email;
               //  _authModel.avatar = gUser.user!.photoURL;
               _authModel.fcm_token = [deviceID];
-              _callAPILogin(auth: _authModel, isLoginWithLocal: false, socialType: SocialType.GOOGLE);
+              _callAPILogin(
+                  auth: _authModel,
+                  isLoginWithLocal: false,
+                  socialType: SocialType.GOOGLE);
             } else {
               log('Login Google failed');
             }
@@ -88,7 +92,10 @@ class LoginController extends GetxController {
           _authModel.password = passwordController.text.trim();
           // _authModel.password = passwordController.text.trim();
           _callAPILogin(
-            auth: AuthModel(email: emailController.text, password: passwordController.text, fcm_token: [deviceID]),
+            auth: AuthModel(
+                email: emailController.text,
+                password: passwordController.text,
+                fcm_token: [deviceID]),
             isLoginWithLocal: true,
             socialType: socialType,
           );
@@ -97,7 +104,10 @@ class LoginController extends GetxController {
     }
   }
 
-  void _callAPILogin({required AuthModel auth, required bool isLoginWithLocal, required SocialType socialType}) {
+  void _callAPILogin(
+      {required AuthModel auth,
+      required bool isLoginWithLocal,
+      required SocialType socialType}) {
     _authRepository.signIn(
       isSignInWithLocal: isLoginWithLocal,
       data: auth,
@@ -106,9 +116,9 @@ class LoginController extends GetxController {
           sl<SharedPreferenceHelper>().setJwtToken(data.accessToken.toString());
           sl<SharedPreferenceHelper>().setLogger(idLogger: true);
           sl<SharedPreferenceHelper>().setIdUser(idUser: data.id.toString());
+          await _dioClient.refreshToken();
         }
         // Refresh dio.
-        await _dioClient.refreshToken();
         EasyLoading.dismiss();
         if (isLoginWithLocal) {
           sl<SharedPreferenceHelper>().setJwtToken(data.accessToken.toString());
@@ -118,6 +128,7 @@ class LoginController extends GetxController {
           Get.offAllNamed(HomeRouter.DASHBOARD);
           emailController.clear();
           passwordController.clear();
+          await _dioClient.refreshToken();
           return;
         } else {
           AppAlert().success(message: 'other_0023'.tr);
@@ -130,7 +141,8 @@ class LoginController extends GetxController {
         final locale = sl<SharedPreferenceHelper>().getLocale;
         if (locale == 'en') {
           AppAlert().info(message: e);
-        } else if (locale == 'vi' && e == 'Account has been removed from the system.') {
+        } else if (locale == 'vi' &&
+            e == 'Account has been removed from the system.') {
           AppAlert().info(message: 'other_0022'.tr);
         } else {
           AppAlert().info(message: e);
