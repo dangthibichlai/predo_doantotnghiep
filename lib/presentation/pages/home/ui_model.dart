@@ -25,14 +25,10 @@ List<UIModelHomeSetting> uiModelHomeSetting = [
       Get.toNamed(HomeRouter.GRANT_PERMISSION);
     },
   ),
-  UIModelHomeSetting(
-    title: 'setting_004',
-    icon: Icons.rate_review,
-    onTap: () {},
-  ),
+
   UIModelHomeSetting(
     title: 'setting_005',
-    icon: Icons.logout,
+    icon: Icons.feedback,
     onTap: () {},
   ),
   UIModelHomeSetting(

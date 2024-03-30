@@ -60,9 +60,10 @@ class ProjectPage extends GetView<ProjectController> {
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 15.0),
-                child: ClipOval(
+                child: CircleAvatar(
+                  backgroundColor: ColorResources.GREY.withOpacity(.5),
                   child: AppImage(
-                    ImagesPath.avataImg,
+                    ImagesPath.logoApp,
                     width: 30.sp,
                     height: 30.sp,
                   ),

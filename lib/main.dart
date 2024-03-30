@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:feedback/feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -41,12 +43,13 @@ Future<void> main() async {
     statusBarColor: ColorResources.BGAPP,
     statusBarIconBrightness: Brightness.dark,
   ));
-  time_ago.setLocaleMessages('vi', time_ago.ViMessages());
+  time_ago.setLocaleMessages('en', time_ago.ViMessages());
 //   PermissionStatus status = await Permission.notification.status;
 
 //   if (!status.isGranted) {
 // // The permission is not granted, request it. status = await Permission.notification.request();
 //   }
+
   runApp(const MyApp());
 }
 
@@ -65,33 +68,42 @@ class MyApp extends StatelessWidget {
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
           },
-          child: GetMaterialApp(
-            initialRoute: AuthRouter.SPLASH,
-            // initialRoute: HomeRouter.TASKDETAIL,
-            initialBinding: AppBinding(),
-            transitionDuration: const Duration(),
-            locale: LocalizationService.locale,
-            fallbackLocale: LocalizationService.fallbackLocale,
-            translations: LocalizationService(),
-              
-            getPages: AppPages.list,
-            debugShowCheckedModeBanner: false,
-            builder: EasyLoading.init(
-              builder: (context, widget) {
-                return Theme(
-                  data: ThemeData(
-                    primarySwatch: Colors.blue,
-                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                  ),
-                  child: MediaQuery(
-                    // Setting font does not change with system font size
-                    data: MediaQuery.of(context).copyWith(
-                      boldText: false,
+          child: BetterFeedback(
+            theme: FeedbackThemeData(
+              background: Colors.grey,
+              feedbackSheetColor: Colors.grey[50]!,
+              drawColors: [
+                Colors.red,
+                Colors.green,
+                Colors.blue,
+                Colors.yellow,
+              ],
+            ),
+            child: GetMaterialApp(
+              initialRoute: AuthRouter.SPLASH,
+              initialBinding: AppBinding(),
+              transitionDuration: const Duration(),
+              locale: LocalizationService.locale,
+              fallbackLocale: LocalizationService.fallbackLocale,
+              translations: LocalizationService(),
+              getPages: AppPages.list,
+              debugShowCheckedModeBanner: false,
+              builder: EasyLoading.init(
+                builder: (context, widget) {
+                  return Theme(
+                    data: ThemeData(
+                      primarySwatch: Colors.blue,
+                      visualDensity: VisualDensity.adaptivePlatformDensity,
                     ),
-                    child: widget!,
-                  ),
-                );
-              },
+                    child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        boldText: false,
+                      ),
+                      child: widget!,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );

@@ -54,9 +54,10 @@ class NotificationPage extends GetView<NotificationController> {
                       );
                     });
                   },
-                  child: ClipOval(
+                  child: CircleAvatar(
+                    backgroundColor: ColorResources.GREY.withOpacity(.5),
                     child: AppImage(
-                      ImagesPath.avataImg,
+                      ImagesPath.logoApp,
                       width: 30.sp,
                       height: 30.sp,
                     ),

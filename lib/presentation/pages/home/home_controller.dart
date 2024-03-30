@@ -1,8 +1,16 @@
+import 'dart:core';
+import 'dart:io';
+
+import 'package:feedback/feedback.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get_it/get_it.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/auth_model.dart';
+import 'package:test_intern/presentation/pages/home/rate_us_dialog.dart';
+import 'package:test_intern/presentation/pages/home/show_diaolog.dart';
 import 'package:test_intern/repositories/auth_repositories.dart';
 import 'package:test_intern/routers/auth_router.dart';
 import 'package:test_intern/services/social_auth/social_auth_service.dart';
@@ -12,6 +20,8 @@ import '../../../resources/export/core_export.dart';
 class HomeController extends GetxController {
   final SharedPreferenceHelper _sharedPreferenceHelper = sl.get<SharedPreferenceHelper>();
   AuthRepository _authRepository = GetIt.I.get<AuthRepository>();
+  static const String UPDATE_RATE_US = 'UPDATE_RATE_US';
+
   RxList users = [].obs;
   String idUser = '';
   RxBool isLoading = true.obs;
@@ -41,15 +51,40 @@ class HomeController extends GetxController {
         Get.toNamed(HomeRouter.GRANT_PERMISSION);
         break;
       case 2:
-        //dánh giá ứng dụng
+        CommonHelper.onTapHandler(callback: () {
+          submitFeedback();
+        });
         break;
       case 3:
-        //feekback
+        signOut();
         break;
-      case 4:
+
+      default:
         signOut();
         break;
     }
+  }
+
+  void submitFeedback() async {
+    BetterFeedback.of(Get.context!).show((UserFeedback userFeedBack) async {
+      final screenshot = await writeImagetoStore(userFeedBack.screenshot);
+      final Email email = Email(
+        body: userFeedBack.text,
+        subject: 'Feedback Predo',
+        recipients: ['dangbichlai21@gmail.com'],
+        attachmentPaths: [screenshot],
+        isHTML: false,
+      );
+      await FlutterEmailSender.send(email);
+    });
+  }
+
+  Future<String> writeImagetoStore(Uint8List feedbackImage) async {
+    final Directory appDocDir = await getTemporaryDirectory();
+    final String feedbackImagePath = '${appDocDir.path}/feedback.png';
+    final File feedbackImageFile = File(feedbackImagePath);
+    await feedbackImageFile.writeAsBytes(feedbackImage);
+    return feedbackImagePath;
   }
 
   void signOutWithApi() {
@@ -175,6 +210,33 @@ class HomeController extends GetxController {
     _sharedPreferenceHelper.removeIdUser();
     _sharedPreferenceHelper.removeLogger();
     GetIt.I.get<SocialAuthService>().socialLogout(socialType: SocialType.GOOGLE);
+  }
+
+  void rateUs(BuildContext context) {
+    if (GetIt.I.get<SharedPreferenceHelper>().getIsRatedApp) {
+      return;
+    }
+    ShowDialog.showGenerateDialog(
+      context: context,
+      childWidget: RateUsDialog(
+        callBack: (rate) async {
+          if (rate <= 3) {
+            submitFeedback();
+            //chuyển sang trang feek back
+            // Get.toNamed(InAppPurchaseRouters.FEEDBACK);
+          } else {
+            GetIt.I.get<SharedPreferenceHelper>().setIsRatedApp(isRate: true);
+            update([UPDATE_RATE_US]);
+            // Inapp review
+            final InAppReview inAppReview = InAppReview.instance;
+            if (await inAppReview.isAvailable()) {
+              await inAppReview.requestReview();
+            }
+          }
+        },
+      ),
+      isAllowCloseOutSize: false,
+    );
   }
 
   @override

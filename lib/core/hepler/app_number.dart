@@ -1,4 +1,9 @@
-mixin AppNumber {
+///
+/// Parse string to number
+///
+// ignore_for_file: avoid_classes_with_only_static_members, deprecated_member_use
+
+class AppNumber {
   ///
   /// Parse to double
   ///
@@ -45,18 +50,10 @@ mixin AppNumber {
     return fault;
   }
 
-  static double parserNumberOfInput(String value) {
+  double parserNumberOfInput(String value) {
     final number = double.parse(
       value.replaceAll('.', ''),
     );
     return number;
-  }
-
-  static String convertDoubleToString(double value) {
-    if (value % 1 == 0) {
-      return value.toInt().toString();
-    } else {
-      return value.toString();
-    }
   }
 }

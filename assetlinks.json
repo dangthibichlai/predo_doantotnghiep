@@ -1,0 +1,13 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { 
+            "namespace": "android_app", 
+            "package_name": "predo.com.appname",
+            "sha256_cert_fingerprints": [
+                "87:e2:96:a2:ac:3d:1c:2a:8f:a0:93:6b:03:44:a3:d4:ac:f1:e4:67:44:ed:d3:5d:71:e2:b3:1b:e9:8a:29:83",
+                "0a:42:b6:65:db:81:d8:63:84:07:49:de:a7:ff:67:3c:fb:89:95:69:9a:09:08:98:d9:51:bf:04:b9:82:a6:ae"
+                ] 
+            }
+    }
+]

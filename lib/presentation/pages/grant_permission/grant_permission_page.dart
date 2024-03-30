@@ -101,9 +101,9 @@ class GrantPermissionPage extends GetView<GrantPermissionController> {
                             child: _permission(
                               context: context,
                               title: 'permission_03'.tr,
-                              valueSwitch: controller.readAndWriteStatus.value,
+                              valueSwitch: controller.notificationStatus.value,
                               onChangeSwitch: (val) {
-                                controller.requestPermissionStore();
+                                controller.requestPermissionsNotification();
                               },
                             ),
                           ),
@@ -184,9 +184,9 @@ class GrantPermissionPage extends GetView<GrantPermissionController> {
         Transform.scale(
           scale: 0.8,
           child: CupertinoSwitch(
-            activeColor: ColorResources.MAIN_APP,
+            activeColor: Colors.orange,
             trackColor: ColorResources.LIGHT_GREY,
-            thumbColor: ColorResources.BLACK,
+            thumbColor: ColorResources.WHITE,
             value: valueSwitch,
             onChanged: (value) {
               CommonHelper.onTapHandler(callback: () {

@@ -233,4 +233,7 @@ const Map<String, String> vi = {
   'alert_02': 'Hệ thống đã khóa tài khoản của bạn',
   'alert_04': 'Đăng xuất thành công',
   'alert_05': 'Họ và tên không được để trống',
+  'setting_5': 'Đánh giá',
+  'rate_1': 'Tốt nhất mà chúng tôi có thể nhận :)',
+
 };

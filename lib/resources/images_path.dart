@@ -18,7 +18,15 @@ mixin ImagesPath {
   static String issueImage = 'assets/features/issue/issue_empty.png';
   static String avataImg = 'assets/features/avatar/avatar.jpg';
   static String splashIc = 'assets/features/splLottie.json';
-
+  static String feedbackIcAdd = 'assets/images/feedback_ic_delete.svg';
+  static String rateIc1Star = 'assets/logo/rating_ic_1_star.png';
+  static String rateIc2Star = 'assets/logo/rating_ic_2_star.png';
+  static String rateIc3Star = 'assets/logo/rating_ic_3_star.png';
+  static String rateIc4Star = 'assets/logo/rating_ic_4_star.png';
+  static String rateIc5Star = 'assets/logo/rating_ic_5_star.png';
+  static String rateIcArrowRight = 'assets/features/rating_ic_arrow_right.svg';
+  static String rateIcSelectStar = 'assets/features/rating_ic_select_star.svg';
+  static String rateIcUnSelectStar = 'assets/features/rating_ic_un_select_star.svg';
   // Alert.
   static String alertIcSuccessAlert = 'assets/base/alert_ic_success.svg';
   static String alertIcHelpAlert = 'assets/base/alert_ic_help.svg';

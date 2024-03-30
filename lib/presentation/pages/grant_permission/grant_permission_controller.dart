@@ -12,6 +12,7 @@ class GrantPermissionController extends GetxController with WidgetsBindingObserv
   Rx<bool> cameraStatus = false.obs;
   Rx<bool> recordStatus = false.obs;
   Rx<bool> readAndWriteStatus = false.obs;
+  Rx<bool> notificationStatus = false.obs;
 
   // Get android version OS.
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
@@ -89,6 +90,10 @@ class GrantPermissionController extends GetxController with WidgetsBindingObserv
     // Record status.
     final _recordStatus = await Permission.microphone.status;
     recordStatus.value = _recordStatus == PermissionStatus.granted;
+
+    // no
+    final _notificationStatus = await Permission.notification.status;
+    notificationStatus.value = _notificationStatus == PermissionStatus.granted;
 
     // Read and write status.
     late PermissionStatus _readAndWriteStatus;
@@ -228,8 +233,22 @@ class GrantPermissionController extends GetxController with WidgetsBindingObserv
     return _statusVideo == PermissionStatus.granted;
   }
 
-  ///
-  /// Go to home page.
-  ///
-  
+// quyền tắt bật thông báo ứng dụng
+  Future<void> requestPermissionsNotification() async {
+    late PermissionStatus _status;
+
+    _status = await Permission.notification.status;
+
+    if (_status == PermissionStatus.permanentlyDenied) {
+      _status = await Permission.notification.request();
+      if (_status != PermissionStatus.granted) {
+        openAppSettings();
+      }
+    } else if (_status != PermissionStatus.granted) {
+      await Permission.notification.request();
+    }
+
+    _status = await Permission.notification.status;
+    cameraStatus.value = _status == PermissionStatus.granted;
+  }
 }

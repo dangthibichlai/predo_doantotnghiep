@@ -61,7 +61,7 @@ class AssigneedetailPage extends GetView<PanelController> {
                 return DataRow(
                   cells: <DataCell>[
                     DataCell(
-                        onTap: () => controller.routerToDetailTask(e.id),
+                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
                         Center(
                           child: Icon(
                             Icons.check_circle,
@@ -69,18 +69,18 @@ class AssigneedetailPage extends GetView<PanelController> {
                           ),
                         )),
                     DataCell(
-                      onTap: () => controller.routerToDetailTask(e.id),
+                      onTap: () => controller.routerToDetailTask(e.id ?? ''),
                       Text(
-                        e.key,
+                        e.key ?? '',
                       ),
                     ),
                     DataCell(
-                        onTap: () => controller.routerToDetailTask(e.id),
+                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
                         SizedBox(
                             width: SizeApp.setSize(percent: .15),
-                            child: Text(e.title, maxLines: 2, overflow: TextOverflow.ellipsis))),
+                            child: Text(e.title ?? '', maxLines: 2, overflow: TextOverflow.ellipsis))),
                     DataCell(
-                        onTap: () => controller.routerToDetailTask(e.id),
+                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
                         Center(child: Icon(Icons.line_axis, color: Colors.orange))),
                   ],
                 );

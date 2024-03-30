@@ -45,9 +45,10 @@ class PanelPage extends GetView<PanelController> {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 15.0),
-              child: ClipOval(
+              child: CircleAvatar(
+                backgroundColor: ColorResources.GREY.withOpacity(.5),
                 child: AppImage(
-                  ImagesPath.avataImg,
+                  ImagesPath.logoApp,
                   width: 30.sp,
                   height: 30.sp,
                 ),
@@ -76,117 +77,125 @@ class PanelPage extends GetView<PanelController> {
   }
 
   Widget _assigned() {
-    return Container(
-      width: SizeApp.getMaxWidth(),
-      height: controller.listTask.value.length == 0 ? SizeApp.setSize(percent: .12) : SizeApp.setSize(percent: .35),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: ColorResources.GREY.withOpacity(.2)),
-          boxShadow: [
-            BoxShadow(
-              color: ColorResources.WHITE.withOpacity(.1),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(0, 1), // changes position of shadow
-            ),
-          ]),
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text("Assigned to Me".tr, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
-        controller.listTask.value.length == 0
-            ? _empty()
-            : Column(
-                children: [
-                  Container(
-                    height: SizeApp.setSize(percent: .25),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Obx(
-                        () => DataTable(
-                          columns: <DataColumn>[
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Issue Type'.tr,
-                                  style: TextStyle(fontStyle: FontStyle.italic),
+    return Obx(
+      () => Container(
+        width: SizeApp.getMaxWidth(),
+        height: controller.listTask.value.length == 0 ? SizeApp.setSize(percent: .12) : SizeApp.setSize(percent: .35),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: ColorResources.GREY.withOpacity(.2)),
+            boxShadow: [
+              BoxShadow(
+                color: ColorResources.WHITE.withOpacity(.1),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: Offset(0, 1), // changes position of shadow
+              ),
+            ]),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text("Assigned to Me".tr, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+          Obx(
+            () => controller.listTask.value.length == 0
+                ? _empty()
+                : Column(
+                    children: [
+                      Container(
+                        height: SizeApp.setSize(percent: .25),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Obx(
+                            () => DataTable(
+                              columns: <DataColumn>[
+                                DataColumn(
+                                  label: Expanded(
+                                    child: SizedBox(
+                                      child: Text(
+                                        'Issue Type'.tr,
+                                        style: TextStyle(fontStyle: FontStyle.italic),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Key'.tr,
-                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Key'.tr,
+                                      style: TextStyle(fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Summary'.tr,
-                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Summary'.tr,
+                                      style: TextStyle(fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Priority'.tr,
-                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Priority'.tr,
+                                      style: TextStyle(fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                          rows: controller.listTask.value.toList().reversed.take(3).map((e) {
-                            return DataRow(
-                              cells: <DataCell>[
-                                DataCell(
-                                    onTap: () => controller.routerToDetailTask(e.id),
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: Colors.blue,
-                                    )),
-                                DataCell(onTap: () => controller.routerToDetailTask(e.id), Text(e.key)),
-                                DataCell(
-                                    onTap: () => controller.routerToDetailTask(e.id),
-                                    SizedBox(width: SizeApp.setSize(percent: .2), child: Text(e.title))),
-                                DataCell(
-                                    onTap: () => controller.routerToDetailTask(e.id),
-                                    Icon(Icons.line_axis, color: Colors.orange)),
                               ],
-                            );
-                          }).toList(),
+                              rows: controller.listTask.value.toList().reversed.take(3).map((e) {
+                                return DataRow(
+                                  cells: <DataCell>[
+                                    DataCell(
+                                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: Colors.blue,
+                                        )),
+                                    DataCell(onTap: () => controller.routerToDetailTask(e.id ?? ''), Text(e.key ?? '')),
+                                    DataCell(
+                                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
+                                        SizedBox(width: SizeApp.setSize(percent: .2), child: Text(e.title ?? ''))),
+                                    DataCell(
+                                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
+                                        Icon(Icons.line_axis, color: Colors.orange)),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => AssigneedetailPage());
+                        },
+                        child: Obx(
+                          () => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("View all issues", style: TextStyle(color: Colors.blue)),
+                              Spacer(),
+                              Icon(Icons.autorenew, color: Colors.blue),
+                              Text(
+                                  controller.listTask.length != 0
+                                      ? DateFormat('dd/MM/yyyy HH:mm')
+                                          .format(DateTime.parse(controller.listTask.value.last.updatedAt.toString()))
+                                      : 'Just now'.tr,
+                                  //     // AppDate.formatDateHaveTodayString(
+                                  //     //         createAtBefore: DateTime.now(),
+                                  //     //         isShowOnFirst: true,
+                                  //     //         createAtNow:  ) .toString(),
+                                  style: TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(() => AssigneedetailPage());
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("View all issues", style: TextStyle(color: Colors.blue)),
-                        Spacer(),
-                        Icon(Icons.autorenew, color: Colors.blue),
-                        Text(
-                            controller.listTask.length != 0
-                                ? DateFormat('dd/MM/yyyy HH:mm')
-                                    .format(DateTime.parse(controller.listTask.value.last.updatedAt.toString()))
-                                : 'Just now'.tr,
-                            //     // AppDate.formatDateHaveTodayString(
-                            //     //         createAtBefore: DateTime.now(),
-                            //     //         isShowOnFirst: true,
-                            //     //         createAtNow:  ) .toString(),
-                            style: TextStyle(color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-      ]),
+          ),
+        ]),
+      ),
     );
   }
 
@@ -223,12 +232,12 @@ class PanelPage extends GetView<PanelController> {
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text("Activity stream".tr, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
         Obx(
-          () => controller.notification.value.length == 0
+          () => controller.listTask.value.length == 0
               ? _empty()
               : ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: controller.notification.length,
+                  itemCount: controller.allActivities.length,
                   itemBuilder: (context, index) {
                     return Container(
                       padding: EdgeInsets.all(8.sp),
@@ -262,7 +271,7 @@ class PanelPage extends GetView<PanelController> {
                                                 fontSize: 16.sp, color: Colors.black, fontWeight: FontWeight.bold),
                                             children: [
                                               TextSpan(
-                                                text: controller.notification.value[index].description.toString(),
+                                                text: controller.allActivities.value[index].description.toString(),
                                                 style: TextStyle(
                                                     fontSize: 13.sp,
                                                     color: Colors.black.withOpacity(.8),
@@ -307,16 +316,18 @@ class PanelPage extends GetView<PanelController> {
                   },
                 ),
         ),
-        controller.notification.value.length != 0
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Spacer(),
-                  Icon(Icons.autorenew, color: Colors.blue),
-                  Text("Just now", style: TextStyle(color: Colors.black))
-                ],
-              )
-            : SizedBox()
+        Obx(
+          () => controller.allActivities.value.length != 0
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Spacer(),
+                    Icon(Icons.autorenew, color: Colors.blue),
+                    Text("Just now", style: TextStyle(color: Colors.black))
+                  ],
+                )
+              : SizedBox(),
+        )
       ]),
     );
   }
@@ -324,7 +335,6 @@ class PanelPage extends GetView<PanelController> {
   Widget feedback() {
     return Container(
       width: SizeApp.getMaxWidth(),
-      height: SizeApp.setSize(percent: .18),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),

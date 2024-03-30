@@ -234,4 +234,7 @@ const Map<String, String> en = {
   'alert_02': 'The system has locked your account',
   'alert_04': 'Logged out successfully',
   'alert_05': 'Full name cannot blank',
+  'setting_5': 'Rate',
+  'rate_1': 'The best we could get :)',
+
 };

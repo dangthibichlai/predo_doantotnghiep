@@ -9,6 +9,7 @@ import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
+import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
@@ -144,6 +145,7 @@ class TaskDetailController extends GetxController {
         kabanProjectController.getProject();
         Get.find<IssueController>()
             .getDoneIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
+        Get.find<PanelController>().getTaskDetail();
       },
       onError: (error) {},
     );

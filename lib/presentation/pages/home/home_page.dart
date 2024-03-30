@@ -47,15 +47,16 @@ class HomePage extends GetView<HomeController> {
                             child: Container(
                               width: SizeApp.setSize(percent: 0.04),
                               height: SizeApp.setSize(percent: 0.04),
-                              decoration: const BoxDecoration(
-                                color: ColorResources.GREY,
+                              decoration: BoxDecoration(
+                                color: ColorResources.GREY.withOpacity(.5),
                               ),
-                              child: Image.network(
-                                  'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png'),
-                            ), //add image location here
+                              child: AppImage(ImagesPath.logoApp,
+                                  width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
+                            ),
                           ),
                         ),
                       ),
+
                       Gap(15),
                       Text(
                         controller.users.value[0].full_name ?? '',

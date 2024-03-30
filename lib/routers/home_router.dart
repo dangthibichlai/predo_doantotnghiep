@@ -4,6 +4,8 @@ import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_binding
 import 'package:test_intern/presentation/pages/chart/pie_chart/pie_chart_page.dart';
 import 'package:test_intern/presentation/pages/create_project/create_project_binding.dart';
 import 'package:test_intern/presentation/pages/create_project/create_project_page.dart';
+import 'package:test_intern/presentation/pages/feed_back/feed_back.dart';
+import 'package:test_intern/presentation/pages/feed_back/feed_back_binding.dart';
 import 'package:test_intern/presentation/pages/project/project_binding.dart';
 import 'package:test_intern/presentation/pages/project/project_page.dart';
 import 'package:test_intern/presentation/pages/settings_project/details-setting-project/details-setting_page.dart';
@@ -33,8 +35,14 @@ mixin HomeRouter {
   static const String TASKDETAIL = '/task-detail';
   static const String MEMBERS = '/members-setting';
   static const String GRANT_PERMISSION = '/grand_permissions';
+  static const String FEEDBACK = '/feedback';
 
   static List<GetPage> listPage = [
+    GetPage(
+      name: FEEDBACK,
+      page: () => FeedBackPage(),
+      binding: FeedBackBinding(),
+    ),
     GetPage(
       name: GRANT_PERMISSION,
       page: () => GrantPermissionPage(),

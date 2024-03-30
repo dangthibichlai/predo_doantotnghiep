@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -24,21 +25,20 @@ class FcmService {
   }
 
   Future<void> init() async {
-    // yêu cầu cấp quyền thông báo
-    if (Platform.isIOS) {
-      // ignore: unused_local_variable
-      final NotificationSettings settings = await _firebaseMessaging.requestPermission(
-        announcement: true,
-        carPlay: true,
-      );
+    final NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      announcement: true,
+      carPlay: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      log('Firebase User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      log('Firebase User granted provisional permission');
+    } else {
+      log('Firebase User declined or has not accepted permission');
     }
 
-    // final NotificationSettings settings = await requestPermission();
-    //Get.log('User granted permission: ${AuthorizationStatus.values[settings.authorizationStatus.index]}');
-
     await _firebaseMessaging.setAutoInitEnabled(true);
-
-    // subscribeTopic(FCM_TOPIC_DEFAULT);
 
     _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
@@ -83,6 +83,7 @@ class FcmService {
       // ignore: unused_local_variable
       final NotificationSettings settings = await _firebaseMessaging.requestPermission(
         announcement: true,
+        alert: true,
         carPlay: true,
       );
       // if (settings.authorizationStatus == AuthorizationStatus.denied) {
