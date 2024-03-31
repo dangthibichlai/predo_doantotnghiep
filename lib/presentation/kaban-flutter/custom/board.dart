@@ -376,29 +376,28 @@ class _BoardState extends ConsumerState<Board> {
                                                         ],
                                                       ),
                                                     )
-                                                  : SizedBox(),
-                                              //xử lí
-                                              // : GestureDetector(
-                                              //     onTap: () {
-                                              //       if (boardProv.newCardState.isFocused == true) {
-                                              //           ref.read(ProviderList.cardProvider).saveNewCard();
-
-                                              //       }
-                                              //       boardListProv.newList = true;
-                                              //       setState(() {});
-                                              //     },
-                                              //     child: Container(
-                                              //         height: 50,
-                                              //         width: 300,
-                                              //         margin: const EdgeInsets.only(top: 10, left: 20),
-                                              //         decoration: BoxDecoration(
-                                              //             color: Colors.transparent,
-                                              //             borderRadius: BorderRadius.circular(6)),
-                                              //         child: DottedBorder(
-                                              //           child: Center(
-                                              //               child: Text("Add List", style: widget.textStyle)),
-                                              //         )),
-                                              //   )
+                                                  //  : SizedBox(),
+                                                  //xử lí
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        if (boardProv.newCardState.isFocused == true) {
+                                                          ref.read(ProviderList.cardProvider).saveNewCard();
+                                                        }
+                                                        boardListProv.newList = true;
+                                                        setState(() {});
+                                                      },
+                                                      child: Container(
+                                                          height: 50,
+                                                          width: 300,
+                                                          margin: const EdgeInsets.only(top: 10, left: 20),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.transparent,
+                                                              borderRadius: BorderRadius.circular(6)),
+                                                          child: DottedBorder(
+                                                            child: Center(
+                                                                child: Text("Add List", style: widget.textStyle)),
+                                                          )),
+                                                    )
                                             ],
                                           ))
                                     .toList()),

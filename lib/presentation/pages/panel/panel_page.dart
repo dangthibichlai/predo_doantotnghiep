@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/common_helper.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/panel/assignee_detail.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
@@ -144,14 +146,32 @@ class PanelPage extends GetView<PanelController> {
                                 ),
                               ],
                               rows: controller.listTask.value.toList().reversed.take(3).map((e) {
+                                final uiIssueTypeItem = UIIssueType.getUIIssueType(
+                                    issueTypeValues.reverse[e.issueType] ?? IssueType.USER_STORY.toString());
                                 return DataRow(
                                   cells: <DataCell>[
                                     DataCell(
                                         onTap: () => controller.routerToDetailTask(e.id ?? ''),
-                                        Icon(
-                                          Icons.check_circle,
-                                          color: Colors.blue,
+                                        Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            // color: item.color ?? ColorResources.GREEN,
+                                            color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
+                                            borderRadius: BorderRadius.circular(3),
+                                          ),
+                                          height: 16.sp,
+                                          width: 16.sp,
+                                          child: Icon(
+                                            //item.icon ??
+                                            uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
+                                            color: ColorResources.WHITE,
+                                            size: 12.sp,
+                                          ),
                                         )),
+                                    // Icon(
+                                    //   uiIssueTypeItem?.icon ?? Icons.bug_report_outlined,
+                                    //   color: Colors.white,
+                                    // )),
                                     DataCell(onTap: () => controller.routerToDetailTask(e.id ?? ''), Text(e.key ?? '')),
                                     DataCell(
                                         onTap: () => controller.routerToDetailTask(e.id ?? ''),
@@ -282,26 +302,6 @@ class PanelPage extends GetView<PanelController> {
                                 ]),
                                 SizedBox(
                                   height: 5.sp,
-                                ),
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Container(
-                                      padding: EdgeInsets.only(top: 3.sp, bottom: 3.sp, left: 2.sp, right: 2.sp),
-                                      decoration: BoxDecoration(
-                                          color: ColorResources.GREEN.withOpacity(.7),
-                                          borderRadius: BorderRadius.circular(5.sp)),
-                                      child: Icon(
-                                        Icons.bookmark_rounded,
-                                        color: Colors.white,
-                                        size: 12.sp,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5.sp,
-                                    ),
-                                    Text('26 Feb 2024', style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY)),
-                                  ],
                                 ),
                                 Divider(
                                   color: ColorResources.GREY.withOpacity(.2),

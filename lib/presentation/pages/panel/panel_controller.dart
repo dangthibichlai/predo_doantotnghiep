@@ -47,10 +47,12 @@ class PanelController extends GetxController {
         listTask.assignAll(data);
         listTask.refresh();
         // lấy ra tất cả các activities của task
-        for (var i = 0; i < data.length; i++) {
-          allActivities.add(data[i].activities);
+        for (var i = 0; i < listTask.length; i++) {
+          if (listTask[i].activities != null) {
+            allActivities.addAll(listTask[i].activities!.map((activity) => Activities.fromJson(activity)));
+          }
         }
-        print(allActivities);
+        print('allActivities: $allActivities');
       },
       onError: (error) {
         print(error);

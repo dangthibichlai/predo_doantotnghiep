@@ -1,7 +1,9 @@
 // ignore_for_file: use_setters_to_change_properties
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/repositories/exception/notification_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -21,6 +23,16 @@ class NotificationController extends GetxController {
 
     getNotification(isRefresh: true);
     super.onInit();
+  }
+
+  void delete() {
+    EasyLoading.show(status: 'Loading...');
+    _notificationRepository.delete(onSuccess: (data) {
+      EasyLoading.dismiss();
+      AppAlert().success(message: 'Delete_success'.tr);
+    }, onError: (e) {
+      EasyLoading.dismiss();
+    });
   }
 
   Future<void> getNotification({required bool isRefresh}) async {

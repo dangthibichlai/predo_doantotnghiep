@@ -122,7 +122,6 @@ class LoginController extends GetxController {
 
           return;
         } else {
-          AppAlert().success(message: 'other_0023'.tr);
           Get.offAllNamed(HomeRouter.DASHBOARD);
         }
       },

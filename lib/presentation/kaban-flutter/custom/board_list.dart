@@ -49,7 +49,7 @@ class _BoardListState extends ConsumerState<BoardList> {
                     prov.draggedItemState!.width + prov.valueNotifier.value.dx)) &&
                 (prov.board.dragItemOfListIndex! != widget.index)) {
               if (prov.board.lists[widget.index].items.isEmpty) {
-                log("LIST 0 RIGHT");
+                log("LIST ${widget.index} RIGHT");
                 prov.move = "REPLACE";
                 prov.board.lists[widget.index].items.add(ListItem(
                     child: Container(

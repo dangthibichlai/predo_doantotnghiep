@@ -204,6 +204,7 @@ const Map<String, String> en = {
   "other_0025": "Loging in with Facebook...",
   "other_0005": "Back",
   "other_0006": "Setting",
+  'Delete_success': 'Delete success',
 
   //Notifications
   'Notifications': 'Notifications',

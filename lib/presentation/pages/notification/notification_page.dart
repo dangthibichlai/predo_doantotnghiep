@@ -33,13 +33,13 @@ class NotificationPage extends GetView<NotificationController> {
               children: [
                 Text('Notifications'.tr, style: TextStyle(fontSize: 20.sp)),
                 Spacer(),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.filter_list_rounded,
-                      size: 24.sp,
-                      color: ColorResources.BLACK.withOpacity(.5),
-                    )),
+                // IconButton(
+                //     onPressed: () {},
+                //     icon: Icon(
+                //       Icons.filter_list_rounded,
+                //       size: 24.sp,
+                //       color: ColorResources.BLACK.withOpacity(.5),
+                //     )),
                 InkWell(
                   onTap: () {
                     CommonHelper.onTapHandler(callback: () {
@@ -64,9 +64,11 @@ class NotificationPage extends GetView<NotificationController> {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.delete();
+                    },
                     icon: Icon(
-                      Icons.more_vert_outlined,
+                      Icons.delete,
                       size: 24.sp,
                       color: ColorResources.BLACK.withOpacity(.5),
                     )),

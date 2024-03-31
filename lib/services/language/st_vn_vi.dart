@@ -130,6 +130,7 @@ const Map<String, String> vi = {
   "other_0023": "Đăng nhập thành công!",
   "other_0024": "Đang đăng nhập Google...",
   "other_0025": "Đang đăng nhập Facebook...",
+  'Delete_success': 'Xóa thành công',
 
 // Trang giới thiệu
   'intro_001': 'Quản lý đơn giản và hiệu quả với một mô hình quản lý thân thiện và dễ sử dụng.',

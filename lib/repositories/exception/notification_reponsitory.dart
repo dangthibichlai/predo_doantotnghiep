@@ -65,4 +65,22 @@ class NotificationRepository {
       onError(ApiErrorHandler.getMessage(response.data));
     }
   }
+
+  Future<void> delete({
+    required Function(String event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.delete('${EndPoints.notifications}');
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      onSuccess('Delete success');
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
 }

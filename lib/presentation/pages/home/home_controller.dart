@@ -151,7 +151,7 @@ class HomeController extends GetxController {
                               AppButton(
                                 type: AppButtonType.OUTLINE,
                                 onTap: () {
-                                  Get.back();
+                                  Navigator.pop(context);
                                 },
                                 width: SizeApp.setSizeWithWidth(percent: 0.35),
                                 height: 40,

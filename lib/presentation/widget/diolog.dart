@@ -13,7 +13,6 @@ class DiologApp extends StatelessWidget {
       this.nameButtonLeft,
       this.nameButtonRight,
       this.lable,
-      
       this.isInput = true});
   final TextEditingController? inputController;
   final Function onTap;
@@ -51,7 +50,7 @@ class DiologApp extends StatelessWidget {
                     style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 IconButton(
                     onPressed: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                     icon: Icon(
                       Icons.close,
@@ -113,7 +112,7 @@ class DiologApp extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     inputController?.clear();
-                    Get.back();
+                    Navigator.pop(context);
                   },
                   borderRadius: BorderRadius.circular(10.sp),
                   child: Padding(
