@@ -12,10 +12,44 @@ import 'package:test_intern/routers/app-router.dart';
 import 'package:test_intern/routers/auth_router.dart';
 import 'package:test_intern/services/notification_services/firebase_service.dart';
 import 'package:timeago/timeago.dart' as time_ago;
+import 'package:uni_links/uni_links.dart';
 
 import '../../resources/di_container.dart' as di;
 
 DateTime? now;
+Uri? _initialURI;
+Uri? _currentURI;
+Object? _err;
+
+StreamSubscription? _streamSubscription;
+bool _initialURILinkHandled = false;
+
+Future<void> initUniLinks() async {
+  // Platform messages may fail, so we use a try/catch PlatformException.
+  try {
+    final initialLink = await getInitialLink();
+    if (initialLink != null && !_initialURILinkHandled) {
+      _initialURI = Uri.parse(initialLink);
+      log('Initial link: $_initialURI');
+      _initialURILinkHandled = true;
+    }
+
+    log('Initial link: ${initialLink.toString()}');
+    // Parse the link and warn the user, if it is not correct,
+    // but keep in mind it could be `null`.
+  } on PlatformException {
+    // Handle exception by warning the user their action did not succeed
+    // return?
+  }
+
+  _streamSubscription = linkStream.listen((String? link) {
+    // Parse the link and warn the user, if it is not correct
+    log('Link: $link');
+  }, onError: (err) {
+    // Handle exception by warning the user their action did not succeed
+    log('Error: $err');
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +78,7 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   time_ago.setLocaleMessages('en', time_ago.ViMessages());
+  await initUniLinks();
 //   PermissionStatus status = await Permission.notification.status;
 
 //   if (!status.isGranted) {

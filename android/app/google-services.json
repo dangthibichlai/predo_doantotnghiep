@@ -58,6 +58,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "260516675939-9km82rv5vdl0fadc04nes1nu004ia8ac.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "predo.com.appname",
+            "certificate_hash": "2b517ab107dbd69279cc13ff3899701e47b3e3cb"
+          }
+        },
+        {
           "client_id": "260516675939-kdkg78eje5hph2pf43k4bvqtvgsd3hri.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
