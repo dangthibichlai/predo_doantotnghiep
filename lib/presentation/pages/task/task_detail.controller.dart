@@ -4,13 +4,16 @@ import 'dart:developer';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
+import 'package:test_intern/models/comment_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
+import 'package:test_intern/repositories/comment_reponsitory.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -27,6 +30,7 @@ class TaskDetailController extends GetxController {
   TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
   ProjectReponsitory _projectReponsitory = GetIt.I.get<ProjectReponsitory>();
   BoardRepository _boardReponsitory = GetIt.I.get<BoardRepository>();
+  CommentRepository _commentRepository = GetIt.I.get<CommentRepository>();
   RxList taskModel = <TaskModel>[].obs;
   RxList listMembers = <AuthModel>[].obs;
   RxList filteredMembers = <AuthModel>[].obs;
@@ -44,6 +48,8 @@ class TaskDetailController extends GetxController {
   RxBool isShowSubTask = true.obs;
   RxBool isShowAddSubTask = false.obs;
   TextEditingController nameSubTask = TextEditingController();
+  final RefreshController refreshController = RefreshController();
+  RxList<CommentModel> listComments = <CommentModel>[].obs;
 
   @override
   void onInit() async {
@@ -53,6 +59,7 @@ class TaskDetailController extends GetxController {
     await getMembers();
     await featchData();
     await getSubTask();
+    await getComments();
     super.onInit();
   }
 
@@ -78,6 +85,7 @@ class TaskDetailController extends GetxController {
         nameSubTask.clear();
         await getSubTask();
         listSubTask.refresh();
+
         update();
       },
       onError: (e) {
@@ -193,6 +201,19 @@ class TaskDetailController extends GetxController {
           }
         }
         progress.value = count / listSubTask.length;
+      },
+      onError: (error) {},
+    );
+    isLoading.value = false;
+  }
+
+  Future<void> getComments() async {
+    listComments.clear();
+    await _commentRepository.getComment(
+      idTask,
+      onSuccess: (data) {
+        listComments.value = data;
+        listComments.refresh();
       },
       onError: (error) {},
     );

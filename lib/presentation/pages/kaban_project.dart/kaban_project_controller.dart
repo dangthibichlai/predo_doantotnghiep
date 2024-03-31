@@ -122,8 +122,9 @@ class KabanProjectController extends GetxController {
     Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': id});
   }
 
-  void onChangeTabBar(int index) {
+  Future<void> onChangeTabBar(int index) async {
     currentIndexTab.value = index;
+    await getProject();
   }
 
   void cancelNewColumn() {
@@ -249,6 +250,21 @@ class KabanProjectController extends GetxController {
       },
     );
     isLoading.value = true;
+  }
+
+  void updateTask(String id, TaskModel taskModel) {
+    log('update task: $taskModel');
+
+    _taskReponsitory.update(
+      id: id,
+      data: taskModel,
+      onSuccess: (data) async {
+        log('Update task success');
+        log('new task: $data');
+
+      },
+      onError: (error) {},
+    );
   }
 
   void changPageDetail() {

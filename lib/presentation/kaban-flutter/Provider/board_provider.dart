@@ -120,9 +120,13 @@ class BoardProvider extends ChangeNotifier {
       scrollingRight = true;
       if (board.boardScrollConfig == null) {
         log("HEREEEE");
+        // vị trí item và list trước khi kéo thả
+        int _index = draggedItemState!.itemIndex!;
+        int _listIndex = draggedItemState!.listIndex!;
+        log('CardDraggable Passes: setDataPosition: index: $_index, listIndex: $_listIndex');
 
         await board.controller.animateTo(board.controller.offset + 100,
-            duration: const Duration(milliseconds: 200), curve: Curves.linear);
+            duration: const Duration(milliseconds: 300), curve: Curves.linear);
       } else {
         await board.controller.animateTo(board.boardScrollConfig!.offset + board.controller.offset,
             duration: board.boardScrollConfig!.duration, curve: board.boardScrollConfig!.curve);

@@ -506,7 +506,11 @@ class ListItemProvider extends ChangeNotifier {
                 .removeAt(boardProv.draggedItemState!.itemIndex!));
       }
     }
-
+    // lấy vị trí card cũ và card mới
+    // 
+    log("REORDERED");
+    log("Position: ${boardProv.board.dragItemIndex!}, From list: ${boardProv.board.dragItemOfListIndex!}");
+    // thực hiện thay đổi board
     card.placeHolderAt = PlaceHolderAt.none;
   }
 }

@@ -136,14 +136,29 @@ class KabanProjectPage extends GetView<KabanProjectController> {
             // },
             onItemLongPress: (cardIndex, listIndex) {
               print('1cardIndex: $cardIndex, listIndex: $listIndex');
+              // return controller.listBorad.value;
             },
-            onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {
+            onItemReorder: (oldCardIndex, oldListIndex, newCardIndex, newListIndex) {
               print('abc');
               log('2oldCardIndex: $oldCardIndex, newCardIndex: $newCardIndex, oldListIndex: $oldListIndex, newListIndex: $newListIndex');
+              final taskupdate = controller.listBorad[oldListIndex!].tasks![oldCardIndex!];
+
+              controller.updateTask(
+                  taskupdate.id ?? '',
+                  TaskModel(
+                    id: taskupdate.id,
+                    boardId: controller.listBorad.value[newListIndex!].id,
+                    title: taskupdate.title,
+                    issueType: taskupdate.issueType,
+                    status: taskupdate.status,
+                    key: taskupdate.key,
+                  ));
+
               // sự kiến nhấn vào di chuyển là on
               // lấy id board
               // đổi id board của task
               // đổi vị trí task trong list
+              //return controller.listBorad.value;
             }, // hàm
             onListLongPress: (listIndex) {
               print('3listIndex: $listIndex');
@@ -217,7 +232,7 @@ class KabanProjectPage extends GetView<KabanProjectController> {
               ),
               Gap(10.sp),
               Text(
-                nameProject,
+                uiIssueTypeItem?.name ?? 'Task',
                 style: TextStyle(
                     fontSize: 11.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.5)),
               ),

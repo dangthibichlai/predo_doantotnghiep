@@ -6,6 +6,7 @@ import 'package:test_intern/core/hepler/app_dropdown.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/presentation/pages/task/comment_widget.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
 import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -419,43 +420,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
         ),
         Gap(35.sp),
         Gap(15.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'More'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Activity:'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
-            ),
-            Text(
-              'Comments'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-            ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AppImage(
-              ImagesPath.notificationEmpty,
-              width: SizeApp.setSizeWithWidth(percent: .25),
-            ),
-            Gap(20),
-            Text(
-              'Add comment'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-            ),
-          ],
-        ),
+        CommentWidget(),
       ],
     );
   }

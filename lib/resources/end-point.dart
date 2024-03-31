@@ -10,6 +10,7 @@ class EndPoints {
   static const String boards = "/boards";
   static const String tasks = "/tasks";
   static const String notifications = "/notifications";
+  static const String comments = "/comments";
   // Auth
   static const String signInWithEmail = '/auth/sign-in';
   static const String signInSocial = '/auth/sign-in-social';

@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_intern/presentation/kaban-flutter/draggable/draggable_state.dart';
 import 'package:test_intern/presentation/kaban-flutter/draggable/presentation/dragged_card.dart';
+import 'package:test_intern/presentation/kaban-flutter/models/item_state.dart';
 import '../Provider/provider_list.dart';
 import '../models/board_list.dart' as board_list;
 import '../models/inputs.dart';
@@ -198,6 +201,7 @@ class _BoardState extends ConsumerState<Board> {
         }
       });
     }
+    // log("List board:$onItemReorder")
 
     // Board Scroll Listener
     boardProv.board.controller.addListener(() {
@@ -246,6 +250,11 @@ class _BoardState extends ConsumerState<Board> {
         if (draggableProv.draggableType != DraggableType.none) {
           if (draggableProv.isCardDragged) {
             ref.read(ProviderList.cardProvider).reorderCard();
+            widget.onItemReorder!(boardProv.draggedItemState!.itemIndex, boardProv.draggedItemState!.listIndex,
+                boardProv.board.dragItemIndex, boardProv.board.dragItemOfListIndex);
+            // vị trí card trước khi kéo là boardProv.board.dragItemIndex, vị trí card sau khi kéo là boardProv.board.dragItemOfListIndex
+            // boardProv.board.dragItemOfListIndex board mới
+            log(" Item old: ${boardProv.draggedItemState!.itemIndex} list old: ${boardProv.draggedItemState!.listIndex} item new: ${boardProv.board.dragItemIndex}  list new ${boardProv.board.dragItemOfListIndex}");
           }
           boardProv.move = "";
           draggableNotifier.stopDragging();
@@ -376,28 +385,28 @@ class _BoardState extends ConsumerState<Board> {
                                                         ],
                                                       ),
                                                     )
-                                                  //  : SizedBox(),
-                                                  //xử lí
-                                                  : GestureDetector(
-                                                      onTap: () {
-                                                        if (boardProv.newCardState.isFocused == true) {
-                                                          ref.read(ProviderList.cardProvider).saveNewCard();
-                                                        }
-                                                        boardListProv.newList = true;
-                                                        setState(() {});
-                                                      },
-                                                      child: Container(
-                                                          height: 50,
-                                                          width: 300,
-                                                          margin: const EdgeInsets.only(top: 10, left: 20),
-                                                          decoration: BoxDecoration(
-                                                              color: Colors.transparent,
-                                                              borderRadius: BorderRadius.circular(6)),
-                                                          child: DottedBorder(
-                                                            child: Center(
-                                                                child: Text("Add List", style: widget.textStyle)),
-                                                          )),
-                                                    )
+                                                  : SizedBox(),
+                                              //xử lí
+                                              // : GestureDetector(
+                                              //     onTap: () {
+                                              //       if (boardProv.newCardState.isFocused == true) {
+                                              //         ref.read(ProviderList.cardProvider).saveNewCard();
+                                              //       }
+                                              //       boardListProv.newList = true;
+                                              //       setState(() {});
+                                              //     },
+                                              //     child: Container(
+                                              //         height: 50,
+                                              //         width: 300,
+                                              //         margin: const EdgeInsets.only(top: 10, left: 20),
+                                              //         decoration: BoxDecoration(
+                                              //             color: Colors.transparent,
+                                              //             borderRadius: BorderRadius.circular(6)),
+                                              //         child: DottedBorder(
+                                              //           child: Center(
+                                              //               child: Text("Add List", style: widget.textStyle)),
+                                              //         )),
+                                              //   )
                                             ],
                                           ))
                                     .toList()),

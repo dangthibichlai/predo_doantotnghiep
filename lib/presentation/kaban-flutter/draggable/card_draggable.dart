@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:test_intern/presentation/kaban-flutter/draggable/draggable_state.dart';
 
@@ -23,5 +24,6 @@ class CardDraggable extends DraggableState {
   void setDataPosition({required int index, required int listIndex}) {
     _index = index;
     _listIndex = listIndex;
+
   }
 }

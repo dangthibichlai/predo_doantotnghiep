@@ -52,7 +52,6 @@ class PanelController extends GetxController {
             allActivities.addAll(listTask[i].activities!.map((activity) => Activities.fromJson(activity)));
           }
         }
-        print('allActivities: $allActivities');
       },
       onError: (error) {
         print(error);
