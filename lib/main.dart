@@ -39,6 +39,7 @@ Future<void> initUniLinks() async {
     // but keep in mind it could be `null`.
   } on PlatformException {
     // Handle exception by warning the user their action did not succeed
+    log('Error: $_err');
     // return?
   }
 
@@ -50,6 +51,8 @@ Future<void> initUniLinks() async {
     log('Error: $err');
   });
 }
+
+Future<void> handleLink(Uri uri) async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

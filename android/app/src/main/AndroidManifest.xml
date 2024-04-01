@@ -43,11 +43,13 @@
                     android:name="android.intent.category.DEFAULT" />
                 <category
                     android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
                     android:scheme="https"
                     android:host="predo-backend-a326e289b017.herokuapp.com"
-                    android:pathPattern="/projects/invite/.*" />
+                    android:pathAdvancedPattern="/projects/invite/.*"
+                />
+
+
             </intent-filter>
 
             <intent-filter>
