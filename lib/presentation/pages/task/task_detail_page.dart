@@ -272,19 +272,31 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                       ),
                     ],
                   ),
-                  child: AppInput(
-                    hintText: "Add comment".tr,
-                    height: 60.sp,
-                    controller: controller.commentTask,
-                    autofocus: false,
-                    colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                    type: AppInputType.TEXT,
-                    maxLine: 1,
-                    isBorder: true,
-                    fontSize: 14.sp,
-                    fillColor: Colors.transparent,
-                    borderSide: BorderSide.none,
-                  ),
+                  child: Obx(() {
+                    return AppInput(
+                        onSubmitted: (p0) => controller.addComment(),
+                        hintText: "Add comment".tr,
+                        height: 50.sp,
+                        controller: controller.commentTask,
+                        autofocus: controller.isfocusComment.value,
+                        colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                        type: AppInputType.TEXT,
+                        maxLine: 1,
+                        isBorder: true,
+                        fontSize: 14.sp,
+                        fillColor: Colors.transparent,
+                        borderSide: BorderSide.none,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            controller.addComment();
+                          },
+                          icon: Icon(
+                            Icons.send,
+                            size: 20.sp,
+                            color: ColorResources.MAIN_APP,
+                          ),
+                        ));
+                  }),
                 ),
               )
             ],

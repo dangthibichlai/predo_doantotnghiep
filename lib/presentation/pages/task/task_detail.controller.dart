@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
@@ -16,7 +17,9 @@ import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/comment_reponsitory.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
+import 'package:test_intern/resources/end-point.dart';
 import 'package:test_intern/resources/export/core_export.dart';
+import 'package:test_intern/services/socket_io/socket_io.dart';
 
 class TaskDetailController extends GetxController {
   RxList<String> filterData = <String>[].obs;
@@ -25,6 +28,7 @@ class TaskDetailController extends GetxController {
   TextEditingController commentTask = TextEditingController();
   TextEditingController titleTask = TextEditingController();
   TextEditingController searchMember = TextEditingController();
+  TextEditingController textComment = TextEditingController();
   RxString assigneeIdUser = ''.obs;
   RxString assigneeNameUser = ''.obs;
   TaskReponsitory _taskReponsitory = GetIt.I.get<TaskReponsitory>();
@@ -50,22 +54,32 @@ class TaskDetailController extends GetxController {
   TextEditingController nameSubTask = TextEditingController();
   final RefreshController refreshController = RefreshController();
   RxList<CommentModel> listComments = <CommentModel>[].obs;
+  final SocketIO _socket = GetIt.I.get<SocketIO>();
+
+  RxBool isfocusComment = false.obs;
 
   @override
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     idTask = Get.arguments['idTask'];
+    isLoading.value = true;
     await getTaskDetail();
+    await getComments();
     await getMembers();
     await featchData();
     await getSubTask();
-    await getComments();
+    isLoading.value = false;
     super.onInit();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void changeFocusComment() {
+    isfocusComment.value = true;
+    log("focus comment ${isfocusComment.value}");
   }
 
   void changeShowSubTask() {
@@ -138,7 +152,7 @@ class TaskDetailController extends GetxController {
     _taskReponsitory.update(
       id: idTask,
       data: TaskModel(
-        boardId: taskModel[0].boardId,
+        boardId: idBoard.value,
         title: titleTask.text,
         key: taskModel[0].key,
         issueType: issueType,
@@ -165,6 +179,9 @@ class TaskDetailController extends GetxController {
 
   void onChangFilter({required String value}) {
     dataFilter.value = value;
+    // update lại vị trí boadId mới cho task
+    idBoard.value = listBoard.where((element) => element.name == value).first.id;
+    updateTask();
   }
 
   Future<void> getTaskDetail() async {
@@ -207,6 +224,7 @@ class TaskDetailController extends GetxController {
     isLoading.value = false;
   }
 
+  /// COMMENT
   Future<void> getComments() async {
     listComments.clear();
     await _commentRepository.getComment(
@@ -218,6 +236,100 @@ class TaskDetailController extends GetxController {
       onError: (error) {},
     );
     isLoading.value = false;
+  }
+
+  Future<void> updateComment(CommentModel commentModel, String idComment) async {
+    _commentRepository.update(
+      id: idComment,
+      data: commentModel,
+      onSuccess: (data) async {
+        commentTask.clear();
+        await getComments();
+        listComments.refresh();
+      },
+      onError: (error) {},
+    );
+  }
+
+  Future<void> deleteComment(String idComment) async {
+    _commentRepository.delete(
+      idComment,
+      onSuccess: (data) async {
+        commentTask.clear();
+        await getComments();
+        listComments.refresh();
+        final _showToast = FToast();
+        _showToast.init(Get.context!);
+        _showToast.showToast(
+            child: Container(
+                alignment: Alignment.center,
+                width: SizeApp.setSizeWithWidth(percent: 0.8),
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppImage(
+                      ImagesPath.logoApp,
+                      width: 30.sp,
+                      height: 30.sp,
+                    ),
+                    Gap(5.0),
+                    const Text('Deleted comment success!'),
+                  ],
+                )));
+      },
+      onError: (error) {},
+    );
+  }
+
+  Future<void> addComment() async {
+    if (commentTask.text.isEmpty) return AppAlert().info(message: 'comment_empty'.tr);
+    await _commentRepository.sendMessage(
+      data: CommentModel(
+        taskId: idTask,
+        userId: idUser,
+        content: commentTask.text,
+      ),
+      onSuccess: (data) async {
+        commentTask.clear();
+        await getComments();
+        listComments.refresh();
+        _socket.socket.emit(EndPoints.comments, data);
+      },
+      onError: (error) {},
+    );
+  }
+
+  void copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text)).then((_) {
+      final _showToast = FToast();
+      _showToast.init(Get.context!);
+      _showToast.showToast(
+          child: Container(
+              alignment: Alignment.center,
+              width: SizeApp.setSizeWithWidth(percent: 0.6),
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppImage(
+                    ImagesPath.logoApp,
+                    width: 30.sp,
+                    height: 30.sp,
+                  ),
+                  Gap(5.0),
+                  const Text('Copied to clipboard!'),
+                ],
+              )));
+    });
   }
 
   @override

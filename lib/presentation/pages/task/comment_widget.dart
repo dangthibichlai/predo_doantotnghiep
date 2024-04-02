@@ -3,7 +3,10 @@
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:intl/intl.dart';
 import 'package:test_intern/models/auth_model.dart';
+import 'package:test_intern/models/comment_model.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
+import 'package:test_intern/presentation/pages/task/ui_emote_comment.dart';
+import 'package:test_intern/presentation/widget/comment_popup.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class CommentWidget extends GetView<TaskDetailController> {
@@ -27,7 +30,7 @@ class CommentWidget extends GetView<TaskDetailController> {
           children: [
             Text(
               'Activity:'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
             ),
             Text(
               'Comments'.tr,
@@ -35,9 +38,11 @@ class CommentWidget extends GetView<TaskDetailController> {
             ),
           ],
         ),
+        Gap(20),
         Container(
           child: Obx(() {
             AuthModel user = AuthModel();
+            Emote emote = Emote();
             if (controller.listComments.value.length == 0) {
               return bodyEmpty();
             }
@@ -96,6 +101,9 @@ class CommentWidget extends GetView<TaskDetailController> {
                                         color: ColorResources.BLACK,
                                       ),
                                     ),
+                                    PopupCommentWidget(
+                                      item,
+                                    ),
                                     // Text(
                                     //   "21/07/2002",
                                     //   // DateFormat('dd/MM/yyyy HH:mm')
@@ -108,7 +116,7 @@ class CommentWidget extends GetView<TaskDetailController> {
                                 SizedBox(
                                   width: SizeApp.getMaxWidth(),
                                   child: Text(
-                                    item.content,
+                                    item.content ?? '',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
                                     maxLines: 3,
@@ -127,77 +135,49 @@ class CommentWidget extends GetView<TaskDetailController> {
                         child: Row(
                           children: [
                             ReactionButton<String>(
+                              onReactionChanged: (value) {
+                                CommentModel commentModel = CommentModel();
+                                controller.updateComment(
+                                    CommentModel(
+                                      userId: item.userId,
+                                      taskId: item.taskId,
+                                      content: item.content,
+                                      mention: item.mention,
+                                      reply: item.reply,
+                                      emote:
+                                          commentModel.listReaction(controller.idUser, item.emote ?? [], value ?? ""),
+                                    ),
+                                    item.id ?? '');
+                              },
                               boxPadding: const EdgeInsets.all(2),
                               // onReactionChanged: (Reaction<String>? reaction) {
                               //   debugPrint('Selected value: ${reaction?.value}');
                               // },
-                              reactions: <Reaction<String>>[
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      '👌',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text('❤️', style: TextStyle(fontSize: 20)),
-                                  ),
-                                ),
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      '😁',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      '🥲',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      '😮',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Reaction<String>(
-                                  value: 'like',
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      '😡',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              onReactionChanged: (String) {},
+                              reactions: emoteComment
+                                  .map((e) => Reaction<String>(
+                                        value: e.value,
+                                        icon: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Text(
+                                            e.emote,
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+
+                                        //  Text(e.emote),
+                                      ))
+                                  .toList(),
 
                               initialReaction: Reaction<String>(
                                 value: 'like',
-                                icon: Icon(
-                                  Icons.add_reaction_outlined,
-                                  size: 20.sp,
-                                ),
+                                icon: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: item.emote != null
+                                        ? Text(
+                                            getEmoteComment(emote.getEmote(controller.idUser, item.emote ?? [])) ?? '',
+                                            style: TextStyle(fontSize: 20),
+                                          )
+                                        : Icon(Icons.add_reaction_outlined)),
                               ),
                             ),
                           ],
@@ -218,20 +198,25 @@ class CommentWidget extends GetView<TaskDetailController> {
   Widget bodyEmpty() {
     return Column(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AppImage(
-              ImagesPath.notificationEmpty,
-              width: SizeApp.setSizeWithWidth(percent: .25),
-            ),
-            Gap(20),
-            Text(
-              'Add comment'.tr,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
-            ),
-          ],
+        InkWell(
+          onTap: () {
+            controller.changeFocusComment();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AppImage(
+                ImagesPath.notificationEmpty,
+                width: SizeApp.setSizeWithWidth(percent: .25),
+              ),
+              Gap(20),
+              Text(
+                'Add comment'.tr,
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.MAIN_APP),
+              ),
+            ],
+          ),
         ),
       ],
     );

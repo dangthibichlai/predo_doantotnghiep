@@ -10,12 +10,13 @@ class PieChartController extends GetxController {
   var projectId = Get.arguments['projectId'];
   final ChartRepository _chartRepository = GetIt.I.get<ChartRepository>();
   var chartData;
+  RxBool isLoading = true.obs;
 
   @override
-  void onInit() {
+  void onInit()async {
     //
     // Call API get tool collection.
-    getChart();
+  await  getChart();
     super.onInit();
   }
 
@@ -31,6 +32,7 @@ class PieChartController extends GetxController {
   }
 
   Future<void> getChart() async {
+    isLoading.value = true;
     var filter = "";
     switch (options) {
       case 0:
@@ -52,5 +54,6 @@ class PieChartController extends GetxController {
       chartData = data;
       print(chartData);
     }, onError: (e) {});
+    isLoading.value = false;
   }
 }

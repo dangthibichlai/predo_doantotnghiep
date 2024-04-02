@@ -12,6 +12,7 @@ import 'package:test_intern/services/dio/dio_client.dart';
 import 'package:test_intern/services/dio/logging_interceptor.dart';
 import 'package:test_intern/services/share_preference._helper.dart';
 import 'package:test_intern/services/social_auth/social_auth_service.dart';
+import 'package:test_intern/services/socket_io/socket_io.dart';
 
 import '../repositories/exception/notification_reponsitory.dart';
 
@@ -27,6 +28,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SocialAuthService>(() => SocialAuthService());
   sl.registerLazySingleton<AuthRepository>(() => AuthRepository());
   sl.registerLazySingleton<CommentRepository>(() => CommentRepository());
+  sl.registerLazySingleton<SocketIO>(() => SocketIO());
 
   sl.registerLazySingleton<ProjectReponsitory>(() => ProjectReponsitory());
   sl.registerLazySingleton<BoardRepository>(() => BoardRepository());

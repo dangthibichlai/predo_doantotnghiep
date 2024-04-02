@@ -308,53 +308,51 @@ class KabanProjectPage extends GetView<KabanProjectController> {
   }
 
   Widget _timeLineBody() {
-    return Expanded(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Text('Choose the type of chart to display'.tr,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: ColorResources.GREY)),
-        Gap(20),
-        Container(
-          padding: SizeApp.setEdgeInsetsOnly(
-            left: SizeApp.setSizeWithWidth(percent: .02),
-            right: SizeApp.setSizeWithWidth(percent: .02),
-            top: SizeApp.setSize(percent: .005),
-          ),
-          constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .2), maxHeight: SizeApp.setSize(percent: .7)),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 10.sp, childAspectRatio: 0.7),
-            itemBuilder: (context, index) {
-              final item = controller.listChart[index];
-              return InkWell(
-                onTap: () {
-                  CommonHelper.onTapHandler(callback: () {
-                    Get.toNamed(HomeRouter.CHOOSECHART,
-                        arguments: {'title': item.description, 'projectId': controller.idProject});
-                  });
-                },
-                child: Column(
-                  children: [
-                    AppImage(
-                      item.image ?? '',
-                      width: SizeApp.setSizeWithWidth(percent: .4),
-                    ),
-                    Text(item.nameChart ?? '',
-                        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK)),
-                    Text(
-                        item.description ??
-                            'The bar chart is a chart with rectangular bars. Each bar has a height proportional to the value it represents. The bars can be plotted vertically or horizontally. The vertical bar chart is sometimes called a column chart.',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: ColorResources.GREY)),
-                  ],
-                ),
-              );
-            },
-            itemCount: controller.listChart.length,
-          ),
+    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Text('Choose the type of chart to display'.tr,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: ColorResources.GREY)),
+      Gap(20),
+      Container(
+        padding: SizeApp.setEdgeInsetsOnly(
+          left: SizeApp.setSizeWithWidth(percent: .02),
+          right: SizeApp.setSizeWithWidth(percent: .02),
+          top: SizeApp.setSize(percent: .005),
         ),
-      ]),
-    );
+        constraints: BoxConstraints(minHeight: SizeApp.setSize(percent: .2), maxHeight: SizeApp.setSize(percent: .7)),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, crossAxisSpacing: 10.sp, childAspectRatio: 0.7),
+          itemBuilder: (context, index) {
+            final item = controller.listChart[index];
+            return InkWell(
+              onTap: () {
+                CommonHelper.onTapHandler(callback: () {
+                  Get.toNamed(HomeRouter.CHOOSECHART,
+                      arguments: {'title': item.description, 'projectId': controller.idProject});
+                });
+              },
+              child: Column(
+                children: [
+                  AppImage(
+                    item.image ?? '',
+                    width: SizeApp.setSizeWithWidth(percent: .4),
+                  ),
+                  Text(item.nameChart ?? '',
+                      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK)),
+                  Text(
+                      item.description ??
+                          'The bar chart is a chart with rectangular bars. Each bar has a height proportional to the value it represents. The bars can be plotted vertically or horizontally. The vertical bar chart is sometimes called a column chart.',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: ColorResources.GREY)),
+                ],
+              ),
+            );
+          },
+          itemCount: controller.listChart.length,
+        ),
+      ),
+    ]);
   }
 
   Widget _settingsBody() {

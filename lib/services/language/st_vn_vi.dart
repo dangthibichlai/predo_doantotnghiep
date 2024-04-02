@@ -1,4 +1,5 @@
 const Map<String, String> vi = {
+  'PIE CHART': 'BIỂU ĐỒ TRÒN',
   'opt_success': 'Gửi mã thành công.Vui lòng kiểm tra email của bạn',
   'Search project...': 'Tìm kiếm dự án...',
   'All issues': 'Tất cả các vấn đề',
@@ -131,7 +132,8 @@ const Map<String, String> vi = {
   "other_0024": "Đang đăng nhập Google...",
   "other_0025": "Đang đăng nhập Facebook...",
   'Delete_success': 'Xóa thành công',
-
+  'comment_empty': 'Bình luận không có nội dung',
+  'product_detail_0011': "Đang khởi tạo dự án...",
 // Trang giới thiệu
   'intro_001': 'Quản lý đơn giản và hiệu quả với một mô hình quản lý thân thiện và dễ sử dụng.',
   'intro_002': 'Thống kê linh hoạt với nhiều biểu đồ thống kê chi tiết và dễ hiểu.',
@@ -236,5 +238,4 @@ const Map<String, String> vi = {
   'alert_05': 'Họ và tên không được để trống',
   'setting_5': 'Đánh giá',
   'rate_1': 'Tốt nhất mà chúng tôi có thể nhận :)',
-
 };

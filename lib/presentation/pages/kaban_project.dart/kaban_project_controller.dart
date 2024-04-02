@@ -97,7 +97,7 @@ class KabanProjectController extends GetxController {
   }
 
   void addTaskBoard(TaskModel taskModel) async {
-    Get.back();
+    Navigator.pop(Get.context!);
     EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.add(
       data: taskModel,
@@ -129,7 +129,7 @@ class KabanProjectController extends GetxController {
 
   void cancelNewColumn() {
     nameColumn.clear();
-    Get.back();
+    Navigator.pop(Get.context!);
   }
 
   void createNewColumn(String idBoard) {
@@ -261,7 +261,6 @@ class KabanProjectController extends GetxController {
       onSuccess: (data) async {
         log('Update task success');
         log('new task: $data');
-
       },
       onError: (error) {},
     );

@@ -29,7 +29,7 @@ class CommentRepository {
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as List<dynamic>;
-      onSuccess(results.map((e) => CommentModel.fromMap(e)).toList());
+      onSuccess(results.map((e) => CommentModel.fromJson(e)).toList());
     }
   }
 
@@ -78,7 +78,7 @@ class CommentRepository {
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data['results'] as List<dynamic>;
-      onSuccess(results.map((e) => CommentModel.fromMap(e as Map<String, dynamic>)).toList());
+      onSuccess(results.map((e) => CommentModel.fromJson(e as Map<String, dynamic>)).toList());
 
       if (onTotalCount != null) {
         onTotalCount(AppNumber.parseInt(response.data['totalResults'].toString()));
@@ -96,14 +96,35 @@ class CommentRepository {
     late Response response;
 
     try {
-      response = await _dio.post(EndPoints.comments, data: data.toMap());
+      response = await _dio.post(EndPoints.comments, data: data.toJson());
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
-      onSuccess(CommentModel.fromMap(results as Map<String, dynamic>));
+      onSuccess(CommentModel.fromJson(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> update({
+    required String id,
+    required CommentModel data,
+    required Function(CommentModel event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await _dio.put('${EndPoints.comments}/$id', data: data.toJson());
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data as dynamic;
+      onSuccess(CommentModel.fromJson(results as Map<String, dynamic>));
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }

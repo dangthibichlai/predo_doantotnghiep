@@ -82,7 +82,7 @@ class PanelPage extends GetView<PanelController> {
     return Obx(
       () => Container(
         width: SizeApp.getMaxWidth(),
-        height: controller.listTask.value.length == 0 ? SizeApp.setSize(percent: .12) : SizeApp.setSize(percent: .35),
+        height: controller.listTask.value.length == 0 ? SizeApp.setSize(percent: .13) : SizeApp.setSize(percent: .35),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),

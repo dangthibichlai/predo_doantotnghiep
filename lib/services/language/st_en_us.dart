@@ -1,6 +1,7 @@
 const Map<String, String> en = {
+  'PIE CHART': 'PIE CHART',
   'opt_success': 'Send code successfully. Please check your email',
-
+  'product_detail_0011': 'Initializing project...',
   'Search project...': 'Search project...',
   'My open issues': 'My open issues',
   'All issues': 'All issues',
@@ -205,6 +206,7 @@ const Map<String, String> en = {
   "other_0005": "Back",
   "other_0006": "Setting",
   'Delete_success': 'Delete success',
+  'comment_empty': 'Comment  empty',
 
   //Notifications
   'Notifications': 'Notifications',
@@ -237,5 +239,4 @@ const Map<String, String> en = {
   'alert_05': 'Full name cannot blank',
   'setting_5': 'Rate',
   'rate_1': 'The best we could get :)',
-
 };

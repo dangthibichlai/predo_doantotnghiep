@@ -1,5 +1,7 @@
+import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
 import 'package:test_intern/resources/end-point.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:test_intern/resources/export/core_export.dart';
 
 class SocketIO {
   io.Socket socket = io.io(
@@ -26,28 +28,15 @@ class SocketIO {
   }
 
   void _onListenChannels() {
-    if (!socket.hasListeners('56sero_cancel_user_rescue')) {
-      socket.on('p56sero_cancel_user_rescue', (data) async {
-        // if (data != null) {
-        //   final userRescuesModel =
-        //       UserRescuesModel.fromMap(data as Map<String, dynamic>);
-        //   if (userRescuesModel.userId?.id ==
-        //           sl<SharedPreferenceHelper>().getIdUser &&
-        //       userRescuesModel.status == RescuesEnum.FAILED) {
-        //     // Nếu đang ở màn hình map thì trở về lại trang chủ.
-        //     if (Get.currentRoute == HomeRouters.mapRescuePage) {
-        //       Get.back();
-        //     }
-
-        //     // Đặt lại cứu hộ.
-        //     if (Get.isRegistered<HomeController>()) {
-        //       final homeController = Get.find<HomeController>();
-        //       homeController.onReorderRescue(
-        //         userRescuesModel: userRescuesModel,
-        //       );
-        //     }
-        //   }
-        // }
+    if (!socket.hasListeners('predo_update_comment')) {
+      socket.on('predo_update_comment', (data) async {
+        if (data != null) {
+          // cập nhật lại comment
+          if (Get.isRegistered<TaskDetailController>()) {
+            final taskDetailController = Get.find<TaskDetailController>();
+            taskDetailController.getComments();
+          }
+        }
       });
     }
 

@@ -79,7 +79,7 @@ class MembersController extends GetxController {
       },
       onError: (error) {},
     );
-    isLoading.value = false;  
+    isLoading.value = false;
   }
 
   Future<void> getLeader() async {
@@ -118,7 +118,6 @@ class MembersController extends GetxController {
                 ],
               )));
     });
-    ;
   }
 
   @override
