@@ -55,6 +55,9 @@ class ProjectController extends GetxController {
       onError: (error) {
         print(error);
       },
+      
     );
+    isLoading.value = false;
   }
+  
 }
