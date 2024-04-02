@@ -29,13 +29,9 @@ class ProjectReponsitory {
       return;
     }
 
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as List<dynamic>;
-      onSuccess(results
-          .map((e) => ProjectModel.fromMap(e as Map<String, dynamic>))
-          .toList());
+      onSuccess(results.map((e) => ProjectModel.fromMap(e as Map<String, dynamic>)).toList());
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }
@@ -60,9 +56,7 @@ class ProjectReponsitory {
       return;
     }
 
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data;
       onSuccess(results.toString());
     } else {
@@ -89,19 +83,41 @@ class ProjectReponsitory {
       return;
     }
 
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data[0]['members'] as List<dynamic>;
 
-      try {
-        final authModels = results
-            .map((e) => AuthModel.fromMap(e['userId'] as Map<String, dynamic>))
-            .toList();
-        onSuccess(authModels);
-      } catch (e) {
-        onError(ApiResponse.withError("Error parsing data").error);
-      }
+      final authModels = results.map((e) => AuthModel.fromMap(e['userId'] as Map<String, dynamic>)).toList();
+      onSuccess(authModels);
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> getMembers(
+    String id,
+    String projectId, {
+    String? filter,
+    required Function(List<AuthModel> event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    String _uri = '${EndPoints.projectByIdUser}/$id?populate=members.userId&_id=$projectId';
+    late Response response;
+
+    if (!AppValidate.nullOrEmpty(filter)) {
+      _uri += filter.toString();
+    }
+    try {
+      response = await dioClient!.get(_uri);
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final results = response.data[0]['members'] as List<dynamic>;
+
+      final authModels = results.map((e) => AuthModel.fromMap(e['userId'] as Map<String, dynamic>)).toList();
+      onSuccess(authModels);
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }
@@ -120,9 +136,7 @@ class ProjectReponsitory {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)));
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(ProjectModel.fromMap(results as Map<String, dynamic>));
     } else {
@@ -142,9 +156,7 @@ class ProjectReponsitory {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       onSuccess('Delete success');
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
@@ -159,15 +171,12 @@ class ProjectReponsitory {
   }) async {
     late Response response;
     try {
-      response = await dioClient!
-          .put('${EndPoints.projects}/$id', data: data.toMapUpdate());
+      response = await dioClient!.put('${EndPoints.projects}/$id', data: data.toMapUpdate());
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(ProjectModel.fromMap(results as Map<String, dynamic>));
     } else {
@@ -200,9 +209,7 @@ class ProjectReponsitory {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(ProjectModel.fromMap(results as Map<String, dynamic>));
     } else {
@@ -231,9 +238,7 @@ class ProjectReponsitory {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;
     }
-    if (!AppValidate.nullOrEmpty(response.statusCode) &&
-        response.statusCode! >= 200 &&
-        response.statusCode! <= 300) {
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data.message as dynamic;
       onSuccess(results);
     } else {

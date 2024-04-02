@@ -69,13 +69,12 @@ class MembersController extends GetxController {
 
   Future<void> getMembers() async {
     isLoading.value = true;
-    await _projectReponsitory.findProjectID(
+    await _projectReponsitory.getMembers(
       idUser,
+      idProjectItem,
       onSuccess: (data) {
-        listMembers.value = data;
         listMembers.value.addAll(data);
         listMembers.refresh();
-        filteredMembers.value = data;
         filteredMembers.addAll(data);
         filteredMembers.refresh();
       },
