@@ -19,127 +19,143 @@ class MembersSettingPage extends GetView<MembersController> {
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
         actions: [
-          AppButton(
-            margin: EdgeInsets.only(right: 10.sp),
-            width: SizeApp.setSizeWithWidth(percent: .35),
-            borderRadius: 5,
-            padding: EdgeInsets.all(4),
-            colorBG: ColorResources.MAIN_APP,
-            onTap: () {
-              Get.dialog(
-                Dialog(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 20.sp, left: 10.sp, right: 10.sp, bottom: 20.sp),
-                    width: SizeApp.getMaxWidth(),
-                    constraints: BoxConstraints(
-                      maxHeight: SizeApp.setSize(percent: .58),
-                      minHeight: SizeApp.setSize(percent: .3),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ColorResources.WHITE,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Invite members".tr,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: ColorResources.MAIN_APP.withOpacity(.7),
-                          ),
-                        ),
-                        Gap(5.sp),
-                        SizedBox(
-                          width: SizeApp.getMaxWidth(),
-                          child: Center(
-                            child: Text(
-                              "experied".tr,
-                              style: TextStyle(
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.w500,
-                                color: ColorResources.RED.withOpacity(.5),
-                              ),
+          Obx(
+            () => !controller.isLoading.value
+                ? AppButton(
+                    margin: EdgeInsets.only(right: 10.sp),
+                    width: SizeApp.setSizeWithWidth(percent: .35),
+                    borderRadius: 5,
+                    padding: EdgeInsets.all(4),
+                    colorBG: ColorResources.MAIN_APP,
+                    onTap: () {
+                      Get.dialog(
+                        Dialog(
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 20.sp,
+                                left: 10.sp,
+                                right: 10.sp,
+                                bottom: 20.sp),
+                            width: SizeApp.getMaxWidth(),
+                            constraints: BoxConstraints(
+                              maxHeight: SizeApp.setSize(percent: .58),
+                              minHeight: SizeApp.setSize(percent: .3),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: ColorResources.WHITE,
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Invite members".tr,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        ColorResources.MAIN_APP.withOpacity(.7),
+                                  ),
+                                ),
+                                Gap(5.sp),
+                                SizedBox(
+                                  width: SizeApp.getMaxWidth(),
+                                  child: Center(
+                                    child: Text(
+                                      "experied".tr,
+                                      style: TextStyle(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            ColorResources.RED.withOpacity(.5),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Gap(10.sp),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "path".tr,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK
+                                            .withOpacity(.5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Gap(10.sp),
+                                Container(
+                                  width: 200.sp,
+                                  height: 200.sp,
+                                  color:
+                                      ColorResources.MAIN_APP.withOpacity(.2),
+                                  child: QrImageView(
+                                    data: controller.linkProject,
+                                    version: QrVersions.auto,
+                                    size: 200.0,
+                                  ),
+                                ),
+                                Gap(10.sp),
+                                SizedBox(
+                                  width: SizeApp.getMaxWidth(),
+                                  child: Center(
+                                    child: Text(
+                                      controller.linkProject,
+                                      textWidthBasis:
+                                          TextWidthBasis.longestLine,
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK
+                                            .withOpacity(.5),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Gap(10.sp),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text("Cancel".tr),
+                                    ),
+                                    AppButton(
+                                        padding: EdgeInsets.all(8),
+                                        colorBorder:
+                                            ColorResources.GREY.withOpacity(.5),
+                                        onTap: () {
+                                          controller.copyToClipboard(context);
+                                        },
+                                        label: "Copy".tr,
+                                        colorText: ColorResources.MAIN_APP
+                                            .withOpacity(.7),
+                                        type: AppButtonType.OUTLINE,
+                                        width: 80.sp,
+                                        borderRadius: 5,
+                                        fontSizedLabel: 12.sp)
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        Gap(10.sp),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "path".tr,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: ColorResources.BLACK.withOpacity(.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Gap(10.sp),
-                        Container(
-                          width: 200.sp,
-                          height: 200.sp,
-                          color: ColorResources.MAIN_APP.withOpacity(.2),
-                          child: QrImageView(
-                            data: controller.linkProject,
-                            version: QrVersions.auto,
-                            size: 200.0,
-                          ),
-                        ),
-                        Gap(10.sp),
-                        SizedBox(
-                          width: SizeApp.getMaxWidth(),
-                          child: Center(
-                            child: Text(
-                              controller.linkProject,
-                              textWidthBasis: TextWidthBasis.longestLine,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                color: ColorResources.BLACK.withOpacity(.5),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Gap(10.sp),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text("Cancel".tr),
-                            ),
-                            AppButton(
-                                padding: EdgeInsets.all(8),
-                                colorBorder: ColorResources.GREY.withOpacity(.5),
-                                onTap: () {
-                                  controller.copyToClipboard(context);
-                                },
-                                label: "Copy".tr,
-                                colorText: ColorResources.MAIN_APP.withOpacity(.7),
-                                type: AppButtonType.OUTLINE,
-                                width: 80.sp,
-                                borderRadius: 5,
-                                fontSizedLabel: 12.sp)
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                barrierDismissible: true,
-                transitionCurve: Curves.easeInOut,
-                useSafeArea: true,
-              );
-            },
-            label: "Add members".tr,
-            fontSizedLabel: 12.sp,
+                        barrierDismissible: true,
+                        transitionCurve: Curves.easeInOut,
+                        useSafeArea: true,
+                      );
+                    },
+                    label: "Add members".tr,
+                    fontSizedLabel: 12.sp,
+                  )
+                : SizedBox(),
           )
         ],
       ),

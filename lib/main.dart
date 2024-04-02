@@ -6,7 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:test_intern/app-binding.dart';
+import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/firebase_options.dart';
+import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
+import 'package:test_intern/presentation/pages/project/project_controller.dart';
+import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 import 'package:test_intern/routers/app-router.dart';
 import 'package:test_intern/routers/auth_router.dart';
@@ -43,16 +47,43 @@ Future<void> initUniLinks() async {
     // return?
   }
 
-  _streamSubscription = linkStream.listen((String? link) {
+  _streamSubscription = linkStream.listen((String? link) async {
     // Parse the link and warn the user, if it is not correct
     log('Link: $link');
+    await handleLink(Uri.parse(link!));
+
   }, onError: (err) {
     // Handle exception by warning the user their action did not succeed
     log('Error: $err');
   });
 }
 
-Future<void> handleLink(Uri uri) async {}
+Future<void> handleLink(Uri uri) async {
+  List<String> segments = uri.pathSegments;
+
+  String lastSegment = segments.last;
+  log(lastSegment);
+  var token = sl<SharedPreferenceHelper>().getJwtToken;
+
+  if (token != '') {
+    ProjectReponsitory _projectReponsitory = ProjectReponsitory();
+    _projectReponsitory.joinProject(
+        tokenInvite: lastSegment,
+        onSuccess: (data) {
+          Get.find<ProjectController>().onInit();
+          Get.find<DashboardController>().tabIndex = 1;
+          Get.offNamed(HomeRouter.DASHBOARD);
+
+          AppAlert(milliseconds: 3000).info(message: data);
+        },
+        onError: ((error) {
+          AppAlert(milliseconds: 3000).error(message: error);
+        }));
+  } else {
+    AppAlert(milliseconds: 3000)
+        .error(message: 'You need to login first before join project.');
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
