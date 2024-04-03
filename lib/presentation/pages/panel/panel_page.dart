@@ -9,9 +9,11 @@ import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/common_helper.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/pages/panel/assignee_detail.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
+import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
@@ -31,31 +33,8 @@ class PanelPage extends GetView<PanelController> {
         backgroundColor: ColorResources.BGAPP,
         title: Text('Dashboards'.tr, style: TextStyle(fontSize: 20)),
         actions: [
-          InkWell(
-            onTap: () {
-              CommonHelper.onTapHandler(callback: () {
-                showFlexibleBottomSheet(
-                  duration: Duration(milliseconds: 500),
-                  minHeight: 0,
-                  initHeight: 1,
-                  maxHeight: 1,
-                  context: context,
-                  builder: buildBottomSheet,
-                  isExpand: false,
-                );
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: CircleAvatar(
-                backgroundColor: ColorResources.GREY.withOpacity(.5),
-                child: AppImage(
-                  ImagesPath.logoApp,
-                  width: 30.sp,
-                  height: 30.sp,
-                ),
-              ),
-            ),
+          AvataHeaderWidget(
+            typeSquare: true,
           ),
         ],
       ),
@@ -136,14 +115,14 @@ class PanelPage extends GetView<PanelController> {
                                     ),
                                   ),
                                 ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Priority'.tr,
-                                      style: TextStyle(fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
-                                ),
+                                // DataColumn(
+                                //   label: Expanded(
+                                //     child: Text(
+                                //       'Priority'.tr,
+                                //       style: TextStyle(fontStyle: FontStyle.italic),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                               rows: controller.listTask.value.toList().reversed.take(3).map((e) {
                                 final uiIssueTypeItem = UIIssueType.getUIIssueType(
@@ -176,9 +155,9 @@ class PanelPage extends GetView<PanelController> {
                                     DataCell(
                                         onTap: () => controller.routerToDetailTask(e.id ?? ''),
                                         SizedBox(width: SizeApp.setSize(percent: .2), child: Text(e.title ?? ''))),
-                                    DataCell(
-                                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
-                                        Icon(Icons.line_axis, color: Colors.orange)),
+                                    // DataCell(
+                                    //     onTap: () => controller.routerToDetailTask(e.id ?? ''),
+                                    //     Icon(Icons.line_axis, color: Colors.orange)),
                                   ],
                                 );
                               }).toList(),
@@ -286,18 +265,19 @@ class PanelPage extends GetView<PanelController> {
                                         maxLines: 4,
                                         overflow: TextOverflow.ellipsis,
                                         text: TextSpan(
-                                            text: 'John Doe',
-                                            style: TextStyle(
-                                                fontSize: 16.sp, color: Colors.black, fontWeight: FontWeight.bold),
-                                            children: [
-                                              TextSpan(
-                                                text: controller.allActivities.value[index].description.toString(),
-                                                style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    color: Colors.black.withOpacity(.8),
-                                                    fontWeight: FontWeight.normal),
-                                              ),
-                                            ])),
+                                          text: controller.allActivities.value[index].description.toString(),
+                                          style: TextStyle(
+                                              fontSize: 16.sp, color: Colors.black, fontWeight: FontWeight.w400),
+                                          // children: [
+                                          //   TextSpan(
+                                          //     text: controller.allActivities.value[index].description.toString(),
+                                          //     style: TextStyle(
+                                          //         fontSize: 13.sp,
+                                          //         color: Colors.black.withOpacity(.8),
+                                          //         fontWeight: FontWeight.normal),
+                                          //   ),
+                                          // ]
+                                        )),
                                   )
                                 ]),
                                 SizedBox(
@@ -360,7 +340,11 @@ class PanelPage extends GetView<PanelController> {
             height: 10.h,
           ),
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                CommonHelper.onTapHandler(callback: () {
+                  Get.find<HomeController>().submitFeedback();
+                });
+              },
               child: Text("Send Feeback".tr, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600))),
         ],
       ),

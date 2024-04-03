@@ -25,6 +25,7 @@ class HomeController extends GetxController {
   RxList users = [].obs;
   String idUser = '';
   RxBool isLoading = true.obs;
+  String avatar = '';
 
   @override
   Future<void> onInit() async {
@@ -37,6 +38,7 @@ class HomeController extends GetxController {
     isLoading.value = true;
     await _authRepository.find(idUser, onSuccess: (data) {
       users.add(data);
+      avatar = users.first.avatar;
       users.refresh();
     }, onError: (e) {});
     isLoading.value = false;

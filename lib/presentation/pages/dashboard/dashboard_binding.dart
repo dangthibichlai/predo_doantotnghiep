@@ -10,10 +10,10 @@ import 'package:test_intern/presentation/pages/project/project_controller.dart';
 class DashboardBingding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<DashboardController>(() => DashboardController());
     Get.lazyPut<ProjectController>(() => ProjectController());
     Get.lazyPut<NotificationController>(() => NotificationController());
-    Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<PanelController>(() => PanelController());
     Get.lazyPut<IssueController>(() => IssueController());
   }

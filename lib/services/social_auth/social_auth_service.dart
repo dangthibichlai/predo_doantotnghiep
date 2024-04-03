@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:test_intern/core/enums/enums.dart';
@@ -51,7 +50,6 @@ class SocialAuthService {
   /// Google logout.
   ///
   Future<void> socialLogout({required SocialType socialType}) async {
-    await FacebookAuth.instance.logOut();
     switch (socialType) {
       default:
         _googleSignIn.signOut();

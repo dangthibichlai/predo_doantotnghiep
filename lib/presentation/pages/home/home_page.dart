@@ -1,9 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
-import 'package:test_intern/presentation/pages/home/ui_model.dart';
-import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
+import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -12,9 +10,8 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorResources.BGAPP,
-      body: Obx(
-        () => controller.isLoading.value
+        backgroundColor: ColorResources.BGAPP,
+        body: Obx(() => controller.isLoading.value
             ? Center(child: LoadingApp())
             : Padding(
                 padding: SizeApp.setEdgeInsetsOnly(
@@ -25,37 +22,7 @@ class HomePage extends GetView<HomeController> {
                 child: Column(children: <Widget>[
                   Row(
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          CommonHelper.onTapHandler(callback: () {
-                            showFlexibleBottomSheet(
-                              duration: Duration(milliseconds: 500),
-                              minHeight: 0,
-                              initHeight: 1,
-                              maxHeight: 1,
-                              context: context,
-                              builder: buildBottomSheet,
-                              isExpand: false,
-                            );
-                          });
-                        },
-                        child: Container(
-                          // margin:  EdgeInsets.all(SizeApp.setSize(percent: .019)),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                            //add border radius here
-                            child: Container(
-                              width: SizeApp.setSize(percent: 0.04),
-                              height: SizeApp.setSize(percent: 0.04),
-                              decoration: BoxDecoration(
-                                color: ColorResources.GREY.withOpacity(.5),
-                              ),
-                              child: AppImage(ImagesPath.logoApp,
-                                  width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
-                            ),
-                          ),
-                        ),
-                      ),
+                      AvataHeaderWidget(),
 
                       Gap(15),
                       Text(
@@ -72,138 +39,6 @@ class HomePage extends GetView<HomeController> {
                       //     ))
                     ],
                   ),
-                  const SizedBox(
-                    height: SizeApp.RADIUS_4X,
-                  ),
-                  Row(children: <Widget>[
-                    Text(
-                      'Quick access'.tr,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 15.sp),
-                    ),
-                  ]),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: SizeApp.RADIUS_2X, top: SizeApp.RADIUS_5X, right: SizeApp.RADIUS_2X),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            margin: const EdgeInsets.all(SizeApp.RADIUS_2X),
-                            child: AppImage(
-                              ImagesPath.imgHomeAccessEmpty,
-                              width: SizeApp.setSizeWithWidth(percent: 0.1),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Personalize this space'.tr,
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 16.sp),
-                              ),
-                              const SizedBox(
-                                height: SizeApp.RADIUS_2X,
-                              ),
-                              Text(
-                                'Add your most important stuff here, for fast access'.tr,
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 12.sp),
-                              ),
-                              const SizedBox(
-                                height: SizeApp.RADIUS_2X,
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  'Add items'.tr,
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.lexend(
-                                      fontWeight: FontWeight.w500, fontSize: 14.sp, color: ColorResources.MAIN_APP),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: SizeApp.RADIUS_3X,
-                  ),
-                  Row(children: <Widget>[
-                    Text(
-                      'Recent items'.tr,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 15.sp),
-                    ),
-                  ]),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: SizeApp.RADIUS_2X, top: SizeApp.RADIUS_5X, right: SizeApp.RADIUS_2X),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            margin: const EdgeInsets.all(SizeApp.RADIUS_2X),
-                            child: AppImage(
-                              ImagesPath.imgHomeRecentEmpty,
-                              width: SizeApp.setSizeWithWidth(percent: 0.3),
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: Container()),
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Personalize this space'.tr,
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.lexend(fontWeight: FontWeight.w500, fontSize: 16.sp),
-                              ),
-                              const SizedBox(
-                                height: SizeApp.RADIUS_2X,
-                              ),
-                              Text(
-                                'Add your most important stuff here, for fast access'.tr,
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.notoSans(fontWeight: FontWeight.w500, fontSize: 12.sp),
-                              ),
-                              const SizedBox(
-                                height: SizeApp.RADIUS_2X,
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  'Add items'.tr,
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.lexend(
-                                      fontWeight: FontWeight.w500, fontSize: 14.sp, color: ColorResources.MAIN_APP),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-      ),
-    );
+                ]))));
   }
 }

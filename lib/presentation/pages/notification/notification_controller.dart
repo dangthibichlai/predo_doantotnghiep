@@ -12,7 +12,7 @@ class NotificationController extends GetxController {
   RxList notification = [].obs;
   String idUser = '';
   int _startPage = 1;
-  RxBool isLoading = true.obs;
+  RxBool isLoading = false.obs;
 
   final int _limitPage = 10;
   final RefreshController refreshController = RefreshController();
@@ -67,6 +67,7 @@ class NotificationController extends GetxController {
             isLoading.value = false;
           }
         }
+        print('isLoad: ${isLoading.value}');
       },
       onError: (error) {
         print(error);

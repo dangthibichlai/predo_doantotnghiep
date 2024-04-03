@@ -43,7 +43,7 @@ class CommentWidget extends GetView<TaskDetailController> {
           child: Obx(() {
             AuthModel user = AuthModel();
             Emote emote = Emote();
-            if (controller.listComments.value.length == 0) {
+            if (controller.listComments.value.length == 0 && !controller.isLoading.value) {
               return bodyEmpty();
             }
             // if (!controller.isLoading.value && controller.listComments.isEmpty) {
@@ -118,7 +118,7 @@ class CommentWidget extends GetView<TaskDetailController> {
                                   child: Text(
                                     item.content ?? '',
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
+                                    style: TextStyle(fontSize: 12.sp, color: ColorResources.BLACK.withOpacity(.8)),
                                     maxLines: 3,
                                   ),
                                 ),

@@ -11,7 +11,6 @@ import 'package:test_intern/resources/images_path.dart';
 import '../../resources/app_color.dart';
 import '../enums/enums.dart';
 
-
 // ignore: must_be_immutable
 class AppImage extends StatelessWidget {
   AppImage(
@@ -98,7 +97,7 @@ class AppImage extends StatelessWidget {
           ),
           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
           errorWidget: (context, url, error) => Image.asset(
-            ImagesPath.placeHolder,
+            ImagesPath.logoApp,
             fit: fit,
             height: height ?? SizeApp.setSizeWithWidth(percent: .1),
             width: width ?? SizeApp.setSizeWithWidth(percent: .1),
@@ -127,7 +126,7 @@ class AppImage extends StatelessWidget {
           width: width,
           errorBuilder: (context, error, stackTrace) {
             return Image.asset(
-              ImagesPath.placeHolder,
+              ImagesPath.logoApp,
               fit: fit,
               height: height ?? SizeApp.setSizeWithWidth(percent: .1),
               width: width ?? SizeApp.setSizeWithWidth(percent: .1),

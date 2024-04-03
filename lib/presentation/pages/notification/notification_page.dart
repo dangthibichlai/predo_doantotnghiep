@@ -12,6 +12,7 @@ import 'package:test_intern/core/hepler/loading_app.dart';
 import 'package:test_intern/core/hepler/size-app.dart';
 import 'package:test_intern/core/hepler/smart_refresher.dart';
 import 'package:test_intern/presentation/pages/notification/notification_controller.dart';
+import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
@@ -40,28 +41,8 @@ class NotificationPage extends GetView<NotificationController> {
                 //       size: 24.sp,
                 //       color: ColorResources.BLACK.withOpacity(.5),
                 //     )),
-                InkWell(
-                  onTap: () {
-                    CommonHelper.onTapHandler(callback: () {
-                      showFlexibleBottomSheet(
-                        duration: Duration(milliseconds: 500),
-                        minHeight: 0,
-                        initHeight: 1,
-                        maxHeight: 1,
-                        context: context,
-                        builder: buildBottomSheet,
-                        isExpand: false,
-                      );
-                    });
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: ColorResources.GREY.withOpacity(.5),
-                    child: AppImage(
-                      ImagesPath.logoApp,
-                      width: 30.sp,
-                      height: 30.sp,
-                    ),
-                  ),
+                AvataHeaderWidget(
+                  typeSquare: true,
                 ),
                 IconButton(
                     onPressed: () {
@@ -136,14 +117,15 @@ class NotificationPage extends GetView<NotificationController> {
       },
       refreshController: controller.refreshController,
       child: Obx(() {
+        if (!controller.isLoading.value && controller.notification.length == 0) {
+          return bodyEmpty();
+        }
         if (controller.isLoading.value) {
           return LoadingApp(
             titleLoading: 'smart_refresh_008'.tr,
           );
         }
-        if (!controller.isLoading.value && controller.notification.isEmpty) {
-          return bodyEmpty();
-        }
+
         return ListView.builder(
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),

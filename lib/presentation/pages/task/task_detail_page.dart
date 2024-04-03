@@ -191,13 +191,13 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                   colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
                                   label: "Description".tr,
                                   style: TextStyle(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w300,
-                                      color: ColorResources.BLACK.withOpacity(.4)),
-                                  labelStyle: TextStyle(
                                       fontSize: 12.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: ColorResources.BLACK.withOpacity(.8)),
+                                  labelStyle: TextStyle(
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: ColorResources.BLACK.withOpacity(.7)),
+                                      color: ColorResources.BLACK.withOpacity(.8)),
                                   type: AppInputType.TEXT,
                                   maxLine: 4,
                                   hintText:
@@ -248,7 +248,9 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                               Divider(
                                 color: ColorResources.GREY.withOpacity(.2),
                               ),
-                              _subTask(context),
+                              controller.taskModel.value[0].issueType == IssueType.SUB_TASK
+                                  ? SizedBox()
+                                  : _subTask(context),
                               // controller.listSubTask.length != 0 ? _subTask() : SizedBox(),
                               _issueTypeBody(context),
                             ],
@@ -274,7 +276,10 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                   ),
                   child: Obx(() {
                     return AppInput(
-                        onSubmitted: (p0) => controller.addComment(),
+                        onSubmitted: (p0) {
+                          controller.addComment();
+                          // ân bàn phím
+                        },
                         hintText: "Add comment".tr,
                         height: 50.sp,
                         controller: controller.commentTask,
@@ -290,11 +295,13 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                           onPressed: () {
                             controller.addComment();
                           },
-                          icon: Icon(
-                            Icons.send,
-                            size: 20.sp,
-                            color: ColorResources.MAIN_APP,
-                          ),
+                          icon: controller.isSendComment.value
+                              ? CircularProgressIndicator()
+                              : Icon(
+                                  Icons.send,
+                                  size: 20.sp,
+                                  color: ColorResources.MAIN_APP,
+                                ),
                         ));
                   }),
                 ),
@@ -454,7 +461,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           Gap(5.sp),
           Text(
             'decriptionIssue'.tr,
-            style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK.withOpacity(.5)),
+            style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w300, color: ColorResources.BLACK.withOpacity(.8)),
           ),
           Gap(20),
           ListView.separated(

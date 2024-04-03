@@ -65,10 +65,10 @@ class KabanProjectController extends GetxController {
   RxList<TaskModel> listTask = <TaskModel>[].obs;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     idProject = Get.arguments['idProject'] ?? idProjectItem;
     nameProject = Get.arguments['nameProject'] ?? nameProjectItem;
-    getProject();
+    await getProject();
     super.onInit();
   }
 
@@ -80,7 +80,6 @@ class KabanProjectController extends GetxController {
   }
 
   Future<void> getProject() async {
-    listBorad.clear();
     isLoading.value = true;
     await _boardRepository.find(
       idProject,
@@ -97,7 +96,6 @@ class KabanProjectController extends GetxController {
   }
 
   void addTaskBoard(TaskModel taskModel) async {
-    Navigator.pop(Get.context!);
     EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.add(
       data: taskModel,

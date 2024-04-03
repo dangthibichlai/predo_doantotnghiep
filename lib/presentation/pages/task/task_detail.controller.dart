@@ -55,6 +55,7 @@ class TaskDetailController extends GetxController {
   final RefreshController refreshController = RefreshController();
   RxList<CommentModel> listComments = <CommentModel>[].obs;
   final SocketIO _socket = GetIt.I.get<SocketIO>();
+  RxBool isSendComment = false.obs;
 
   RxBool isfocusComment = false.obs;
 
@@ -62,13 +63,11 @@ class TaskDetailController extends GetxController {
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     idTask = Get.arguments['idTask'];
-    isLoading.value = true;
     await getTaskDetail();
     await getComments();
     await getMembers();
     await featchData();
     await getSubTask();
-    isLoading.value = false;
     super.onInit();
   }
 
@@ -112,6 +111,7 @@ class TaskDetailController extends GetxController {
   }
 
   Future<void> featchData() async {
+    isLoading.value = true;
     await _taskReponsitory.findBoard(idTask, onSuccess: (data) async {
       idProject.value = data;
       _boardReponsitory.find(idProject.value, onSuccess: (data) {
@@ -123,6 +123,7 @@ class TaskDetailController extends GetxController {
         dataFilter.value = filterData[0];
       }, onError: (error) {});
     }, onError: (error) {});
+    isLoading.value = false;
   }
 
   void filterMembers(String query) {
@@ -200,7 +201,6 @@ class TaskDetailController extends GetxController {
       },
       onError: (error) {},
     );
-    isLoading.value = false;
   }
 
   Future<void> getSubTask() async {
@@ -221,12 +221,12 @@ class TaskDetailController extends GetxController {
       },
       onError: (error) {},
     );
-    isLoading.value = false;
   }
 
   /// COMMENT
   Future<void> getComments() async {
-    listComments.clear();
+    isSendComment.value = true;
+    // listComments.clear();
     await _commentRepository.getComment(
       idTask,
       onSuccess: (data) {
@@ -235,7 +235,7 @@ class TaskDetailController extends GetxController {
       },
       onError: (error) {},
     );
-    isLoading.value = false;
+    isSendComment.value = false;
   }
 
   Future<void> updateComment(CommentModel commentModel, String idComment) async {
@@ -243,7 +243,7 @@ class TaskDetailController extends GetxController {
       id: idComment,
       data: commentModel,
       onSuccess: (data) async {
-        commentTask.clear();
+        // commentTask.clear();
         await getComments();
         listComments.refresh();
       },
@@ -299,6 +299,7 @@ class TaskDetailController extends GetxController {
         await getComments();
         listComments.refresh();
         _socket.socket.emit(EndPoints.comments, data);
+        FocusScope.of(Get.context!).unfocus();
       },
       onError: (error) {},
     );

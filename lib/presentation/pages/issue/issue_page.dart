@@ -16,10 +16,12 @@ import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
 import 'package:test_intern/presentation/pages/issue/ui_model.dart';
 import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
+import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/presentation/widget/card_title.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
+import 'package:test_intern/routers/home_router.dart';
 
 import '../../widget/title_custom.dart';
 
@@ -42,36 +44,7 @@ class IssuePage extends GetView<IssueController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    CommonHelper.onTapHandler(callback: () {
-                      showFlexibleBottomSheet(
-                        duration: Duration(milliseconds: 500),
-                        minHeight: 0,
-                        initHeight: 1,
-                        maxHeight: 1,
-                        context: context,
-                        builder: buildBottomSheet,
-                        isExpand: false,
-                      );
-                    });
-                  },
-                  child: Container(
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                      //add border radius here
-                      child: Container(
-                        width: SizeApp.setSize(percent: 0.04),
-                        height: SizeApp.setSize(percent: 0.04),
-                        decoration: BoxDecoration(
-                          color: ColorResources.GREY.withOpacity(.5),
-                        ),
-                        child: AppImage(ImagesPath.logoApp,
-                            width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
-                      ),
-                    ),
-                  ),
-                ),
+                AvataHeaderWidget(),
                 Row(
                   children: [
                     IconButton(
@@ -183,7 +156,9 @@ class IssuePage extends GetView<IssueController> {
                     );
                   }
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': item.id});
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 7.0, top: 7.0),
                       child: Column(

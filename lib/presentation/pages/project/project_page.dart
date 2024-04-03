@@ -4,6 +4,7 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';
+import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/presentation/widget/title_custom.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -44,32 +45,7 @@ class ProjectPage extends GetView<ProjectController> {
                   size: 26.sp,
                   color: ColorResources.BLACK.withOpacity(.5),
                 )),
-            InkWell(
-              onTap: () {
-                CommonHelper.onTapHandler(callback: () {
-                  showFlexibleBottomSheet(
-                    duration: Duration(milliseconds: 500),
-                    minHeight: 0,
-                    initHeight: 1,
-                    maxHeight: 1,
-                    context: context,
-                    builder: buildBottomSheet,
-                    isExpand: false,
-                  );
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: CircleAvatar(
-                  backgroundColor: ColorResources.GREY.withOpacity(.5),
-                  child: AppImage(
-                    ImagesPath.logoApp,
-                    width: 30.sp,
-                    height: 30.sp,
-                  ),
-                ),
-              ),
-            ),
+            AvataHeaderWidget(typeSquare: true),
           ],
         ),
         body: Expanded(
