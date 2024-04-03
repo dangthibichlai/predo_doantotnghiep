@@ -1,7 +1,6 @@
 # This is a generated file; do not edit or check into version control.
 app_settings=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\app_settings-5.1.1\\
 device_info_plus=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\device_info_plus-9.1.2\\
-facebook_auth_desktop=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\facebook_auth_desktop-1.0.3\\
 file_picker=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\file_picker-6.2.0\\
 firebase_auth=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\firebase_auth-4.17.8\\
 firebase_auth_web=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\firebase_auth_web-5.9.8\\
@@ -10,15 +9,8 @@ firebase_core_web=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\
 firebase_messaging=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\firebase_messaging-14.7.19\\
 firebase_messaging_web=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\firebase_messaging_web-3.6.8\\
 flutter_email_sender=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_email_sender-6.0.2\\
-flutter_facebook_auth=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_facebook_auth-6.1.1\\
-flutter_facebook_auth_web=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_facebook_auth_web-5.0.0\\
 flutter_localization=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_localization-0.2.0\\
 flutter_plugin_android_lifecycle=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_plugin_android_lifecycle-2.0.17\\
-flutter_secure_storage=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_secure_storage-9.0.0\\
-flutter_secure_storage_linux=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_secure_storage_linux-1.2.0\\
-flutter_secure_storage_macos=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_secure_storage_macos-3.0.1\\
-flutter_secure_storage_web=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_secure_storage_web-1.1.2\\
-flutter_secure_storage_windows=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_secure_storage_windows-3.0.0\\
 fluttertoast=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\fluttertoast-8.2.4\\
 google_sign_in=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in-6.2.1\\
 google_sign_in_android=C:\\Users\\TGDD\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_android-6.1.21\\

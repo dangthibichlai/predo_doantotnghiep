@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:test_intern/models/comment_model.dart';
 import 'package:test_intern/presentation/pages/task/task_detail.controller.dart';
 import 'package:test_intern/resources/end-point.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -18,59 +21,31 @@ class SocketIO {
   void init() {
     if (socket.disconnected) {
       socket.connect();
-      socket.onConnect(
-        (_) {
-          print("Socket connected");
-          _onListenChannels();
-        },
-      );
     }
   }
 
-  void _onListenChannels() {
+  void listen_to(String taskId) {
+    socket.onConnect(
+      (_) {
+        print("Socket connected");
+        _onListenChannels(taskId);
+      },
+    );
+  }
+
+  void _onListenChannels(String taskId) {
     if (!socket.hasListeners('predo_update_comment')) {
       socket.on('predo_update_comment', (data) async {
-        if (data != null) {
+        data = CommentModel.fromJson(data as Map<String, dynamic>);
+        log("taskID: $taskId");
+        log("dataID: ${data.taskId}");
+        if (data.taskId == taskId) {
           // cập nhật lại comment
           if (Get.isRegistered<TaskDetailController>()) {
             final taskDetailController = Get.find<TaskDetailController>();
             taskDetailController.getComments();
           }
         }
-      });
-    }
-
-    if (!socket.hasListeners('p56sero_confirm_user_rescue')) {
-      socket.on('p56sero_confirm_user_rescue', (data) async {
-        // if (data != null) {
-        //   final userRescuesModel =
-        //       UserRescuesModel.fromMap(data as Map<String, dynamic>);
-        //   if (userRescuesModel.userId?.id ==
-        //               sl<SharedPreferenceHelper>().getIdUser &&
-        //           userRescuesModel.status == RescuesEnum.CONFIRMED ||
-        //       userRescuesModel.status == RescuesEnum.COMPLETED) {
-        //     // Load lại thông tin đơn cứu hộ.
-        //     if (Get.isRegistered<HomeController>()) {
-        //       final homeController = Get.find<HomeController>();
-        //       homeController.getUserRescuesCurrent();
-        //     }
-
-        //     // Nếu có ngừoi xác nhận đơn.
-        //     if (userRescuesModel.status == RescuesEnum.CONFIRMED) {
-        //       if (Get.isDialogOpen == true) {
-        //         Get.back();
-        //       }
-        //       if (Get.currentRoute == HomeRouters.mapRescuePage) {
-        //         Get.back();
-        //       }
-        //       // Hiển thị dialog có người nhận đơn cứu hộ.
-        //       if (Get.isRegistered<HomeController>()) {
-        //         final homeController = Get.find<HomeController>();
-        //         homeController.showDialogHasConfirmRecues();
-        //       }
-        //     }
-        //   }
-        // }
       });
     }
 
@@ -134,12 +109,17 @@ class SocketIO {
   ///
   void reSetSocket() {
     socket = io.io(
-      'wss://socket1.izisoft.io',
+      EndPoints.SOCKET_URL,
       io.OptionBuilder()
           .setTransports(['websocket']) // for Flutter or Dart VM
           // .setExtraHeaders({'authorization': 'Bearer ${sl.get<SharedPreferenceHelper>().getJwtToken}'}) // headers
           .enableAutoConnect()
           .build(),
     );
+  }
+
+  void resetSocket() {
+    log("Reset socket");
+    socket.io.disconnect(); // Reconnect the socket manually.
   }
 }

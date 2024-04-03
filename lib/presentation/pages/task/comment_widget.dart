@@ -101,16 +101,11 @@ class CommentWidget extends GetView<TaskDetailController> {
                                         color: ColorResources.BLACK,
                                       ),
                                     ),
-                                    PopupCommentWidget(
-                                      item,
+                                    Expanded(
+                                      child: PopupCommentWidget(
+                                        item,
+                                      ),
                                     ),
-                                    // Text(
-                                    //   "21/07/2002",
-                                    //   // DateFormat('dd/MM/yyyy HH:mm')
-                                    //   //     .format(DateTime.parse(controller.listComments[index].createdAt ?? '')),
-                                    //   overflow: TextOverflow.ellipsis,
-                                    //   style: TextStyle(fontSize: 12.sp, color: ColorResources.GREY),
-                                    // )
                                   ],
                                 ),
                                 SizedBox(

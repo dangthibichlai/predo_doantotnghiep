@@ -63,17 +63,19 @@ class TaskDetailController extends GetxController {
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     idTask = Get.arguments['idTask'];
+    _socket.listen_to(idTask);
     await getTaskDetail();
     await getComments();
-    await getMembers();
     await featchData();
+
+    await getMembers();
     await getSubTask();
     super.onInit();
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void onClose() {
+    _socket.reSetSocket();
   }
 
   void changeFocusComment() {
@@ -136,8 +138,9 @@ class TaskDetailController extends GetxController {
   Future<void> getMembers() async {
     listMembers.clear();
     filteredMembers.clear();
-    await _projectReponsitory.findProjectID(
+    await _projectReponsitory.getMembers(
       idUser,
+      idProject.value,
       onSuccess: (data) {
         listMembers.value.addAll(data);
         listMembers.refresh();
@@ -298,7 +301,7 @@ class TaskDetailController extends GetxController {
         commentTask.clear();
         await getComments();
         listComments.refresh();
-        _socket.socket.emit(EndPoints.comments, data);
+        _socket.socket.emit("predo_update_comment", data);
         FocusScope.of(Get.context!).unfocus();
       },
       onError: (error) {},
@@ -331,10 +334,5 @@ class TaskDetailController extends GetxController {
                 ],
               )));
     });
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

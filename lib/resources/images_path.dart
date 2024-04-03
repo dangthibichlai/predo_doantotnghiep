@@ -86,4 +86,24 @@ mixin ImagesPath {
   static String homeIcon = 'assets/features/navigator_icon/home_icon.svg';
   static String issueIcon = 'assets/features/navigator_icon/issue_icon.svg';
   static String dashboardIcon = 'assets/features/navigator_icon/dashboard_icon.svg';
+
+  static String avata_project_1 = 'assets/features/avata_project_1.svg';
+  static String avata_project_2 = 'assets/features/avata_project_2.svg';
+  static String avata_project_3 = 'assets/features/avata_project_3.svg';
+  static String avata_project_4 = 'assets/features/avata_project_4.svg';
+  static String avata_project_5 = 'assets/features/avata_project_5.svg';
+  static String avata_project_6 = 'assets/features/avata_project_6.svg';
+  static String avata_project_7 = 'assets/features/avata_project_7.svg';
+  static String avata_project_8 = 'assets/features/avata_project_8.svg';
+  static String avata_project_9 = 'assets/features/avata_project_9.svg';
+  static String avata_project_10 = 'assets/features/avata_project_10.svg';
+  static String avata_project_11 = 'assets/features/avata_project_11.svg';
+  static String avata_project_12 = 'assets/features/avata_project_12.svg';
+  static String avata_project_13 = 'assets/features/avata_project_13.svg';
+  static String avata_project_14 = 'assets/features/avata_project_14.svg';
+  static String avata_project_15 = 'assets/features/avata_project_15.svg';
+  static String avata_project_16 = 'assets/features/avata_project_16.svg';
+  static String avata_project_17 = 'assets/features/avata_project_17.svg';
+  static String avata_project_18 = 'assets/features/avata_project_18.svg';
+  static String avata_project_19 = 'assets/features/avata_project_19.svg';
 }

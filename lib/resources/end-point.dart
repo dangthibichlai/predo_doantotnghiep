@@ -3,7 +3,7 @@
 class EndPoints {
   // ignore: constant_identifier_names
   static const String BASE_URL = "https://predo-backend-a326e289b017.herokuapp.com";
-  static const String SOCKET_URL = "ws://predo-backend-a326e289b017.herokuapp.com:6640";
+  static const String SOCKET_URL = "ws://predo-socket-io-e4168ad088cd.herokuapp.com";
   static const String users = "/users";
   static const String projects = "/projects";
   static const String projectByIdUser = "/projects/get-by-user";

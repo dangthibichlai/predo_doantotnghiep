@@ -95,6 +95,7 @@ class DiologApp extends StatelessWidget {
                       return;
                     }
                     onTap();
+                    FocusScope.of(context).unfocus();
                   },
                   borderRadius: BorderRadius.circular(10.sp),
                   child: Padding(

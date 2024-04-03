@@ -16,6 +16,7 @@ class ProjectModel {
   String? leader;
   List<Map<String, dynamic>>? members;
   String? name;
+  String? avatar;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -28,6 +29,7 @@ class ProjectModel {
     this.name,
     this.createdAt,
     this.updatedAt,
+    this.avatar,
   });
 
   ProjectModel copyWith({
@@ -35,6 +37,7 @@ class ProjectModel {
     bool? isDelete,
     String? key,
     String? leader,
+    String? avatar,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<Map<String, dynamic>>? members,
@@ -42,6 +45,7 @@ class ProjectModel {
   }) =>
       ProjectModel(
         id: id ?? this.id,
+        avatar: avatar ?? this.avatar,
         isDelete: isDelete ?? this.isDelete,
         key: key ?? this.key,
         leader: leader ?? this.leader,
@@ -53,6 +57,7 @@ class ProjectModel {
 
   factory ProjectModel.fromMap(Map<String, dynamic> json) => ProjectModel(
         id: json['_id'] != null ? json['_id'] as String : null,
+        avatar: json['avatar'] != null ? json['avatar'] as String : null,
         isDelete: json["isDelete"],
         key: json["key"],
         leader: json["leader"],
@@ -66,6 +71,7 @@ class ProjectModel {
       );
 
   Map<String, dynamic> toMap() => {
+        "avatar": avatar,
         "isDelete": isDelete,
         "key": key,
         "leader": leader,

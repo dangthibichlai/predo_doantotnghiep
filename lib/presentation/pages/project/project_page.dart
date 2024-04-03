@@ -21,6 +21,7 @@ class ProjectPage extends GetView<ProjectController> {
       }
 
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           scrolledUnderElevation: 0.0,
           backgroundColor: ColorResources.BGAPP,
@@ -48,65 +49,63 @@ class ProjectPage extends GetView<ProjectController> {
             AvataHeaderWidget(typeSquare: true),
           ],
         ),
-        body: Expanded(
-          child: Column(
-            children: [
-              controller.isShowSearch.value
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                      child: AppInput(
-                        onChanged: (value) {
-                          controller.searchProjectFilter(value);
-                        },
-                        prefixIcon: (FocusNode) {
-                          return Icon(
-                            Icons.search,
-                            color: ColorResources.BLACK.withOpacity(.5),
-                            size: 20.sp,
-                          );
-                        },
-                        height: SizeApp.setSize(percent: .07),
-                        controller: controller.searchProject,
-                        colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                        style: TextStyle(
-                            fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
-                        labelStyle: TextStyle(
-                            fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
-                        type: AppInputType.TEXT,
-                        maxLine: 1,
-                        hintText: "Search project...".tr,
-                        isBorder: true,
-                        fontSize: 14.sp,
-                        fillColor: Colors.transparent,
-                        underLine: UnderlineInputBorder(),
-                      ),
-                    )
-                  : SizedBox.shrink(),
-              controller.filteredProject.isEmpty
-                  ? Expanded(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppImage(
-                              ImagesPath.imgHomeRecentEmpty,
-                              width: SizeApp.setSizeWithWidth(percent: .4),
-                            ),
-                            Text('No data'.tr),
-                          ],
-                        ),
-                      ),
-                    )
-                  : SingleChildScrollView(
+        body: Column(
+          children: [
+            controller.isShowSearch.value
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                    child: AppInput(
+                      onChanged: (value) {
+                        controller.searchProjectFilter(value);
+                      },
+                      prefixIcon: (FocusNode) {
+                        return Icon(
+                          Icons.search,
+                          color: ColorResources.BLACK.withOpacity(.5),
+                          size: 20.sp,
+                        );
+                      },
+                      height: SizeApp.setSize(percent: .07),
+                      controller: controller.searchProject,
+                      colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+                      labelStyle: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+                      type: AppInputType.TEXT,
+                      maxLine: 1,
+                      hintText: "Search project...".tr,
+                      isBorder: true,
+                      fontSize: 14.sp,
+                      fillColor: Colors.transparent,
+                      underLine: UnderlineInputBorder(),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            controller.filteredProject.isEmpty
+                ? Expanded(
+                    child: Center(
                       child: Column(
-                      children: [
-                        recentlyProjectListView(),
-                        allProjectGridView(),
-                      ],
-                    )),
-            ],
-          ),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AppImage(
+                            ImagesPath.imgHomeRecentEmpty,
+                            width: SizeApp.setSizeWithWidth(percent: .4),
+                          ),
+                          Text('No data'.tr),
+                        ],
+                      ),
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                    children: [
+                      recentlyProjectListView(),
+                      allProjectGridView(),
+                    ],
+                  )),
+          ],
         ),
       );
     });
