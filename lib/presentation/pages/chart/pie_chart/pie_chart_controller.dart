@@ -8,15 +8,33 @@ class PieChartController extends GetxController {
   var touchedIndex = (-1).obs;
   var options = Get.arguments['options'];
   var projectId = Get.arguments['projectId'];
+  var totalChartValue = 0.0;
   final ChartRepository _chartRepository = GetIt.I.get<ChartRepository>();
   var chartData;
+  List<Color> availableColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.purple,
+    Colors.orange,
+    Colors.pink,
+    Colors.teal,
+    Colors.cyan,
+    Colors.indigo,
+    Colors.lime,
+    Colors.amber,
+    Colors.brown,
+    Colors.grey,
+    Colors.deepOrange,
+  ];
   RxBool isLoading = true.obs;
 
   @override
-  void onInit()async {
+  void onInit() async {
     //
     // Call API get tool collection.
-  await  getChart();
+    await getChart();
     super.onInit();
   }
 
@@ -52,6 +70,9 @@ class PieChartController extends GetxController {
     }
     await _chartRepository.getChart(projectId, filter, onSuccess: (data) {
       chartData = data;
+      chartData.forEach((element) {
+        totalChartValue += element.value;
+      });
       print(chartData);
     }, onError: (e) {});
     isLoading.value = false;

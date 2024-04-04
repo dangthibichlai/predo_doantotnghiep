@@ -18,7 +18,8 @@ import 'package:test_intern/services/social_auth/social_auth_service.dart';
 import '../../../resources/export/core_export.dart';
 
 class HomeController extends GetxController {
-  final SharedPreferenceHelper _sharedPreferenceHelper = sl.get<SharedPreferenceHelper>();
+  final SharedPreferenceHelper _sharedPreferenceHelper =
+      sl.get<SharedPreferenceHelper>();
   AuthRepository _authRepository = GetIt.I.get<AuthRepository>();
   static const String UPDATE_RATE_US = 'UPDATE_RATE_US';
 
@@ -162,6 +163,7 @@ class HomeController extends GetxController {
                               ),
                               AppButton(
                                 onTap: () async {
+                                  Get.back();
                                   EasyLoading.show(status: 'status_01'.tr);
                                   await removeLocalData();
                                   await EasyLoading.dismiss();
@@ -211,7 +213,9 @@ class HomeController extends GetxController {
     _sharedPreferenceHelper.removeJwtToken();
     _sharedPreferenceHelper.removeIdUser();
     _sharedPreferenceHelper.removeLogger();
-    GetIt.I.get<SocialAuthService>().socialLogout(socialType: SocialType.GOOGLE);
+    GetIt.I
+        .get<SocialAuthService>()
+        .socialLogout(socialType: SocialType.GOOGLE);
   }
 
   void rateUs(BuildContext context) {
