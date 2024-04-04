@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -14,7 +13,6 @@ import 'package:test_intern/presentation/pages/panel/assignee_detail.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
 import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/presentation/widget/avata_header.dart';
-import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
 

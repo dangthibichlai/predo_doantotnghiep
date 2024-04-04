@@ -1,4 +1,7 @@
 const Map<String, String> en = {
+  //'Đồng hành cùng bạn trong mọi công việc'
+  'title_Home': 'Accompany you in every job',
+  'home_01': "Personal information",
   'PIE CHART': 'PIE CHART',
   'opt_success': 'Send code successfully. Please check your email',
   'product_detail_0011': 'Initializing project...',

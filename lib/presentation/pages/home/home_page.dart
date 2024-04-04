@@ -1,7 +1,8 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
-import 'package:test_intern/presentation/widget/avata_header.dart';
+import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -10,8 +11,9 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorResources.BGAPP,
-        body: Obx(() => controller.isLoading.value
+      backgroundColor: Colors.white,
+      body: Obx(
+        () => controller.isLoading.value
             ? Center(child: LoadingApp())
             : Padding(
                 padding: SizeApp.setEdgeInsetsOnly(
@@ -22,23 +24,183 @@ class HomePage extends GetView<HomeController> {
                 child: Column(children: <Widget>[
                   Row(
                     children: <Widget>[
-                      AvataHeaderWidget(),
-
+                      InkWell(
+                        onTap: () {
+                          CommonHelper.onTapHandler(callback: () {
+                            showFlexibleBottomSheet(
+                              duration: Duration(milliseconds: 500),
+                              minHeight: 0,
+                              initHeight: 1,
+                              maxHeight: 1,
+                              context: context,
+                              builder: buildBottomSheet,
+                              isExpand: false,
+                            );
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                          child: Container(
+                            width: SizeApp.setSize(percent: 0.04),
+                            height: SizeApp.setSize(percent: 0.04),
+                            decoration: BoxDecoration(
+                              color: ColorResources.GREY.withOpacity(.5),
+                            ),
+                            child: AppImage(ImagesPath.logoApp,
+                                width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
+                          ),
+                        ),
+                      ),
                       Gap(15),
                       Text(
-                        controller.users.value[0].full_name ?? '',
-                        style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w400, fontSize: 16.sp, color: ColorResources.MAIN_APP),
+                        'Predo',
+                        style: GoogleFonts.pacifico(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w500,
+                          color: ColorResources.MAIN_APP,
+                        ),
                       ),
-                      // Spacer(),
-                      // IconButton(
-                      //     iconSize: 30,
-                      //     onPressed: () {},
-                      //     icon: const Icon(
-                      //       Icons.add_rounded,
-                      //     ))
                     ],
                   ),
-                ]))));
+                  Container(
+                    padding: EdgeInsets.only(top: 10.sp, left: 15.sp, right: 15.sp, bottom: 15.sp),
+                    margin: EdgeInsets.only(
+                        top: SizeApp.setSize(percent: .05),
+                        left: SizeApp.setSizeWithWidth(percent: .02),
+                        right: SizeApp.setSizeWithWidth(percent: .02),
+                        bottom: SizeApp.setSize(percent: .02)),
+                    decoration: BoxDecoration(
+                        color: ColorResources.BGAPP,
+                        borderRadius: BorderRadius.circular(10.sp),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 202, 204, 209).withOpacity(.5),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(0, 1),
+                          )
+                        ]),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [Text("home_01".tr.toUpperCase())],
+                        ),
+                        Gap(10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                ClipOval(
+                                  child: AppImage(
+                                    controller.users.value[0].avatar ?? '',
+                                    width: SizeApp.setSize(percent: .1),
+                                    height: SizeApp.setSize(percent: .1),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 25, // Kích thước của biểu tượng máy ảnh
+                                    color: Colors.black.withOpacity(.6), // Màu sắc của biểu tượng máy ảnh
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // ClipOval(
+                            //     child: AppImage(
+                            //   controller.users.value[0].avatar ?? '',
+                            //   width: SizeApp.setSize(percent: .1),
+                            //   height: SizeApp.setSize(percent: .1),
+                            // )),
+                            Gap(20),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Gap(10),
+                                Text(
+                                  controller.users.value[0].full_name ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                ),
+                                Gap(2),
+                                Text(controller.users.value[0].email ?? '',
+                                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.sp),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 202, 204, 209).withOpacity(.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                  offset: Offset(0, 1),
+                                )
+                              ]),
+                          child: Row(
+                            children: [
+                              Column(),
+                            ],
+                          ))),
+                  Gap(10),
+                  feedback(),
+                  Gap(10),
+                ]),
+              ),
+      ),
+    );
+  }
+
+  Widget feedback() {
+    return Container(
+      width: SizeApp.getMaxWidth(),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: ColorResources.GREY.withOpacity(.2)),
+          boxShadow: [
+            BoxShadow(
+              color: ColorResources.WHITE.withOpacity(.1),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 1), // changes position of shadow
+            ),
+          ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("panel_01".tr, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600)),
+          Text("panel_02".tr,
+              style: TextStyle(
+                color: Colors.black,
+              )),
+          SizedBox(
+            height: 10.h,
+          ),
+          GestureDetector(
+              onTap: () {
+                CommonHelper.onTapHandler(callback: () {
+                  controller.submitFeedback();
+                });
+              },
+              child: Text("Send Feeback".tr, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600))),
+        ],
+      ),
+    );
   }
 }

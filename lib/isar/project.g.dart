@@ -136,7 +136,6 @@ Project _projectDeserialize(
   final object = Project(
     avatar: reader.readStringOrNull(offsets[0]),
     createdAt: reader.readDateTimeOrNull(offsets[1]),
-    id: id,
     idProject: reader.readStringOrNull(offsets[2]),
     isDelete: reader.readBoolOrNull(offsets[3]),
     key: reader.readStringOrNull(offsets[4]),
@@ -144,6 +143,7 @@ Project _projectDeserialize(
     name: reader.readStringOrNull(offsets[6]),
     updatedAt: reader.readDateTimeOrNull(offsets[7]),
   );
+  object.id = id;
   return object;
 }
 

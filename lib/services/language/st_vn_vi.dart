@@ -1,4 +1,6 @@
 const Map<String, String> vi = {
+  'title_Home': 'Đồng hành cùng bạn trong mọi công việc',
+  'home_01': "Thông tin cá nhân",
   'PIE CHART': 'BIỂU ĐỒ TRÒN',
   'opt_success': 'Gửi mã thành công.Vui lòng kiểm tra email của bạn',
   'Search project...': 'Tìm kiếm dự án...',

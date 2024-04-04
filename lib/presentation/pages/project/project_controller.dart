@@ -23,6 +23,14 @@ class ProjectController extends GetxController {
 
   onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
+    // await isarProjectRepository.deleteAll(
+    //   onSuccess: (data) {
+    //     log("list project isar del: $data");
+    //   },
+    //   onError: (error) {
+    //     print(error);
+    //   },
+    // );
     await getProject();
     await getDataIsar();
     super.onInit();
@@ -43,8 +51,8 @@ class ProjectController extends GetxController {
     if (checkProjectRenctly(data.idProject)) {
       listProjectRenctly.value.removeWhere((element) => element.idProject == data.idProject);
 
-      await isarProjectRepository.deleteProjectById(
-        id: data.id,
+      await isarProjectRepository.deleteProjectByIdProject(
+        idProject: data.idProject,
         onSuccess: (data) {
           log("list project isar del: $data");
         },

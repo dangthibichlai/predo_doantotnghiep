@@ -15,7 +15,6 @@ class Project {
   DateTime? updatedAt;
 
   Project({
-   required this.id,
     this.idProject,
     this.isDelete,
     this.key,

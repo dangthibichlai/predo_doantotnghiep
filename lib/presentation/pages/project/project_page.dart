@@ -135,9 +135,7 @@ class ProjectPage extends GetView<ProjectController> {
                     onTap: () {
                       Get.toNamed(HomeRouter.KABANPROJECT,
                           arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key});
-                      controller.addProjectRenctly(
-                        Project(
-                          id:item.id,
+                      controller.addProjectRenctly(Project(
                           idProject: item.id,
                           isDelete: false,
                           key: item.key,

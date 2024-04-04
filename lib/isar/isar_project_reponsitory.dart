@@ -42,6 +42,29 @@ class IsarProjectRepository {
     }
   }
 
+// xóa project bằng idProject
+  Future<void> deleteProjectByIdProject({
+    required String idProject,
+    required Function(bool result) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    try {
+      bool result = false;
+      await isar.writeTxn(() async {
+        // Thay đổi điều kiện lọc ở đây để sử dụng idProject
+        var projectToDelete = await isar.projects.where().filter().idProjectEqualTo(idProject).findFirst();
+        if (projectToDelete != null) {
+          result = await isar.projects.delete(projectToDelete.id);
+        }
+      });
+      onSuccess(result);
+    } catch (e) {
+      print(e.toString());
+      onError(e);
+      return;
+    }
+  }
+
   Future<void> deleteAll({
     required Function(int result) onSuccess,
     required Function(dynamic error) onError,
