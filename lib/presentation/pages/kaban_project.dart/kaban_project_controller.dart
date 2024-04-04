@@ -265,8 +265,11 @@ class KabanProjectController extends GetxController {
   }
 
   void changPageDetail() {
-    Get.toNamed(HomeRouter.SETTINGDETAIL,
-        arguments: {'nameProject': nameProject, 'keyProject': keyProjectItem, 'idProject': idProject});
+    Get.toNamed(HomeRouter.SETTINGDETAIL, arguments: {
+      'nameProject': nameProject,
+      'keyProject': keyProjectItem,
+      'idProject': idProject,
+    });
   }
 
   void changPageMember() {

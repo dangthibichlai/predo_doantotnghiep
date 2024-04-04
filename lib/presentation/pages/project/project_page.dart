@@ -1,11 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:test_intern/core/hepler/app_input.dart';
+import 'package:test_intern/isar/project.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';
 import 'package:test_intern/presentation/widget/avata_header.dart';
-import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/presentation/widget/title_custom.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
@@ -49,63 +48,64 @@ class ProjectPage extends GetView<ProjectController> {
             AvataHeaderWidget(typeSquare: true),
           ],
         ),
-        body: Column(
-          children: [
-            controller.isShowSearch.value
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                    child: AppInput(
-                      onChanged: (value) {
-                        controller.searchProjectFilter(value);
-                      },
-                      prefixIcon: (FocusNode) {
-                        return Icon(
-                          Icons.search,
-                          color: ColorResources.BLACK.withOpacity(.5),
-                          size: 20.sp,
-                        );
-                      },
-                      height: SizeApp.setSize(percent: .07),
-                      controller: controller.searchProject,
-                      colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
-                      style: TextStyle(
-                          fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
-                      labelStyle: TextStyle(
-                          fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
-                      type: AppInputType.TEXT,
-                      maxLine: 1,
-                      hintText: "Search project...".tr,
-                      isBorder: true,
-                      fontSize: 14.sp,
-                      fillColor: Colors.transparent,
-                      underLine: UnderlineInputBorder(),
-                    ),
-                  )
-                : SizedBox.shrink(),
-            controller.filteredProject.isEmpty
-                ? Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          AppImage(
-                            ImagesPath.imgHomeRecentEmpty,
-                            width: SizeApp.setSizeWithWidth(percent: .4),
-                          ),
-                          Text('No data'.tr),
-                        ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              controller.isShowSearch.value
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                      child: AppInput(
+                        onChanged: (value) {
+                          controller.searchProjectFilter(value);
+                        },
+                        prefixIcon: (FocusNode) {
+                          return Icon(
+                            Icons.search,
+                            color: ColorResources.BLACK.withOpacity(.5),
+                            size: 20.sp,
+                          );
+                        },
+                        height: SizeApp.setSize(percent: .07),
+                        controller: controller.searchProject,
+                        colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+                        labelStyle: TextStyle(
+                            fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+                        type: AppInputType.TEXT,
+                        maxLine: 1,
+                        hintText: "Search project...".tr,
+                        isBorder: true,
+                        fontSize: 14.sp,
+                        fillColor: Colors.transparent,
+                        underLine: UnderlineInputBorder(),
                       ),
+                    )
+                  : SizedBox.shrink(),
+              controller.filteredProject.isEmpty
+                  ? Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AppImage(
+                              ImagesPath.imgHomeRecentEmpty,
+                              width: SizeApp.setSizeWithWidth(percent: .4),
+                            ),
+                            Text('No data'.tr),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        controller.listProjectRenctly.length == 0 ? SizedBox() : recentlyProjectListView(),
+                        allProjectGridView(),
+                      ],
                     ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                    children: [
-                      recentlyProjectListView(),
-                      allProjectGridView(),
-                    ],
-                  )),
-          ],
+            ],
+          ),
         ),
       );
     });
@@ -113,7 +113,10 @@ class ProjectPage extends GetView<ProjectController> {
 
   Widget allProjectGridView() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+      padding: EdgeInsets.only(
+        left: 15.0,
+        right: 15.0,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,23 +132,43 @@ class ProjectPage extends GetView<ProjectController> {
               itemBuilder: (context, index) {
                 final item = controller.filteredProject.value[index];
                 return InkWell(
-                    onTap: () => Get.toNamed(HomeRouter.KABANPROJECT,
-                        arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key}),
+                    onTap: () {
+                      Get.toNamed(HomeRouter.KABANPROJECT,
+                          arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key});
+                      controller.addProjectRenctly(
+                        Project(
+                          id:item.id,
+                          idProject: item.id,
+                          isDelete: false,
+                          key: item.key,
+                          leader: item.leader,
+                          name: item.name,
+                          createdAt: item.createdAt,
+                          updatedAt: item.updatedAt,
+                          avatar: item.avatar));
+                    },
                     child: Row(
                       children: [
-                        Container(
-                          width: SizeApp.setSize(percent: .04),
-                          height: SizeApp.setSize(percent: .04),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(5.sp),
-                          ),
-                          child: Icon(
-                            Icons.beach_access,
-                            color: Colors.white,
-                            size: 24.0,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(5.sp),
+                          child: AppImage(
+                            item.avatar,
+                            width: SizeApp.setSizeWithWidth(percent: .11),
                           ),
                         ),
+                        // Container(
+                        //   width: SizeApp.setSize(percent: .04),
+                        //   height: SizeApp.setSize(percent: .04),
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.blue,
+                        //     borderRadius: BorderRadius.circular(5.sp),
+                        //   ),
+                        //   child: Icon(
+                        //     Icons.beach_access,
+                        //     color: Colors.white,
+                        //     size: 24.0,
+                        //   ),
+                        // ),
                         Gap(20),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -197,7 +220,7 @@ class ProjectPage extends GetView<ProjectController> {
             child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  final item = controller.filteredProject.value[index];
+                  final item = controller.listProjectRenctly.value[index];
 
                   return GestureDetector(
                     onTap: () => CommonHelper.onTapHandler(callback: () {
@@ -263,17 +286,11 @@ class ProjectPage extends GetView<ProjectController> {
                           Positioned(
                             top: SizeApp.setSize(percent: .02),
                             left: SizeApp.setSizeWithWidth(percent: .03),
-                            child: Container(
-                              width: SizeApp.setSize(percent: .06),
-                              height: SizeApp.setSize(percent: .06),
-                              decoration: BoxDecoration(
-                                color: CommonHelper.randomColorGenerator(),
-                                borderRadius: BorderRadius.circular(5.sp),
-                              ),
-                              child: Icon(
-                                Icons.polyline_rounded,
-                                color: Colors.white,
-                                size: 36.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5.sp),
+                              child: AppImage(
+                                item.avatar,
+                                width: SizeApp.setSizeWithWidth(percent: .13),
                               ),
                             ),
                           ),
@@ -287,7 +304,7 @@ class ProjectPage extends GetView<ProjectController> {
                     width: 10.sp,
                   );
                 },
-                itemCount: controller.filteredProject.length),
+                itemCount: controller.listProjectRenctly.length),
           )
         ],
       ),

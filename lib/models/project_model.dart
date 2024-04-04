@@ -84,5 +84,6 @@ class ProjectModel {
   Map<String, dynamic> toMapUpdate() => {
         "key": key,
         "name": name,
+        "avatar": avatar,
       };
 }

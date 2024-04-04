@@ -46,10 +46,7 @@ class AvataHeaderWidget extends GetView<HomeController> {
                 decoration: BoxDecoration(
                   color: ColorResources.GREY.withOpacity(.5),
                 ),
-                child: AppImage(
-                    controller.avatar == ""
-                        ? ImagesPath.logoApp
-                        : controller.avatar,
+                child: AppImage(controller.avatar == "" ? ImagesPath.logoApp : controller.avatar,
                     width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
               ),
             ),

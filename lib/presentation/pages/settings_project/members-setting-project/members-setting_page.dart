@@ -31,11 +31,7 @@ class MembersSettingPage extends GetView<MembersController> {
                       Get.dialog(
                         Dialog(
                           child: Container(
-                            padding: EdgeInsets.only(
-                                top: 20.sp,
-                                left: 10.sp,
-                                right: 10.sp,
-                                bottom: 20.sp),
+                            padding: EdgeInsets.only(top: 20.sp, left: 10.sp, right: 10.sp, bottom: 20.sp),
                             width: SizeApp.getMaxWidth(),
                             constraints: BoxConstraints(
                               maxHeight: SizeApp.setSize(percent: .58),
@@ -52,8 +48,7 @@ class MembersSettingPage extends GetView<MembersController> {
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
-                                    color:
-                                        ColorResources.MAIN_APP.withOpacity(.7),
+                                    color: ColorResources.MAIN_APP.withOpacity(.7),
                                   ),
                                 ),
                                 Gap(5.sp),
@@ -65,8 +60,7 @@ class MembersSettingPage extends GetView<MembersController> {
                                       style: TextStyle(
                                         fontSize: 11.sp,
                                         fontWeight: FontWeight.w500,
-                                        color:
-                                            ColorResources.RED.withOpacity(.5),
+                                        color: ColorResources.RED.withOpacity(.5),
                                       ),
                                     ),
                                   ),
@@ -81,22 +75,20 @@ class MembersSettingPage extends GetView<MembersController> {
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK
-                                            .withOpacity(.5),
+                                        color: ColorResources.BLACK.withOpacity(.5),
                                       ),
                                     ),
                                   ],
                                 ),
                                 Gap(10.sp),
                                 Container(
-                                  width: 200.sp,
-                                  height: 200.sp,
-                                  color:
-                                      ColorResources.MAIN_APP.withOpacity(.2),
+                                  width: SizeApp.setSize(percent: .22),
+                                  height: SizeApp.setSize(percent: .22),
+                                  color: ColorResources.MAIN_APP.withOpacity(.2),
                                   child: QrImageView(
                                     data: controller.linkProject,
                                     version: QrVersions.auto,
-                                    size: 200.0,
+                                    size: SizeApp.setSize(percent: .22),
                                   ),
                                 ),
                                 Gap(10.sp),
@@ -105,14 +97,12 @@ class MembersSettingPage extends GetView<MembersController> {
                                   child: Center(
                                     child: Text(
                                       controller.linkProject,
-                                      textWidthBasis:
-                                          TextWidthBasis.longestLine,
+                                      textWidthBasis: TextWidthBasis.longestLine,
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK
-                                            .withOpacity(.5),
+                                        color: ColorResources.BLACK.withOpacity(.5),
                                       ),
                                     ),
                                   ),
@@ -123,20 +113,18 @@ class MembersSettingPage extends GetView<MembersController> {
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        Get.back();
+                                        Navigator.pop(context);
                                       },
                                       child: Text("Cancel".tr),
                                     ),
                                     AppButton(
                                         padding: EdgeInsets.all(8),
-                                        colorBorder:
-                                            ColorResources.GREY.withOpacity(.5),
+                                        colorBorder: ColorResources.GREY.withOpacity(.5),
                                         onTap: () {
                                           controller.copyToClipboard(context);
                                         },
                                         label: "Copy".tr,
-                                        colorText: ColorResources.MAIN_APP
-                                            .withOpacity(.7),
+                                        colorText: ColorResources.MAIN_APP.withOpacity(.7),
                                         type: AppButtonType.OUTLINE,
                                         width: 80.sp,
                                         borderRadius: 5,
