@@ -117,9 +117,9 @@ class AuthModel {
 
   factory AuthModel.fromJson(String source) => AuthModel.fromMap(json.decode(source) as Map<String, dynamic>);
   // lấy tên người dùng khi có id
-  String getFullName(String id, List<AuthModel> list) {
+  AuthModel getUser(String id, List<AuthModel> list) {
     final user = list.firstWhere((element) => element.id == id, orElse: () => AuthModel());
-    return user.full_name ?? '';
+    return user;
   }
 
   @override

@@ -7,17 +7,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
+import 'package:test_intern/isar/rencetly_task_service.dart';
+import 'package:test_intern/isar/task_recent.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/board_model.dart';
 import 'package:test_intern/models/comment_model.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/issue/issue_controller.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
+import 'package:test_intern/presentation/pages/project/project_controller.dart';
 import 'package:test_intern/repositories/board_repository.dart';
 import 'package:test_intern/repositories/comment_reponsitory.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
-import 'package:test_intern/resources/end-point.dart';
+
 import 'package:test_intern/resources/export/core_export.dart';
 import 'package:test_intern/services/socket_io/socket_io.dart';
 
@@ -58,7 +61,7 @@ class TaskDetailController extends GetxController {
   RxBool isSendComment = false.obs;
 
   RxBool isfocusComment = false.obs;
-
+  RecentlyTask recentlyTask = RecentlyTask();
   @override
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
@@ -70,6 +73,7 @@ class TaskDetailController extends GetxController {
 
     await getMembers();
     await getSubTask();
+
     super.onInit();
   }
 
@@ -123,6 +127,18 @@ class TaskDetailController extends GetxController {
           filterData.add(item.name);
         }
         dataFilter.value = filterData[0];
+        recentlyTask.addTaskRenctly(TaskRecent(
+          idTask: idTask,
+          idProject: idProject.value,
+          name: titleTask.text,
+          description: decriptionTask.text,
+          issueType: issueTypeName.value,
+          nameProject:
+              Get.find<ProjectController>().listProject.where((element) => element.id == idProject.value).first.name,
+          avatarProject:
+              Get.find<ProjectController>().listProject.where((element) => element.id == idProject.value).first.avatar,
+          // lấy tên project từ id project
+        ));
       }, onError: (error) {});
     }, onError: (error) {});
     isLoading.value = false;

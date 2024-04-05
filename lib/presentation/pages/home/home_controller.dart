@@ -1,4 +1,7 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:core';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:feedback/feedback.dart';
@@ -8,6 +11,7 @@ import 'package:get_it/get_it.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
+import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/presentation/pages/home/rate_us_dialog.dart';
 import 'package:test_intern/presentation/pages/home/show_diaolog.dart';
@@ -22,6 +26,7 @@ class HomeController extends GetxController {
       sl.get<SharedPreferenceHelper>();
   AuthRepository _authRepository = GetIt.I.get<AuthRepository>();
   static const String UPDATE_RATE_US = 'UPDATE_RATE_US';
+  RxList listTaskRecent = [].obs;
 
   RxList users = [].obs;
   String idUser = '';
@@ -32,6 +37,7 @@ class HomeController extends GetxController {
   Future<void> onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     await getUser();
+    await getTaskRecently();
     super.onInit();
   }
 
@@ -43,6 +49,12 @@ class HomeController extends GetxController {
       users.refresh();
     }, onError: (e) {});
     isLoading.value = false;
+  }
+
+  Future<void> getTaskRecently() async {
+    await Get.find<RecentlyTask>().getDataIsar();
+    listTaskRecent.value = await Get.find<RecentlyTask>().listTaskRenctly.value;
+    listTaskRecent.refresh();
   }
 
   void ontapSetting(int index) {
