@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:test_intern/core/hepler/app-validate.dart';
@@ -156,6 +157,30 @@ class AuthRepository {
       log('Change password $_results');
 
       onSuccess(_results);
+    }
+  }
+
+  // saveAvatar
+  Future<void> updateAvatar({
+    required File file,
+    required Function(AuthModel data) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    Response<dynamic>? response;
+    const String _uri = EndPoints.saveAvatar;
+
+    try {
+      response = await _dio.post(_uri, data:  FormData.fromMap({'file': await MultipartFile.fromFile(file.path)}));
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      final _results = response.data as dynamic;
+
+      log('Save avatar $_results');
+
+      onSuccess(AuthModel.fromMap(_results as Map<String, dynamic>));
     }
   }
 

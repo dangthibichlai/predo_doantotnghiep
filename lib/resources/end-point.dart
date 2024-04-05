@@ -18,4 +18,5 @@ class EndPoints {
   static const String sendOTP = '/auth/send-otp';
   static const String changePassword = '/users/update-password/phone';
   static const String signout = '/auth/sign-out';
+  static const String saveAvatar = '/uploads/avatar';
 }

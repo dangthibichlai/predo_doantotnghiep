@@ -1,13 +1,12 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'dart:core';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:feedback/feedback.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
@@ -27,11 +26,13 @@ class HomeController extends GetxController {
   AuthRepository _authRepository = GetIt.I.get<AuthRepository>();
   static const String UPDATE_RATE_US = 'UPDATE_RATE_US';
   RxList listTaskRecent = [].obs;
-
-  RxList users = [].obs;
+  Rx<File> fileAvatar = File('').obs;
+  RxBool isShowSaveAvatar = false.obs;
+  Rx<AuthModel> user = AuthModel().obs;
   String idUser = '';
   RxBool isLoading = true.obs;
   String avatar = '';
+  File? fileAvatarPicker;
 
   @override
   Future<void> onInit() async {
@@ -44,12 +45,14 @@ class HomeController extends GetxController {
   Future<void> getUser() async {
     isLoading.value = true;
     await _authRepository.find(idUser, onSuccess: (data) {
-      users.add(data);
-      avatar = users.first.avatar;
-      users.refresh();
+      user.value = data;
     }, onError: (e) {});
     isLoading.value = false;
   }
+  void getFileFromPicket(File? file) {
+    fileAvatarPicker = file;
+  }
+  
 
   Future<void> getTaskRecently() async {
     await Get.find<RecentlyTask>().getDataIsar();
@@ -254,6 +257,32 @@ class HomeController extends GetxController {
         },
       ),
       isAllowCloseOutSize: false,
+    );
+  }
+
+  Future<void> pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      fileAvatar.value = File(pickedFile.path);
+      isShowSaveAvatar.value = true;
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  void saveAvatar() async {
+    await _authRepository.updateAvatar(
+      file: fileAvatar.value!,
+      onSuccess: (data) async {
+        await getUser();
+
+        // Xử lý thành công
+        print('Avatar saved successfully.');
+      },
+      onError: (error) {
+        // Xử lý lỗi
+        print('Failed to save avatar: $error');
+      },
     );
   }
 

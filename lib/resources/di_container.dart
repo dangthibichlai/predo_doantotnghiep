@@ -29,6 +29,7 @@ Future<void> init() async {
   // ExternalshowADS(context)
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferenceHelper>(SharedPreferenceHelper(sharedPreferences));
+
   sl.registerSingleton<LoggingInterceptor>(LoggingInterceptor());
   sl.registerSingleton<DioClient>(DioClient());
   sl.registerLazySingleton<NotificationRepository>(() => NotificationRepository());

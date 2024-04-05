@@ -4,6 +4,7 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
+import 'package:test_intern/presentation/widget/change_avatar.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -14,231 +15,261 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      body: Obx(
-        () => controller.isLoading.value
-            ? Center(child: LoadingApp())
-            : Padding(
-                padding: SizeApp.setEdgeInsetsOnly(
-                  left: 10.sp,
-                  right: 10.sp,
-                  top: SizeApp.setSize(percent: .019),
-                ),
-                child: Column(children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          CommonHelper.onTapHandler(callback: () {
-                            showFlexibleBottomSheet(
-                              duration: Duration(milliseconds: 500),
-                              minHeight: 0,
-                              initHeight: 1,
-                              maxHeight: 1,
-                              context: context,
-                              builder: buildBottomSheet,
-                              isExpand: false,
-                            );
-                          });
-                        },
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                          child: Container(
-                            width: SizeApp.setSize(percent: 0.04),
-                            height: SizeApp.setSize(percent: 0.04),
-                            decoration: BoxDecoration(
-                              color: ColorResources.GREY.withOpacity(.5),
+      body: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        child: Obx(
+          () => controller.isLoading.value
+              ? Container(height: SizeApp.getMaxHeight(), alignment: Alignment.center, child: LoadingApp())
+              : Padding(
+                  padding: SizeApp.setEdgeInsetsOnly(
+                    left: 10.sp,
+                    right: 10.sp,
+                    top: SizeApp.setSize(percent: .019),
+                  ),
+                  child: Column(children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            CommonHelper.onTapHandler(callback: () {
+                              showFlexibleBottomSheet(
+                                duration: Duration(milliseconds: 500),
+                                minHeight: 0,
+                                initHeight: 1,
+                                maxHeight: 1,
+                                context: context,
+                                builder: buildBottomSheet,
+                                isExpand: false,
+                              );
+                            });
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                            child: Container(
+                              width: SizeApp.setSize(percent: 0.04),
+                              height: SizeApp.setSize(percent: 0.04),
+                              decoration: BoxDecoration(
+                                color: ColorResources.GREY.withOpacity(.5),
+                              ),
+                              child: AppImage(ImagesPath.logoApp,
+                                  width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
                             ),
-                            child: AppImage(ImagesPath.logoApp,
-                                width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
                           ),
                         ),
-                      ),
-                      Gap(15),
-                      Text(
-                        'Predo',
-                        style: GoogleFonts.pacifico(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w500,
-                          color: ColorResources.MAIN_APP,
+                        Gap(15),
+                        Text(
+                          'Predo',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.MAIN_APP,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 10.sp, left: 15.sp, right: 15.sp, bottom: 15.sp),
-                    margin: EdgeInsets.only(
-                        top: SizeApp.setSize(percent: .05),
-                        left: SizeApp.setSizeWithWidth(percent: .02),
-                        right: SizeApp.setSizeWithWidth(percent: .02),
-                        bottom: SizeApp.setSize(percent: .035)),
-                    decoration: BoxDecoration(
-                        color: ColorResources.BGAPP,
-                        borderRadius: BorderRadius.circular(10.sp),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(255, 202, 204, 209).withOpacity(.5),
-                            spreadRadius: 1,
-                            blurRadius: 1,
-                            offset: Offset(0, 1),
-                          )
-                        ]),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [Text("home_01".tr.toUpperCase())],
-                        ),
-                        Gap(10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                ClipOval(
-                                  child: AppImage(
-                                    controller.users.value[0].avatar ?? '',
-                                    width: SizeApp.setSize(percent: .1),
-                                    height: SizeApp.setSize(percent: .1),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    size: 25, // Kích thước của biểu tượng máy ảnh
-                                    color: Colors.black.withOpacity(.6), // Màu sắc của biểu tượng máy ảnh
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // ClipOval(
-                            //     child: AppImage(
-                            //   controller.users.value[0].avatar ?? '',
-                            //   width: SizeApp.setSize(percent: .1),
-                            //   height: SizeApp.setSize(percent: .1),
-                            // )),
-                            Gap(20),
-                            Column(
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 10.sp, left: 15.sp, right: 15.sp, bottom: 15.sp),
+                      margin: EdgeInsets.only(
+                          top: SizeApp.setSize(percent: .05),
+                          left: SizeApp.setSizeWithWidth(percent: .02),
+                          right: SizeApp.setSizeWithWidth(percent: .02),
+                          bottom: SizeApp.setSize(percent: .035)),
+                      decoration: BoxDecoration(
+                          color: ColorResources.BGAPP,
+                          borderRadius: BorderRadius.circular(10.sp),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(255, 202, 204, 209).withOpacity(.5),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset: Offset(0, 1),
+                            )
+                          ]),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("home_01".tr.toUpperCase()),
+                            ],
+                          ),
+                          Gap(10),
+                          Obx(
+                            () => Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Gap(10),
-                                Text(
-                                  controller.users.value[0].full_name ?? '',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                // InkWell(
+                                //   onTap: () {
+                                //     controller.pickImage();
+                                //   },
+                                //   child: Stack(
+                                //     children: [
+
+                                //       ClipOval(
+                                //         child: AppImage(
+                                //           controller.fileAvatar.value.toString(),
+                                //           width: SizeApp.setSize(percent: .1),
+                                //           height: SizeApp.setSize(percent: .1),
+                                //         ),
+                                //       ),
+                                //       Positioned(
+                                //         bottom: 0,
+                                //         right: 0,
+                                //         child: controller.isShowSaveAvatar.value
+                                //             ? AppButton(
+                                //                 padding: REdgeInsets.only(right: 2, top: 2, bottom: 2),
+                                //                 onTap: () {
+                                //                   Get.toNamed(HomeRouter.CREATEPROJECT);
+                                //                 },
+                                //                 width: SizeApp.setSizeWithWidth(percent: .12),
+                                //                 height: 20,
+                                //                 label: 'Save changes'.tr,
+                                //                 borderRadius: 5,
+                                //                 fontSizedLabel: 11.sp,
+                                //                 colorBG: ColorResources.MAIN_APP,
+                                //               )
+                                //             : Icon(
+                                //                 Icons.camera_alt,
+                                //                 size: 25, // Kích thước của biểu tượng máy ảnh
+                                //                 color: Colors.black.withOpacity(.6), // Màu sắc của biểu tượng máy ảnh
+                                //               ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                Obx(
+                                  () => ChangeAvatarWidget(
+                                    callBackPickFile: (file) {
+                                      controller.getFileFromPicket(file);
+                                    },
+                                    imagePath: controller.user.value.avatar,
+                                    isEdit: true,
+                                    isAvatar: true,
+                                  ),
                                 ),
-                                Gap(2),
-                                Text(controller.users.value[0].email ?? '',
-                                    maxLines: 1, overflow: TextOverflow.ellipsis),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Recently viewed tasks".tr,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  Obx(
-                    () => controller.listTaskRecent.value.length == 0
-                        ? InkWell(
-                            onTap: () {
-                              Get.toNamed(HomeRouter.CREATEPROJECT);
-                            },
-                            child: Column(
-                              children: [
                                 Gap(20),
-                                AppImage(
-                                  ImagesPath.imgHomeRecentEmpty,
-                                  width: SizeApp.setSizeWithWidth(percent: .5),
-                                ),
-                                Gap(10),
-                                Text(
-                                  "No recent tasks".tr,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                ),
-                                Gap(20),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Gap(10),
+                                    Text(
+                                      controller.user.value.full_name ?? '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                    ),
+                                    Gap(2),
+                                    Text(controller.user.value.email ?? '',
+                                        maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  ],
+                                )
                               ],
                             ),
                           )
-                        : Container(
-                            margin: EdgeInsets.only(
-                                top: SizeApp.setSize(percent: .02), bottom: SizeApp.setSize(percent: .04)),
-                            constraints: BoxConstraints(
-                              maxHeight: SizeApp.setSize(percent: .3),
-                              minHeight: SizeApp.setSize(percent: .1),
-                            ),
-                            child: Obx(
-                              () => GridView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                // shrinkWrap: true,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 2.7,
-                                  crossAxisSpacing: 10.sp,
-                                  mainAxisSpacing: 10.sp,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final task = controller.listTaskRecent.value[index];
-                                  return InkWell(
-                                    onTap: () {
-                                      Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': task.idTask});
-                                    },
-                                    child: Container(
-                                        padding: EdgeInsets.all(5.sp),
-                                        decoration: BoxDecoration(
-                                          color: ColorResources.BGAPP,
-                                          borderRadius: BorderRadius.circular(10.sp),
-                                        ),
-                                        child: Row(children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
-                                            child: AppImage(
-                                              task.avatarProject ?? '',
-                                              width: SizeApp.setSize(percent: .04),
-                                              height: SizeApp.setSize(percent: .04),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Recently viewed tasks".tr,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    Obx(
+                      () => controller.listTaskRecent.value.length == 0
+                          ? InkWell(
+                              onTap: () {
+                                Get.toNamed(HomeRouter.CREATEPROJECT);
+                              },
+                              child: Column(
+                                children: [
+                                  Gap(20),
+                                  AppImage(
+                                    ImagesPath.imgHomeRecentEmpty,
+                                    width: SizeApp.setSizeWithWidth(percent: .5),
+                                  ),
+                                  Gap(10),
+                                  Text(
+                                    "No recent tasks".tr,
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                  ),
+                                  Gap(20),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeApp.setSize(percent: .02), bottom: SizeApp.setSize(percent: .04)),
+                              constraints: BoxConstraints(
+                                maxHeight: SizeApp.setSize(percent: .3),
+                                minHeight: SizeApp.setSize(percent: .1),
+                              ),
+                              child: Obx(
+                                () => GridView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 2.7,
+                                    crossAxisSpacing: 10.sp,
+                                    mainAxisSpacing: 10.sp,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final task = controller.listTaskRecent.value[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': task.idTask});
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.all(5.sp),
+                                          decoration: BoxDecoration(
+                                            color: ColorResources.BGAPP,
+                                            borderRadius: BorderRadius.circular(10.sp),
+                                          ),
+                                          child: Row(children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(5),
+                                              child: AppImage(
+                                                task.avatarProject ?? '',
+                                                width: SizeApp.setSize(percent: .04),
+                                                height: SizeApp.setSize(percent: .04),
+                                              ),
                                             ),
-                                          ),
-                                          Gap(5),
-                                          Expanded(
-                                            child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    task.name ?? '',
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
-                                                  Text(
-                                                    task.nameProject ?? '',
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
-                                                ]),
-                                          ),
-                                        ])),
-                                  );
-                                },
-                                itemCount: controller.listTaskRecent.take(6).length,
+                                            Gap(5),
+                                            Expanded(
+                                              child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      task.name ?? '',
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                      task.nameProject ?? '',
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ])),
+                                    );
+                                  },
+                                  itemCount: controller.listTaskRecent.take(6).length,
+                                ),
                               ),
                             ),
-                          ),
-                  ),
-                  feedback(),
-                  Gap(10),
-                ]),
-              ),
+                    ),
+                    feedback(),
+                    Gap(10),
+                  ]),
+                ),
+        ),
       ),
     );
   }
