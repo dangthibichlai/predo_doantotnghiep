@@ -81,7 +81,7 @@ class ProjectController extends GetxController {
 
     await isarProjectRepository.getAll(onSuccess: (data) {
       if (data.isNotEmpty) {
-        listProjectRenctly.value = data;
+        listProjectRenctly.value = data.reversed.toList();
         listProjectRenctly.refresh();
       }
 

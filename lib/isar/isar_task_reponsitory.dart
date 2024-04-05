@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
 import 'package:isar/isar.dart';
-import 'package:test_intern/isar/project.dart';
+import 'package:test_intern/isar/task_recent.dart';
 
-class IsarProjectRepository {
+class IsarTaskRepository {
   final Isar isar;
 
-  IsarProjectRepository(this.isar);
+  IsarTaskRepository(this.isar);
 
   ///
   /// Paginate audio.
@@ -16,8 +16,8 @@ class IsarProjectRepository {
     required Function(dynamic error) onError,
   }) async {
     try {
-      // lấy 4 project đầu tiên
-      final List<dynamic> _result = await isar.projects.where().limit(4).findAll();
+      // lấy  4 công việc  đầu tiên
+      final List<dynamic> _result = await isar.taskRecents.where().limit(6).findAll();
       onSuccess(_result);
     } catch (e) {
       onError(e);
@@ -25,37 +25,37 @@ class IsarProjectRepository {
     }
   }
 
-  Future<void> deleteProjectById({
-    required int id,
-    required Function(bool result) onSuccess,
-    required Function(dynamic error) onError,
-  }) async {
-    try {
-      bool result = false;
-      await isar.writeTxn(() async {
-        result = await isar.projects.delete(id);
-      });
-      onSuccess(result);
-    } catch (e) {
-      print(e.toString());
-      onError(e);
-      return;
-    }
-  }
+  // Future<void> deleteTaskById({
+  //   required int id,
+  //   required Function(bool result) onSuccess,
+  //   required Function(dynamic error) onError,
+  // }) async {
+  //   try {
+  //     bool result = false;
+  //     await isar.writeTxn(() async {
+  //       result = await isar.taskRecents.delete(id);
+  //     });
+  //     onSuccess(result);
+  //   } catch (e) {
+  //     print(e.toString());
+  //     onError(e);
+  //     return;
+  //   }
+  // }
 
-// xóa project bằng idProject
-  Future<void> deleteProjectByIdProject({
-    required String idProject,
+// xóa taskRecents bằng idTask
+  Future<void> deleteTaskByIdTask({
+    required String idTask,
     required Function(bool result) onSuccess,
     required Function(dynamic error) onError,
   }) async {
     try {
       bool result = false;
       await isar.writeTxn(() async {
-        // Thay đổi điều kiện lọc ở đây để sử dụng idProject
-        var projectToDelete = await isar.projects.where().filter().idProjectEqualTo(idProject).findFirst();
-        if (projectToDelete != null) {
-          result = await isar.projects.delete(projectToDelete.id);
+        // Thay đổi điều kiện lọc ở đây để sử dụng idtaskRecents
+        var taskRecentsToDelete = await isar.taskRecents.where().filter().idTaskEqualTo(idTask).findFirst();
+        if (taskRecentsToDelete != null) {
+          result = await isar.taskRecents.delete(taskRecentsToDelete.id);
         }
       });
       onSuccess(result);
@@ -73,7 +73,7 @@ class IsarProjectRepository {
     try {
       int result = 0;
       await isar.writeTxn(() async {
-        result = await isar.projects.where().deleteAll();
+        result = await isar.taskRecents.where().deleteAll();
       });
       onSuccess(result);
     } catch (e) {
@@ -87,14 +87,15 @@ class IsarProjectRepository {
   /// Paginate audio.
   ///
   Future<void> insertAndUpdate({
-    required dynamic project,
+    required dynamic task,
     required Function(int? id) onSuccess,
     required Function(dynamic error) onError,
   }) async {
     try {
       int? id;
       await isar.writeTxn(() async {
-        id = await isar.projects.put(project); // insert & update
+        // chèn vào vị trí đầu
+        id = await isar.taskRecents.put(task);
       });
       onSuccess(id);
     } catch (e) {

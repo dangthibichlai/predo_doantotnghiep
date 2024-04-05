@@ -1,5 +1,7 @@
 import 'package:isar/isar.dart';
+part 'task_recent.g.dart';
 
+@collection
 class TaskRecent {
   Id id = Isar.autoIncrement;
 
@@ -9,7 +11,8 @@ class TaskRecent {
   String? idUser;
   String? name;
   String? description;
-  String? status;
+  String? issueType;
+  String? avatarProject;
 
   TaskRecent({
     this.idTask,
@@ -17,7 +20,8 @@ class TaskRecent {
     this.idUser,
     this.name,
     this.description,
-    this.status,
     this.nameProject,
+    this.issueType,
+    this.avatarProject,
   });
 }

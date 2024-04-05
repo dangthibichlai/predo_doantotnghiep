@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/resources/export/core_export.dart';
@@ -12,6 +13,7 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: Obx(
         () => controller.isLoading.value
             ? Center(child: LoadingApp())
@@ -68,7 +70,7 @@ class HomePage extends GetView<HomeController> {
                         top: SizeApp.setSize(percent: .05),
                         left: SizeApp.setSizeWithWidth(percent: .02),
                         right: SizeApp.setSizeWithWidth(percent: .02),
-                        bottom: SizeApp.setSize(percent: .02)),
+                        bottom: SizeApp.setSize(percent: .035)),
                     decoration: BoxDecoration(
                         color: ColorResources.BGAPP,
                         borderRadius: BorderRadius.circular(10.sp),
@@ -138,25 +140,101 @@ class HomePage extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.sp),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 202, 204, 209).withOpacity(.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: Offset(0, 1),
-                                )
-                              ]),
-                          child: Row(
-                            children: [
-                              Column(),
-                            ],
-                          ))),
-                  Gap(10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Recently viewed tasks".tr,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  Obx(
+                    () => controller.listTaskRecent.value.length == 0
+                        ? InkWell(
+                            onTap: () {
+                              Get.toNamed(HomeRouter.CREATEPROJECT);
+                            },
+                            child: Column(
+                              children: [
+                                Gap(20),
+                                AppImage(
+                                  ImagesPath.imgHomeRecentEmpty,
+                                  width: SizeApp.setSizeWithWidth(percent: .5),
+                                ),
+                                Gap(10),
+                                Text(
+                                  "No recent tasks".tr,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                ),
+                                Gap(20),
+                              ],
+                            ),
+                          )
+                        : Container(
+                            margin: EdgeInsets.only(
+                                top: SizeApp.setSize(percent: .02), bottom: SizeApp.setSize(percent: .04)),
+                            constraints: BoxConstraints(
+                              maxHeight: SizeApp.setSize(percent: .3),
+                              minHeight: SizeApp.setSize(percent: .1),
+                            ),
+                            child: Obx(
+                              () => GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                // shrinkWrap: true,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 2.7,
+                                  crossAxisSpacing: 10.sp,
+                                  mainAxisSpacing: 10.sp,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final task = controller.listTaskRecent.value[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': task.idTask});
+                                    },
+                                    child: Container(
+                                        padding: EdgeInsets.all(5.sp),
+                                        decoration: BoxDecoration(
+                                          color: ColorResources.BGAPP,
+                                          borderRadius: BorderRadius.circular(10.sp),
+                                        ),
+                                        child: Row(children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(5),
+                                            child: AppImage(
+                                              task.avatarProject ?? '',
+                                              width: SizeApp.setSize(percent: .04),
+                                              height: SizeApp.setSize(percent: .04),
+                                            ),
+                                          ),
+                                          Gap(5),
+                                          Expanded(
+                                            child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    task.name ?? '',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  Text(
+                                                    task.nameProject ?? '',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ]),
+                                          ),
+                                        ])),
+                                  );
+                                },
+                                itemCount: controller.listTaskRecent.take(6).length,
+                              ),
+                            ),
+                          ),
+                  ),
                   feedback(),
                   Gap(10),
                 ]),

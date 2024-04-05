@@ -1,4 +1,6 @@
 const Map<String, String> vi = {
+  'No recent tasks': 'Tạo dự án mới',
+  'Recently viewed tasks': 'Công việc đã xem gần đây',
   'title_Home': 'Đồng hành cùng bạn trong mọi công việc',
   'home_01': "Thông tin cá nhân",
   'PIE CHART': 'BIỂU ĐỒ TRÒN',
