@@ -9,6 +9,8 @@ mixin ImagesPath {
   static String imgPieChart2 = 'assets/features/pie_chart_sample_2.gif';
   static String backgraoundGeneral = 'assets/features/Text to audio.png';
   static String permissionIcOpen = 'assets/features/permission_ic_open_setting.svg';
+  static String cameraIc = 'assets/features/camera_icon.svg';
+  static String icGallery = 'assets/features/ic_gallery.svg';
 
   //home image
   static String imgHomeAccessEmpty = 'assets/features/home/quick_access_empty.png';

@@ -1,4 +1,8 @@
 const Map<String, String> vi = {
+  'Save success': 'c',
+  'Save changes': 'Lưu',
+  'action_09': 'Chụp ảnh',
+  'action_10': 'Thư viện',
   'No recent tasks': 'Tạo dự án mới',
   'Recently viewed tasks': 'Công việc đã xem gần đây',
   'title_Home': 'Đồng hành cùng bạn trong mọi công việc',

@@ -27,27 +27,32 @@ class AvataHeaderWidget extends GetView<HomeController> {
         });
       },
       child: typeSquare ?? false
-          ? Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: ClipOval(
-                child: AppImage(
-                  controller.avatar == "" ? ImagesPath.logoApp : controller.avatar,
-                  width: SizeApp.setSizeWithWidth(percent: 0.1),
-                  height: SizeApp.setSizeWithWidth(percent: 0.1),
+          ? Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: ClipOval(
+                  child: AppImage(
+                    controller.user.value.avatar == "" ? ImagesPath.logoApp : controller.user.value.avatar!,
+                    width: SizeApp.setSizeWithWidth(percent: 0.1),
+                    height: SizeApp.setSizeWithWidth(percent: 0.1),
+                  ),
                 ),
               ),
             )
-          : ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              //add border radius here
-              child: Container(
-                width: SizeApp.setSize(percent: 0.04),
-                height: SizeApp.setSize(percent: 0.04),
-                decoration: BoxDecoration(
-                  color: ColorResources.GREY.withOpacity(.5),
+          : Obx(
+              () => ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                //add border radius here
+                child: Container(
+                  width: SizeApp.setSize(percent: 0.04),
+                  height: SizeApp.setSize(percent: 0.04),
+                  decoration: BoxDecoration(
+                    color: ColorResources.GREY.withOpacity(.5),
+                  ),
+                  child: AppImage(
+                      controller.user.value.avatar == "" ? ImagesPath.logoApp : controller.user.value.avatar!,
+                      width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
                 ),
-                child: AppImage(controller.avatar == "" ? ImagesPath.logoApp : controller.avatar,
-                    width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
               ),
             ),
     );

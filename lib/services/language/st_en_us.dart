@@ -1,5 +1,9 @@
 const Map<String, String> en = {
   //'Đồng hành cùng bạn trong mọi công việc'
+  'Save success': 'Save success',
+  'Save changes': 'Save',
+  'action_09': 'Take photo',
+  'action_10': 'Library',
   'No recent tasks': 'Create new project',
   'Recently viewed tasks': 'Recently viewed tasks',
   'title_Home': 'Accompany you in every job',

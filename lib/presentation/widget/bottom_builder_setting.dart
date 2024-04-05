@@ -43,20 +43,18 @@ Widget buildBottomSheet(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        // margin:  EdgeInsets.all(SizeApp.setSize(percent: .019)),
-                        child: ClipOval(
-                          // borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                          //add border radius here
-                          child: Container(
-                            width: SizeApp.setSize(percent: 0.04),
-                            height: SizeApp.setSize(percent: 0.04),
-                            decoration: const BoxDecoration(
-                              color: ColorResources.GREY,
+                      Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(right: 15.0),
+                          child: ClipOval(
+                            child: AppImage(
+                              Get.find<HomeController>().user.value.avatar == ""
+                                  ? ImagesPath.logoApp
+                                  : Get.find<HomeController>().user.value.avatar!,
+                              width: SizeApp.setSizeWithWidth(percent: 0.1),
+                              height: SizeApp.setSizeWithWidth(percent: 0.1),
                             ),
-                            child: Image.network(
-                                'https://static.vecteezy.com/system/resources/previews/011/675/382/original/man-avatar-image-for-profile-png.png'),
-                          ), //add image location here
+                          ),
                         ),
                       ),
                       Gap(15),
@@ -65,12 +63,12 @@ Widget buildBottomSheet(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            Get.find<HomeController>().users.value[0].full_name ?? '',
+                            Get.find<HomeController>().user.value.full_name ?? '',
                             style: GoogleFonts.lexend(
                                 fontWeight: FontWeight.w400, fontSize: 13.sp, color: ColorResources.MAIN_APP),
                           ),
                           Text(
-                            Get.find<HomeController>().users.value[0].email ?? '',
+                            Get.find<HomeController>().user.value.email ?? '',
                             style: GoogleFonts.lexend(
                                 fontWeight: FontWeight.w300, fontSize: 11.sp, color: ColorResources.BLACK),
                           ),
