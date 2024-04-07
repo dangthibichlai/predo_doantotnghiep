@@ -32,7 +32,9 @@ class AvataHeaderWidget extends GetView<HomeController> {
                 padding: const EdgeInsets.only(right: 15.0),
                 child: ClipOval(
                   child: AppImage(
-                    controller.user.value.avatar == "" ? ImagesPath.logoApp : controller.user.value.avatar!,
+                    controller.user.value.avatar == ""
+                        ? ImagesPath.logoApp
+                        : controller.user.value.avatar ?? ImagesPath.logoApp,
                     width: SizeApp.setSizeWithWidth(percent: 0.1),
                     height: SizeApp.setSizeWithWidth(percent: 0.1),
                   ),
@@ -50,7 +52,9 @@ class AvataHeaderWidget extends GetView<HomeController> {
                     color: ColorResources.GREY.withOpacity(.5),
                   ),
                   child: AppImage(
-                      controller.user.value.avatar == "" ? ImagesPath.logoApp : controller.user.value.avatar!,
+                      controller.user.value.avatar == ""
+                          ? ImagesPath.logoApp
+                          : controller.user.value.avatar ?? ImagesPath.logoApp,
                       width: SizeApp.setSizeWithWidth(percent: 0.1)), //add image location here
                 ),
               ),

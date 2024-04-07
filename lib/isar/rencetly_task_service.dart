@@ -13,11 +13,7 @@ class RecentlyTask extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    // await recently.deleteAll(onSuccess: (data) {
-    //   print("delete all task success");
-    // }, onError: (error) {
-    //   print("delete all task error");
-    // });
+ 
     await getDataIsar();
   }
 
@@ -64,5 +60,16 @@ class RecentlyTask extends GetxController {
       onError: (e) {},
     );
     isLoading.value = false;
+  }
+
+  // xóa tất cả task
+  Future<void> deleteAll() async {
+    await recently.deleteAll(
+      onSuccess: (data) {
+        listTaskRenctly.clear();
+        listTaskRenctly.refresh();
+      },
+      onError: (error) {},
+    );
   }
 }

@@ -1,7 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:bottom_sheet/bottom_sheet.dart';
-import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
 import 'package:test_intern/presentation/widget/change_avatar.dart';
@@ -98,71 +97,36 @@ class HomePage extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // InkWell(
-                                //   onTap: () {
-                                //     controller.pickImage();
-                                //   },
-                                //   child: Stack(
-                                //     children: [
-
-                                //       ClipOval(
-                                //         child: AppImage(
-                                //           controller.fileAvatar.value.toString(),
-                                //           width: SizeApp.setSize(percent: .1),
-                                //           height: SizeApp.setSize(percent: .1),
-                                //         ),
-                                //       ),
-                                //       Positioned(
-                                //         bottom: 0,
-                                //         right: 0,
-                                //         child: controller.isShowSaveAvatar.value
-                                //             ? AppButton(
-                                //                 padding: REdgeInsets.only(right: 2, top: 2, bottom: 2),
-                                //                 onTap: () {
-                                //                   Get.toNamed(HomeRouter.CREATEPROJECT);
-                                //                 },
-                                //                 width: SizeApp.setSizeWithWidth(percent: .12),
-                                //                 height: 20,
-                                //                 label: 'Save changes'.tr,
-                                //                 borderRadius: 5,
-                                //                 fontSizedLabel: 11.sp,
-                                //                 colorBG: ColorResources.MAIN_APP,
-                                //               )
-                                //             : Icon(
-                                //                 Icons.camera_alt,
-                                //                 size: 25, // Kích thước của biểu tượng máy ảnh
-                                //                 color: Colors.black.withOpacity(.6), // Màu sắc của biểu tượng máy ảnh
-                                //               ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
                                 Obx(
                                   () => ChangeAvatarWidget(
                                     callBackPickFile: (file) {
                                       controller.getFileFromPicket(file);
                                     },
-                                    imagePath: controller.user.value.avatar,
+                                    imagePath: controller.user.value.avatar == ""
+                                        ? ImagesPath.avataImg
+                                        : controller.user.value.avatar,
                                     isEdit: true,
                                     isAvatar: true,
                                   ),
                                 ),
                                 Gap(20),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Gap(10),
-                                    Text(
-                                      controller.user.value.full_name ?? '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                    ),
-                                    Gap(2),
-                                    Text(controller.user.value.email ?? '',
-                                        maxLines: 1, overflow: TextOverflow.ellipsis),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Gap(10),
+                                      Text(
+                                        controller.user.value.full_name ?? '',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                      ),
+                                      Gap(2),
+                                      Text(controller.user.value.email ?? '',
+                                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -205,7 +169,7 @@ class HomePage extends GetView<HomeController> {
                               margin: EdgeInsets.only(
                                   top: SizeApp.setSize(percent: .02), bottom: SizeApp.setSize(percent: .04)),
                               constraints: BoxConstraints(
-                                maxHeight: SizeApp.setSize(percent: .3),
+                                maxHeight: SizeApp.setSize(percent: .28),
                                 minHeight: SizeApp.setSize(percent: .1),
                               ),
                               child: Obx(
@@ -266,7 +230,7 @@ class HomePage extends GetView<HomeController> {
                             ),
                     ),
                     feedback(),
-                    Gap(10),
+                    Gap(20),
                   ]),
                 ),
         ),

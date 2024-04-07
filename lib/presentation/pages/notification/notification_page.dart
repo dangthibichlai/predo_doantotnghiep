@@ -14,6 +14,7 @@ import 'package:test_intern/core/hepler/smart_refresher.dart';
 import 'package:test_intern/presentation/pages/notification/notification_controller.dart';
 import 'package:test_intern/presentation/widget/avata_header.dart';
 import 'package:test_intern/presentation/widget/bottom_builder_setting.dart';
+import 'package:test_intern/presentation/widget/diolog.dart';
 import 'package:test_intern/resources/app_color.dart';
 import 'package:test_intern/resources/images_path.dart';
 
@@ -34,25 +35,35 @@ class NotificationPage extends GetView<NotificationController> {
               children: [
                 Text('Notifications'.tr, style: TextStyle(fontSize: 20.sp)),
                 Spacer(),
-                // IconButton(
-                //     onPressed: () {},
-                //     icon: Icon(
-                //       Icons.filter_list_rounded,
-                //       size: 24.sp,
-                //       color: ColorResources.BLACK.withOpacity(.5),
-                //     )),
                 AvataHeaderWidget(
                   typeSquare: true,
                 ),
-                IconButton(
-                    onPressed: () {
-                      controller.delete();
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      size: 24.sp,
-                      color: ColorResources.BLACK.withOpacity(.5),
-                    )),
+                controller.isLoading.value && controller.notification.length == 0
+                    ? IconButton(
+                        onPressed: () {
+                          Get.dialog(
+                            DiologApp(
+                              isInput: false,
+                              title: 'Delete All Notification'.tr,
+                              content: 'deleteAll_detail'.tr,
+                              nameButtonLeft: 'Move'.tr,
+                              onTap: () {
+                                // onTap delete
+                                controller.delete();
+                              },
+                            ),
+                            barrierDismissible: true,
+                            transitionCurve: Curves.easeInOut,
+                            useSafeArea: true,
+                          );
+                          // controller.delete();
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          size: 24.sp,
+                          color: ColorResources.BLACK.withOpacity(.5),
+                        ))
+                    : SizedBox()
               ],
             ),
           ),

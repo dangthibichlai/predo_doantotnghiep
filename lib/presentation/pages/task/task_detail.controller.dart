@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
+import 'package:test_intern/isar/isar_task_reponsitory.dart';
 import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/isar/task_recent.dart';
 import 'package:test_intern/models/auth_model.dart';
@@ -168,6 +169,11 @@ class TaskDetailController extends GetxController {
     );
   }
 
+  AuthModel getUser(String id) {
+    AuthModel user = AuthModel();
+    return user.getUser(id, listMembers.value as List<AuthModel>);
+  }
+
   void updateTask() {
     _taskReponsitory.update(
       id: idTask,
@@ -186,7 +192,7 @@ class TaskDetailController extends GetxController {
         final kabanProjectController = Get.find<KabanProjectController>();
         kabanProjectController.getProject();
         Get.find<IssueController>()
-            .getDoneIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
+            .getIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
         Get.find<PanelController>().getTaskDetail();
       },
       onError: (error) {},
@@ -350,5 +356,60 @@ class TaskDetailController extends GetxController {
                 ],
               )));
     });
+  }
+
+  // xóa task
+  Future<void> deleteTask() async {
+    EasyLoading.show(status: 'loading'.tr);
+    await _taskReponsitory.delete(
+      id: idTask,
+      onSuccess: (data) async {
+        EasyLoading.dismiss();
+
+        Get.back();
+        final _showToast = FToast();
+        _showToast.init(Get.context!);
+        _showToast.showToast(
+            child: Container(
+                alignment: Alignment.center,
+                width: SizeApp.setSizeWithWidth(percent: 0.8),
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppImage(
+                      ImagesPath.logoApp,
+                      width: 30.sp,
+                      height: 30.sp,
+                    ),
+                    Gap(5.0),
+                    const Text('Deleted task success!'),
+                  ],
+                )));
+        await Get.find<KabanProjectController>().getProject();
+        Get.find<IssueController>()
+            .getIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
+        Get.find<PanelController>().getTaskDetail();
+        RecentlyTask recentlyTask = RecentlyTask();
+        recentlyTask.listTaskRenctly.removeWhere((element) => element.idTask == idTask);
+        final recently = GetIt.I.get<IsarTaskRepository>();
+
+        await recently.deleteTaskByIdTask(
+          idTask: idTask,
+          onSuccess: (data) {},
+          onError: (error) {},
+        );
+
+        Get.back();
+      },
+      onError: (error) {
+        EasyLoading.dismiss();
+        AppAlert().info(message: error);
+      },
+    );
   }
 }

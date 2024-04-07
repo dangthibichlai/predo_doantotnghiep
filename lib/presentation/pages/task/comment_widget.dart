@@ -46,7 +46,7 @@ class CommentWidget extends GetView<TaskDetailController> {
             if (controller.listComments.value.length == 0 && !controller.isLoading.value) {
               return bodyEmpty();
             }
-          
+
             return Obx(
               () => ListView.builder(
                 shrinkWrap: true,

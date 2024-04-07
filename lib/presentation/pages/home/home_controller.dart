@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
+import 'package:test_intern/isar/isar_project_reponsitory.dart';
 import 'package:test_intern/isar/rencetly_task_service.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/presentation/pages/home/rate_us_dialog.dart';
@@ -21,8 +22,7 @@ import 'package:test_intern/services/social_auth/social_auth_service.dart';
 import '../../../resources/export/core_export.dart';
 
 class HomeController extends GetxController {
-  final SharedPreferenceHelper _sharedPreferenceHelper =
-      sl.get<SharedPreferenceHelper>();
+  final SharedPreferenceHelper _sharedPreferenceHelper = sl.get<SharedPreferenceHelper>();
   AuthRepository _authRepository = GetIt.I.get<AuthRepository>();
   static const String UPDATE_RATE_US = 'UPDATE_RATE_US';
   RxList listTaskRecent = [].obs;
@@ -49,10 +49,10 @@ class HomeController extends GetxController {
     }, onError: (e) {});
     isLoading.value = false;
   }
+
   void getFileFromPicket(File? file) {
     fileAvatarPicker = file;
   }
-  
 
   Future<void> getTaskRecently() async {
     await Get.find<RecentlyTask>().getDataIsar();
@@ -228,9 +228,12 @@ class HomeController extends GetxController {
     _sharedPreferenceHelper.removeJwtToken();
     _sharedPreferenceHelper.removeIdUser();
     _sharedPreferenceHelper.removeLogger();
-    GetIt.I
-        .get<SocialAuthService>()
-        .socialLogout(socialType: SocialType.GOOGLE);
+    GetIt.I.get<SocialAuthService>().socialLogout(socialType: SocialType.GOOGLE);
+
+    // Clear all data in isar
+    await Get.find<RecentlyTask>().deleteAll();
+    IsarProjectRepository isarProjectRepository = GetIt.I.get<IsarProjectRepository>();
+    await isarProjectRepository.deleteAll(onSuccess: (data) {}, onError: (e) {});
   }
 
   void rateUs(BuildContext context) {

@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
@@ -22,31 +23,19 @@ class PanelController extends GetxController {
     super.onInit();
   }
 
-  // Future<void> getNotification() async {
-  //   await _notificationRepository.getNoti(
-  //     idUser,
-  //     onSuccess: (data) {
-  //       notification.addAll(data);
-  //       notification.refresh();
-  //       print(data);
-  //     },
-  //     onError: (error) {
-  //       print(error);
-  //     },
-  //   );
-  // }
-
   void routerToDetailTask(String idTask) {
     Get.toNamed(HomeRouter.TASKDETAIL, arguments: {'idTask': idTask});
   }
 
   Future<void> getTaskDetail() async {
+    EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.findTaskAssgnee(
       idUser,
       onSuccess: (data) {
-        listTask.assignAll(data);
+        listTask.value = data;
         listTask.refresh();
         // lấy ra tất cả các activities của task
+        allActivities.clear();
         for (var i = 0; i < listTask.length; i++) {
           if (listTask[i].activities != null) {
             allActivities.addAll(listTask[i].activities!.map((activity) => Activities.fromJson(activity)));
@@ -57,6 +46,7 @@ class PanelController extends GetxController {
         print(error);
       },
     );
+    EasyLoading.dismiss();
   }
 
   @override

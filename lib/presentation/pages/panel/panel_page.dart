@@ -145,17 +145,10 @@ class PanelPage extends GetView<PanelController> {
                                             size: 12.sp,
                                           ),
                                         )),
-                                    // Icon(
-                                    //   uiIssueTypeItem?.icon ?? Icons.bug_report_outlined,
-                                    //   color: Colors.white,
-                                    // )),
                                     DataCell(onTap: () => controller.routerToDetailTask(e.id ?? ''), Text(e.key ?? '')),
                                     DataCell(
                                         onTap: () => controller.routerToDetailTask(e.id ?? ''),
                                         SizedBox(width: SizeApp.setSize(percent: .2), child: Text(e.title ?? ''))),
-                                    // DataCell(
-                                    //     onTap: () => controller.routerToDetailTask(e.id ?? ''),
-                                    //     Icon(Icons.line_axis, color: Colors.orange)),
                                   ],
                                 );
                               }).toList(),
@@ -163,29 +156,32 @@ class PanelPage extends GetView<PanelController> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Get.to(() => AssigneedetailPage());
-                        },
-                        child: Obx(
-                          () => Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("View all issues", style: TextStyle(color: Colors.blue)),
-                              Spacer(),
-                              Icon(Icons.autorenew, color: Colors.blue),
-                              Text(
-                                  controller.listTask.length != 0
-                                      ? DateFormat('dd/MM/yyyy HH:mm')
-                                          .format(DateTime.parse(controller.listTask.value.last.updatedAt.toString()))
-                                      : 'Just now'.tr,
-                                  //     // AppDate.formatDateHaveTodayString(
-                                  //     //         createAtBefore: DateTime.now(),
-                                  //     //         isShowOnFirst: true,
-                                  //     //         createAtNow:  ) .toString(),
-                                  style: TextStyle(color: Colors.black)),
-                            ],
-                          ),
+                      Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Get.to(() => AssigneedetailPage());
+                                },
+                                child: Text("View all issues", style: TextStyle(color: Colors.blue))),
+                            Spacer(),
+                            InkWell(
+                                onTap: () {
+                                  controller.getTaskDetail();
+                                },
+                                child: Icon(Icons.autorenew, color: Colors.blue)),
+                            Text(
+                                controller.listTask.length != 0
+                                    ? DateFormat('dd/MM/yyyy HH:mm')
+                                        .format(DateTime.parse(controller.listTask.value.last.updatedAt.toString()))
+                                    : 'Just now'.tr,
+                                //     // AppDate.formatDateHaveTodayString(
+                                //     //         createAtBefore: DateTime.now(),
+                                //     //         isShowOnFirst: true,
+                                //     //         createAtNow:  ) .toString(),
+                                style: TextStyle(color: Colors.black)),
+                          ],
                         ),
                       ),
                     ],

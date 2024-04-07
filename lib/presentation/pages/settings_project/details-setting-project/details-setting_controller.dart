@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
+import 'package:test_intern/isar/isar_project_reponsitory.dart';
 import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/presentation/pages/dashboard/dashboard_controller.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';
@@ -22,6 +23,8 @@ class DetailsSettingController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController keyController = TextEditingController();
   final ProjectReponsitory _projectRepository = GetIt.I.get<ProjectReponsitory>();
+  IsarProjectRepository isarProjectRepository = GetIt.I.get<IsarProjectRepository>();
+
   RxBool isLoading = true.obs;
 
   RxInt avatarIndex = 0.obs;
@@ -69,8 +72,24 @@ class DetailsSettingController extends GetxController {
         onSuccess: (data) async {
           EasyLoading.dismiss();
           Get.find<ProjectController>().onInit();
+          Get.find<ProjectController>().listProjectRenctly.removeWhere((element) => element.id == projectId);
+          Get.find<ProjectController>().listProjectRenctly.refresh();
+
+          await isarProjectRepository.deleteProjectByIdProject(
+            idProject: projectId,
+            onSuccess: (data) {
+              developer.log("list project isar del: $data");
+            },
+            onError: (error) {
+              print(error);
+            },
+          );
           Get.find<DashboardController>().tabIndex = 1;
           Get.offNamed(HomeRouter.DASHBOARD);
+          // xóa project đó trong list project isar
+
+          // Get.find<IssueController>()
+          //     .getIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
         },
         onError: (e) {
           EasyLoading.dismiss();

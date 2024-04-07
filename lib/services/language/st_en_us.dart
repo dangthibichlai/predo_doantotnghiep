@@ -1,6 +1,12 @@
 const Map<String, String> en = {
   //'Đồng hành cùng bạn trong mọi công việc'
+  'delete_task': 'Delete task',
+  'delete_task_detail': 'Are you sure you want to delete this task?',
+  'Delete All Notification': 'Delete All Notification',
+  'deleteAll_detail': 'Are you sure you want to delete all notifications?',
   'Save success': 'Save success',
+  'title_01': 'Chart',
+  'title_02': "Lable",
   'Save changes': 'Save',
   'action_09': 'Take photo',
   'action_10': 'Library',

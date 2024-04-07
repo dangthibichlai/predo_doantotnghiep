@@ -82,7 +82,6 @@ class BoardProvider extends ChangeNotifier {
       List<ListItem> listItems = [];
       for (int j = 0; j < data[i].items.length; j++) {
         // lấy vị  trí list và item ban đầu
-        log("ITEMS1 $i $j ${data[i].items[j]}");
         listItems.add(ListItem(child: data[i].items[j], listIndex: i, index: j, prevChild: data[i].items[j]));
       }
       board.lists.add(BoardList(

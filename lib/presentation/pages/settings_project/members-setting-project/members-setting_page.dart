@@ -223,13 +223,11 @@ class MembersSettingPage extends GetView<MembersController> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          CircleAvatar(
-                                            radius: 14.sp,
-                                            backgroundColor: ColorResources.GREY.withOpacity(.1),
-                                            child: Icon(
-                                              Icons.person_2_rounded,
-                                              color: ColorResources.GREY.withOpacity(.5),
-                                              size: 16.sp,
+                                          ClipOval(
+                                            child: AppImage(
+                                              controller.filteredMembers.value[index].avatar ?? ImagesPath.avataImg,
+                                              width: 20.sp,
+                                              height: 20.sp,
                                             ),
                                           ),
                                           Gap(10.sp),

@@ -50,6 +50,7 @@ class DiologApp extends StatelessWidget {
                     style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: ColorResources.MAIN_APP)),
                 IconButton(
                     onPressed: () {
+                      inputController?.clear();
                       Navigator.pop(context);
                     },
                     icon: Icon(
@@ -62,7 +63,7 @@ class DiologApp extends StatelessWidget {
             Gap(5),
             content != null
                 ? Text(
-                    content!,
+                    content ?? '',
                     style: TextStyle(
                         fontSize: 11.sp, fontWeight: FontWeight.w400, color: ColorResources.BLACK.withOpacity(.5)),
                     textAlign: TextAlign.justify,
@@ -90,11 +91,12 @@ class DiologApp extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    if (inputController!.text.isEmpty) {
+                    if (isInput == true && inputController!.text.isEmpty) {
                       AppAlert().warring(message: 'Please enter information'.tr);
                       return;
                     }
                     onTap();
+                    inputController?.clear();
                     FocusScope.of(context).unfocus();
                   },
                   borderRadius: BorderRadius.circular(10.sp),

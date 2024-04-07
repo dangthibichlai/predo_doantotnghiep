@@ -1,16 +1,12 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/presentation/pages/home/home_controller.dart';
 import 'package:test_intern/presentation/widget/choose_image_controller.dart';
 import 'package:test_intern/repositories/auth_repositories.dart';
-import 'package:test_intern/repositories/image_upload_repositories.dart';
-import 'package:test_intern/services/dio/dio_client.dart';
-
 import '../../resources/export/core_export.dart';
 import 'choose_image_dialog.dart';
 
@@ -281,8 +277,8 @@ class _ChangeAvatarWidgetState extends State<ChangeAvatarWidget> {
     await authRepository.updateAvatar(
         file: _filePicker ?? File(''),
         onSuccess: (data) {
-          AppAlert().success(message: 'Lưu thành công'.tr);
           Get.find<HomeController>().getUser();
+          AppAlert().success(message: 'Lưu thành công'.tr);
         },
         onError: (e) {
           AppAlert().error(message: 'Lưu thất bại'.tr);

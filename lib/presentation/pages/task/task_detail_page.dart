@@ -167,13 +167,11 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                                       ],
                                     ),
                                   ),
-                                  CircleAvatar(
-                                    radius: 20.sp,
-                                    backgroundColor: ColorResources.GREY.withOpacity(.1),
-                                    child: Icon(
-                                      Icons.person_2_rounded,
-                                      color: ColorResources.GREY.withOpacity(.5),
-                                      size: 30.sp,
+                                  ClipOval(
+                                    child: AppImage(
+                                      controller.getUser(controller.assigneeIdUser.value).avatar ?? ImagesPath.avataImg,
+                                      width: 20.sp,
+                                      height: 20.sp,
                                     ),
                                   ),
                                 ],
@@ -404,13 +402,11 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 14.sp,
-                backgroundColor: ColorResources.GREY.withOpacity(.1),
-                child: Icon(
-                  Icons.person_2_rounded,
-                  color: ColorResources.GREY.withOpacity(.5),
-                  size: 16.sp,
+              ClipOval(
+                child: AppImage(
+                  controller.getUser(controller.assigneeIdUser.value).avatar ?? ImagesPath.avataImg,
+                  width: 20.sp,
+                  height: 20.sp,
                 ),
               ),
               Gap(10.sp),
@@ -652,13 +648,13 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 14.sp,
-                                    backgroundColor: ColorResources.GREY.withOpacity(.1),
-                                    child: Icon(
-                                      Icons.person_2_rounded,
-                                      color: ColorResources.GREY.withOpacity(.5),
-                                      size: 16.sp,
+                                  ClipOval(
+                                    child: AppImage(
+                                      controller.filteredMembers.value[index].avatar == ''
+                                          ? ImagesPath.logoApp
+                                          : controller.filteredMembers.value[index].avatar,
+                                      width: SizeApp.setSizeWithWidth(percent: 0.1),
+                                      height: SizeApp.setSizeWithWidth(percent: 0.1),
                                     ),
                                   ),
                                   Gap(10.sp),
@@ -1001,6 +997,7 @@ class TaskDetailPage extends GetView<TaskDetailController> {
 
   Widget _header() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
           onPressed: () {
@@ -1012,31 +1009,47 @@ class TaskDetailPage extends GetView<TaskDetailController> {
             color: ColorResources.BLACK.withOpacity(.5),
           ),
         ),
-        Spacer(),
+        // Spacer(),
+        // IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(
+        //     Icons.remove_red_eye_outlined,
+        //     size: 22.sp,
+        //     color: ColorResources.BLACK.withOpacity(.5),
+        //   ),
+        // ),
+        // Transform(
+        //   alignment: Alignment.center,
+        //   transform: Matrix4.rotationZ(-45 * 3.1415927 / 180),
+        //   child: IconButton(
+        //     icon: Icon(
+        //       Icons.attachment,
+        //       size: 22.sp,
+        //     ),
+        //     color: ColorResources.BLACK.withOpacity(.5),
+        //     onPressed: () {},
+        //   ),
+        // ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.dialog(
+              DiologApp(
+                isInput: false,
+                title: 'Delete Task'.tr,
+                content: 'delete_task'.tr,
+                nameButtonLeft: 'Move'.tr,
+                onTap: () {
+                  // onTap delete
+                  controller.deleteTask();
+                },
+              ),
+              barrierDismissible: true,
+              transitionCurve: Curves.easeInOut,
+              useSafeArea: true,
+            );
+          },
           icon: Icon(
-            Icons.remove_red_eye_outlined,
-            size: 22.sp,
-            color: ColorResources.BLACK.withOpacity(.5),
-          ),
-        ),
-        Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.rotationZ(-45 * 3.1415927 / 180),
-          child: IconButton(
-            icon: Icon(
-              Icons.attachment,
-              size: 22.sp,
-            ),
-            color: ColorResources.BLACK.withOpacity(.5),
-            onPressed: () {},
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.more_vert,
+            Icons.delete_outline,
             size: 22.sp,
             color: ColorResources.BLACK.withOpacity(.5),
           ),

@@ -1,6 +1,8 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, invalid_use_of_protected_member
 
+import 'package:test_intern/models/task_model.dart';
 import 'package:test_intern/presentation/pages/panel/panel_controller.dart';
+import 'package:test_intern/presentation/pages/task/ui_issue_type.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 
 class AssigneedetailPage extends GetView<PanelController> {
@@ -48,24 +50,28 @@ class AssigneedetailPage extends GetView<PanelController> {
                     ),
                   ),
                 ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Priority'.tr,
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
               ],
               rows: controller.listTask.value.map((e) {
+                final uiIssueTypeItem =
+                    UIIssueType.getUIIssueType(issueTypeValues.reverse[e.issueType] ?? IssueType.USER_STORY.toString());
                 return DataRow(
                   cells: <DataCell>[
                     DataCell(
                         onTap: () => controller.routerToDetailTask(e.id ?? ''),
-                        Center(
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            // color: item.color ?? ColorResources.GREEN,
+                            color: uiIssueTypeItem?.color ?? ColorResources.GREEN,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          height: 16.sp,
+                          width: 16.sp,
                           child: Icon(
-                            Icons.check_circle,
-                            color: Colors.blue,
+                            //item.icon ??
+                            uiIssueTypeItem?.icon ?? Icons.bookmark_outlined,
+                            color: ColorResources.WHITE,
+                            size: 12.sp,
                           ),
                         )),
                     DataCell(
@@ -79,9 +85,6 @@ class AssigneedetailPage extends GetView<PanelController> {
                         SizedBox(
                             width: SizeApp.setSize(percent: .15),
                             child: Text(e.title ?? '', maxLines: 2, overflow: TextOverflow.ellipsis))),
-                    DataCell(
-                        onTap: () => controller.routerToDetailTask(e.id ?? ''),
-                        Center(child: Icon(Icons.line_axis, color: Colors.orange))),
                   ],
                 );
               }).toList(),

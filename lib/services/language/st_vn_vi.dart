@@ -1,4 +1,10 @@
 const Map<String, String> vi = {
+  'delete_task': 'Xóa công việc',
+  'delete_task_detail': 'Bạn có chắc chắn muốn xóa công việc này không?',
+  'Delete All Notification': 'Xóa tất cả thông báo',
+  'deleteAll_detail': 'Bạn có chắc chắn muốn xóa tất cả thông báo không?',
+  'title_01': 'Biểu đồ',
+  'title_02': 'Nhãn',
   'Save success': 'c',
   'Save changes': 'Lưu',
   'action_09': 'Chụp ảnh',

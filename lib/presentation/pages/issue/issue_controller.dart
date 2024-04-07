@@ -24,7 +24,7 @@ class IssueController extends GetxController {
   @override
   Future<void> onInit() async {
     option.value = optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '';
-    await getDoneIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
+    await getIssues(isRefresh: true, option: optionValues.reverse[OptionsType.MY_OPEN_ISSUE] ?? '');
     super.onInit();
   }
 
@@ -45,10 +45,10 @@ class IssueController extends GetxController {
 
   void changeOption(String value, bool isRefresh) {
     option.value = value;
-    getDoneIssues(isRefresh: isRefresh, option: value);
+    getIssues(isRefresh: isRefresh, option: value);
   }
 
-  Future<void> getDoneIssues({required bool isRefresh, required String option}) async {
+  Future<void> getIssues({required bool isRefresh, required String option}) async {
     if (isRefresh) {
       _startPage = 1;
       isLoading.value = true;

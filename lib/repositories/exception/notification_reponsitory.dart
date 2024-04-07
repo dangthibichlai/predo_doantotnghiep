@@ -67,12 +67,17 @@ class NotificationRepository {
   }
 
   Future<void> delete({
+    String? filter,
     required Function(String event) onSuccess,
     required Function(dynamic error) onError,
   }) async {
     late Response response;
+    String uri = '${EndPoints.notifications}';
+    if (!AppValidate.nullOrEmpty(filter)) {
+      uri += filter.toString();
+    }
     try {
-      response = await dioClient!.delete('${EndPoints.notifications}');
+      response = await dioClient!.delete(uri);
     } catch (e) {
       onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
       return;

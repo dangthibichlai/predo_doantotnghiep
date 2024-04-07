@@ -58,21 +58,27 @@ Widget buildBottomSheet(
                         ),
                       ),
                       Gap(15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            Get.find<HomeController>().user.value.full_name ?? '',
-                            style: GoogleFonts.lexend(
-                                fontWeight: FontWeight.w400, fontSize: 13.sp, color: ColorResources.MAIN_APP),
-                          ),
-                          Text(
-                            Get.find<HomeController>().user.value.email ?? '',
-                            style: GoogleFonts.lexend(
-                                fontWeight: FontWeight.w300, fontSize: 11.sp, color: ColorResources.BLACK),
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              Get.find<HomeController>().user.value.full_name ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.lexend(
+                                  fontWeight: FontWeight.w400, fontSize: 13.sp, color: ColorResources.MAIN_APP),
+                            ),
+                            Text(
+                              Get.find<HomeController>().user.value.email ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.lexend(
+                                  fontWeight: FontWeight.w300, fontSize: 11.sp, color: ColorResources.BLACK),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

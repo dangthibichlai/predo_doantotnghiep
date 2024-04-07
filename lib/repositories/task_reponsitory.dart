@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_intern/core/hepler/app-validate.dart';
@@ -210,6 +209,25 @@ class TaskReponsitory {
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
       final results = response.data as dynamic;
       onSuccess(TaskModel.fromJson(results as Map<String, dynamic>));
+    } else {
+      onError(ApiErrorHandler.getMessage(response.data));
+    }
+  }
+
+  Future<void> delete({
+    required String id,
+    required Function(String event) onSuccess,
+    required Function(dynamic error) onError,
+  }) async {
+    late Response response;
+    try {
+      response = await dioClient!.delete('${EndPoints.tasks}/$id');
+    } catch (e) {
+      onError(ApiResponse.withError(ApiErrorHandler.getMessage(e)).error);
+      return;
+    }
+    if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
+      onSuccess('Delete success');
     } else {
       onError(ApiErrorHandler.getMessage(response.data));
     }

@@ -223,7 +223,7 @@ class ProjectPage extends GetView<ProjectController> {
                   return GestureDetector(
                     onTap: () => CommonHelper.onTapHandler(callback: () {
                       Get.toNamed(HomeRouter.KABANPROJECT,
-                          arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key});
+                          arguments: {'idProject': item.idProject, 'nameProject': item.name, 'keyProject': item.key});
                     }),
                     child: Container(
                       margin: REdgeInsets.all(5.sp),

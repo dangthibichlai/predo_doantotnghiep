@@ -96,6 +96,7 @@ class KabanProjectController extends GetxController {
   }
 
   void addTaskBoard(TaskModel taskModel) async {
+    Get.back();
     EasyLoading.show(status: 'loading'.tr);
     await _taskReponsitory.add(
       data: taskModel,

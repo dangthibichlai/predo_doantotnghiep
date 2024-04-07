@@ -26,13 +26,18 @@ class NotificationController extends GetxController {
   }
 
   void delete() {
+    // 
     EasyLoading.show(status: 'Loading...');
-    _notificationRepository.delete(onSuccess: (data) {
-      EasyLoading.dismiss();
-      AppAlert().success(message: 'Delete_success'.tr);
-    }, onError: (e) {
-      EasyLoading.dismiss();
-    });
+    _notificationRepository.delete(
+        filter: '/delete-by-user',
+        onSuccess: (data) {
+          EasyLoading.dismiss();
+          AppAlert().success(message: 'Delete_success'.tr);
+          getNotification(isRefresh: true);
+        },
+        onError: (e) {
+          EasyLoading.dismiss();
+        });
   }
 
   Future<void> getNotification({required bool isRefresh}) async {
