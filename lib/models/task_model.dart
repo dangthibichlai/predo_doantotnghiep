@@ -134,33 +134,35 @@ class TaskModel {
 class Activities {
   String? description;
   String? id;
+  String? userId;
 
   Activities({
     this.description,
     this.id,
+    this.userId,
   });
 
   Activities copyWith({
     String? description,
     String? id,
+    String? userId,
   }) {
     return Activities(
       description: description ?? this.description,
       id: id ?? this.id,
+      userId: userId ?? this.userId,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'description': description,
-      '_id': id,
-    };
+    return {'description': description, '_id': id, 'userId': userId};
   }
 
   factory Activities.fromJson(Map<String, dynamic> json) {
     return Activities(
       description: json['description'] as String?,
       id: json['_id'] as String?,
+      userId: json['userId'] as String?,
     );
   }
 

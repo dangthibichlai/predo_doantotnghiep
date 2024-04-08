@@ -325,22 +325,24 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ],
         ),
         Gap(5.sp),
-        InkWell(
+        GestureDetector(
           onTap: () {
-            showFlexibleBottomSheet(
-              isSafeArea: true,
-              duration: Duration(milliseconds: 300),
-              minHeight: 0,
-              initHeight: .6,
-              maxHeight: .6,
-              context: context,
-              builder: _buildBottomIssueType,
-              isExpand: false,
-              bottomSheetBorderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            );
+            controller.taskModel.value[0].issueType != IssueType.SUB_TASK
+                ? showFlexibleBottomSheet(
+                    isSafeArea: true,
+                    duration: Duration(milliseconds: 300),
+                    minHeight: 0,
+                    initHeight: .5,
+                    maxHeight: .5,
+                    context: context,
+                    builder: _buildBottomIssueType,
+                    isExpand: false,
+                    bottomSheetBorderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  )
+                : null;
           },
           child: Obx(() {
             // lấy giá trị của enum issueType
@@ -463,59 +465,61 @@ class TaskDetailPage extends GetView<TaskDetailController> {
           ListView.separated(
             itemBuilder: (context, index) {
               final item = uiIssueType[index];
-              return InkWell(
-                onTap: () {
-                  controller.issueType = issueTypeValues.map[item.name] ?? IssueType.USER_STORY;
-                  controller.updateTask();
-                  Get.back();
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: item.color ?? ColorResources.GREEN,
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                          height: 16.sp,
-                          width: 16.sp,
-                          child: Icon(
-                            item.icon ?? Icons.bookmark_outlined,
-                            color: ColorResources.WHITE,
-                            size: 12.sp,
-                          ),
-                        ),
-                        Gap(10.sp),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name ?? "",
-                              style: TextStyle(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorResources.BLACK.withOpacity(.5)),
-                            ),
-                            SizedBox(
-                              width: SizeApp.setSizeWithWidth(percent: .8),
-                              child: Text(
-                                item.description ?? "",
-                                style: TextStyle(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w300,
-                                    color: ColorResources.BLACK.withOpacity(.5)),
+              return item.name != issueTypeValues.reverse[IssueType.SUB_TASK]
+                  ? InkWell(
+                      onTap: () {
+                        controller.issueType = issueTypeValues.map[item.name] ?? IssueType.USER_STORY;
+                        controller.updateTask();
+                        Get.back();
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: item.color ?? ColorResources.GREEN,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                height: 16.sp,
+                                width: 16.sp,
+                                child: Icon(
+                                  item.icon ?? Icons.bookmark_outlined,
+                                  color: ColorResources.WHITE,
+                                  size: 12.sp,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
+                              Gap(10.sp),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.name ?? "",
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorResources.BLACK.withOpacity(.5)),
+                                  ),
+                                  SizedBox(
+                                    width: SizeApp.setSizeWithWidth(percent: .8),
+                                    child: Text(
+                                      item.description ?? "",
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: ColorResources.BLACK.withOpacity(.5)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox();
             },
             itemCount: uiIssueType.length,
             shrinkWrap: true,
@@ -778,13 +782,13 @@ class TaskDetailPage extends GetView<TaskDetailController> {
                               Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: Colors.yellow,
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 height: 20.sp,
                                 width: 20.sp,
                                 child: Icon(
-                                  Icons.call_missed_outgoing_outlined,
+                                  Icons.checklist_rounded,
                                   color: ColorResources.WHITE,
                                   size: 16.sp,
                                 ),

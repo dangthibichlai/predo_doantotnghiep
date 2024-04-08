@@ -4,7 +4,9 @@ import 'dart:developer';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/models/task_model.dart';
+import 'package:test_intern/repositories/auth_repositories.dart';
 import 'package:test_intern/repositories/task_reponsitory.dart';
 import 'package:test_intern/resources/export/core_export.dart';
 

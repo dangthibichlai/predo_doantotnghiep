@@ -69,11 +69,11 @@ class TaskDetailController extends GetxController {
     idTask = Get.arguments['idTask'];
     _socket.listen_to(idTask);
     await getTaskDetail();
+    await getSubTask();
     await getComments();
     await featchData();
 
     await getMembers();
-    await getSubTask();
 
     super.onInit();
   }
@@ -181,6 +181,7 @@ class TaskDetailController extends GetxController {
         boardId: idBoard.value,
         title: titleTask.text,
         key: taskModel[0].key,
+        parent: taskModel[0].parent,
         issueType: issueType,
         description: decriptionTask.text,
         assignee: assigneeIdUser.value,
