@@ -239,7 +239,7 @@ class ProjectReponsitory {
       return;
     }
     if (!AppValidate.nullOrEmpty(response.statusCode) && response.statusCode! >= 200 && response.statusCode! <= 300) {
-      final results = response.data.message as dynamic;
+      final results = response.data as dynamic;
       onSuccess(results);
     } else {
       onError(ApiErrorHandler.getMessage(response.data));

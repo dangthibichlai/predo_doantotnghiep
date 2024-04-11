@@ -61,8 +61,10 @@ class CreateProjectController extends GetxController {
   void onNameFieldSubmitted(String value) {
     keyProjectController.value = "";
     // lấy 3 ký tự đầu tiên của tên dự án
-    keyProjectController.value =
-        TiengViet.parse(value.substring(0, 3)).replaceAll(RegExp(r'[^a-zA-Z0-9]'), '').toUpperCase();
+    if (value.length > 3) {
+      keyProjectController.value =
+          TiengViet.parse(value.substring(0, 3)).replaceAll(RegExp(r'[^a-zA-Z0-9]'), '').toUpperCase();
+    }
   }
 
   @override

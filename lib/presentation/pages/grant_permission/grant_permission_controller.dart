@@ -250,5 +250,6 @@ class GrantPermissionController extends GetxController with WidgetsBindingObserv
 
     _status = await Permission.notification.status;
     cameraStatus.value = _status == PermissionStatus.granted;
+    // khi đã bật thông
   }
 }

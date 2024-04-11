@@ -122,7 +122,7 @@ class LocalizationService extends Translations {
         lang = Get.deviceLocale!.languageCode;
       } else {
         lang = 'en';
-      }
+      } 
 
       // Save locale.
       sl<SharedPreferenceHelper>().setLocale(lang);

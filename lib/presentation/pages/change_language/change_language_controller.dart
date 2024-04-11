@@ -16,36 +16,36 @@ class ChangeLanguageController extends GetxController {
       'image': ImagesPath.vnFlag,
       'isSelected': false,
     },
-    {
-      'value': 'es',
-      'name': 'Espanol'.tr,
-      'image': ImagesPath.esFlag,
-      'isSelected': false,
-    },
-    {
-      'value': 'pt',
-      'name': 'Portuguese'.tr,
-      'image': ImagesPath.porFlag,
-      'isSelected': false,
-    },
-    {
-      'value': 'hi',
-      'name': 'Hindi'.tr,
-      'image': ImagesPath.hinFlag,
-      'isSelected': false,
-    },
-    {
-      'value': 'fr',
-      'name': 'Francais'.tr,
-      'image': ImagesPath.frFlag,
-      'isSelected': false,
-    },
-    {
-      'value': 'ru',
-      'name': 'Russian'.tr,
-      'image': ImagesPath.ruFlag,
-      'isSelected': false,
-    },
+    // {
+    //   'value': 'es',
+    //   'name': 'Espanol'.tr,
+    //   'image': ImagesPath.esFlag,
+    //   'isSelected': false,
+    // },
+    // {
+    //   'value': 'pt',
+    //   'name': 'Portuguese'.tr,
+    //   'image': ImagesPath.porFlag,
+    //   'isSelected': false,
+    // },
+    // {
+    //   'value': 'hi',
+    //   'name': 'Hindi'.tr,
+    //   'image': ImagesPath.hinFlag,
+    //   'isSelected': false,
+    // },
+    // {
+    //   'value': 'fr',
+    //   'name': 'Francais'.tr,
+    //   'image': ImagesPath.frFlag,
+    //   'isSelected': false,
+    // },
+    // {
+    //   'value': 'ru',
+    //   'name': 'Russian'.tr,
+    //   'image': ImagesPath.ruFlag,
+    //   'isSelected': false,
+    // },
   ];
 
   bool isLoading = true;

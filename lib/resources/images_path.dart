@@ -1,4 +1,6 @@
 mixin ImagesPath {
+  static String idNoInternet = 'assets/features/ic_no_internet.png';
+
   static String createProjectImg = 'assets/features/create_project.jpg';
   static String icLogout = 'assets/features/ic_logout.png';
   // report image

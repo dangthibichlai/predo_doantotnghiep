@@ -51,7 +51,6 @@ Future<void> initUniLinks() async {
     // Parse the link and warn the user, if it is not correct
     log('Link: $link');
     await handleLink(Uri.parse(link!));
-
   }, onError: (err) {
     // Handle exception by warning the user their action did not succeed
     log('Error: $err');
@@ -67,6 +66,7 @@ Future<void> handleLink(Uri uri) async {
 
   if (token != '') {
     ProjectReponsitory _projectReponsitory = ProjectReponsitory();
+    EasyLoading.show(status: 'loading'.tr);
     _projectReponsitory.joinProject(
         tokenInvite: lastSegment,
         onSuccess: (data) {
@@ -75,13 +75,15 @@ Future<void> handleLink(Uri uri) async {
           Get.offNamed(HomeRouter.DASHBOARD);
 
           AppAlert(milliseconds: 3000).info(message: data);
+          EasyLoading.dismiss();
         },
         onError: ((error) {
           AppAlert(milliseconds: 3000).error(message: error);
+          EasyLoading.dismiss();
         }));
   } else {
-    AppAlert(milliseconds: 3000)
-        .error(message: 'You need to login first before join project.');
+    AppAlert(milliseconds: 3000).error(message: 'You need to login first before join project.');
+    EasyLoading.dismiss();
   }
 }
 
