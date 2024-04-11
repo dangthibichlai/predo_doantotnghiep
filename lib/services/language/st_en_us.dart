@@ -1,5 +1,7 @@
 const Map<String, String> en = {
   //'Đồng hành cùng bạn trong mọi công việc'
+  'Delete Member': 'Delete member',
+  'deleteMember_detail': 'Are your sure to delete this member?',
   'delete_task': 'Delete task',
   'delete_task_detail': 'Are you sure you want to delete this task?',
   'Delete All Notification': 'Delete All Notification',
@@ -34,7 +36,8 @@ const Map<String, String> en = {
   'setting_005': 'Feed back',
 // Permission
   'permission_01': 'Grant Permission',
-  'permission_02': 'The app needs to uses Read & Write external storage and Record permission for recording feature',
+  'permission_02':
+      'The app needs to uses Read & Write external storage and Record permission for recording feature',
   'permission_03': 'Notify the app',
   'permission_04': 'Record audio permission',
   'permission_05': 'Camera permission',
@@ -42,15 +45,18 @@ const Map<String, String> en = {
   'permission_07': 'Cancel',
   'permission_08': 'Audio record permission is needed to use this feature',
   'permission_09': 'Storage permission is needed to use this feature',
-  'permission_10': 'Video and audio record permission is needed to use this feature',
+  'permission_10':
+      'Video and audio record permission is needed to use this feature',
   'permission_11': 'Select one audio file to continue',
 
   'BUG': 'BUG',
   'EPIC': 'EPIC',
   'USER_STORY': 'USER_STORY',
   'SUB_TASK': 'SUB_TASK',
-  'A task represents work that needs to be done.': 'A task represents work that needs to be done.',
-  'A bug represents a problem that needs to be fixed.': 'A bug represents a problem that needs to be fixed.',
+  'A task represents work that needs to be done.':
+      'A task represents work that needs to be done.',
+  'A bug represents a problem that needs to be fixed.':
+      'A bug represents a problem that needs to be fixed.',
   'An epic represents a big user story that needs to be broken down.':
       'An epic represents a big user story that needs to be broken down.',
   'A sub-task represents a small piece of work that needs to be done.':
@@ -144,7 +150,8 @@ const Map<String, String> en = {
   'Just now': 'Just now',
 
   // introduction page
-  'intro_001': 'Simple and efficient management with a friendly, easy-to-use management model.',
+  'intro_001':
+      'Simple and efficient management with a friendly, easy-to-use management model.',
   'intro_002':
       'Flexible statistics with a variety of detailed and easy-to-understand statistical charts.', // Thống kê linh hoạt với đa dạng các biểu đồ thống kê chi tiết và dễ hiểu.  ->
   'intro_003': 'Stay in the loop with your team and never miss a thing.',
@@ -155,7 +162,8 @@ const Map<String, String> en = {
   'Hello': 'Hello, ',
   'Quick access': 'Quick access',
   'Personalize this space': 'Personalize this space',
-  'Add your most important stuff here, for fast access': 'Add your most important stuff here, for fast access.',
+  'Add your most important stuff here, for fast access':
+      'Add your most important stuff here, for fast access.',
   'Add items': 'Add items',
   'Recent items': 'Recent items',
 
@@ -181,7 +189,8 @@ const Map<String, String> en = {
 
   // panel
   'panel_01': 'Looks like you\'re missing some gadgets',
-  'panel_02': 'Were\'re building more gadgets for dashboard on mobile. Let us know which gadget you\'d like to see',
+  'panel_02':
+      'Were\'re building more gadgets for dashboard on mobile. Let us know which gadget you\'d like to see',
 
   // project page
   'Recently viewed': 'Recently viewed',

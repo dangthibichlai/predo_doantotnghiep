@@ -65,24 +65,26 @@ Future<void> handleLink(Uri uri) async {
   var token = sl<SharedPreferenceHelper>().getJwtToken;
 
   if (token != '') {
+    EasyLoading.show(status: 'smart_refresh_008'.tr);
     ProjectReponsitory _projectReponsitory = ProjectReponsitory();
-    EasyLoading.show(status: 'loading'.tr);
-    _projectReponsitory.joinProject(
+    await _projectReponsitory.joinProject(
         tokenInvite: lastSegment,
         onSuccess: (data) {
-          Get.find<ProjectController>().onInit();
-          Get.find<DashboardController>().tabIndex = 1;
           Get.offNamed(HomeRouter.DASHBOARD);
-
-          AppAlert(milliseconds: 3000).info(message: data);
+          Get.find<DashboardController>().tabIndex = 1;
+          Get.find<ProjectController>().onInit();
+          AppAlert(milliseconds: 3000).info(message: "Join project success.");
           EasyLoading.dismiss();
         },
         onError: ((error) {
           AppAlert(milliseconds: 3000).error(message: error);
           EasyLoading.dismiss();
+          EasyLoading.dismiss();
         }));
+    EasyLoading.dismiss();
   } else {
-    AppAlert(milliseconds: 3000).error(message: 'You need to login first before join project.');
+    AppAlert(milliseconds: 3000)
+        .error(message: 'You need to login first before join project.');
     EasyLoading.dismiss();
   }
 }

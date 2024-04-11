@@ -31,7 +31,11 @@ class MembersSettingPage extends GetView<MembersController> {
                       Get.dialog(
                         Dialog(
                           child: Container(
-                            padding: EdgeInsets.only(top: 20.sp, left: 10.sp, right: 10.sp, bottom: 20.sp),
+                            padding: EdgeInsets.only(
+                                top: 20.sp,
+                                left: 10.sp,
+                                right: 10.sp,
+                                bottom: 20.sp),
                             width: SizeApp.getMaxWidth(),
                             constraints: BoxConstraints(
                               maxHeight: SizeApp.setSize(percent: .58),
@@ -48,7 +52,8 @@ class MembersSettingPage extends GetView<MembersController> {
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: ColorResources.MAIN_APP.withOpacity(.7),
+                                    color:
+                                        ColorResources.MAIN_APP.withOpacity(.7),
                                   ),
                                 ),
                                 Gap(5.sp),
@@ -60,7 +65,8 @@ class MembersSettingPage extends GetView<MembersController> {
                                       style: TextStyle(
                                         fontSize: 11.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: ColorResources.RED.withOpacity(.5),
+                                        color:
+                                            ColorResources.RED.withOpacity(.5),
                                       ),
                                     ),
                                   ),
@@ -75,7 +81,8 @@ class MembersSettingPage extends GetView<MembersController> {
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK.withOpacity(.5),
+                                        color: ColorResources.BLACK
+                                            .withOpacity(.5),
                                       ),
                                     ),
                                   ],
@@ -84,7 +91,8 @@ class MembersSettingPage extends GetView<MembersController> {
                                 Container(
                                   width: SizeApp.setSize(percent: .22),
                                   height: SizeApp.setSize(percent: .22),
-                                  color: ColorResources.MAIN_APP.withOpacity(.2),
+                                  color:
+                                      ColorResources.MAIN_APP.withOpacity(.2),
                                   child: QrImageView(
                                     data: controller.linkProject,
                                     version: QrVersions.auto,
@@ -97,12 +105,14 @@ class MembersSettingPage extends GetView<MembersController> {
                                   child: Center(
                                     child: Text(
                                       controller.linkProject,
-                                      textWidthBasis: TextWidthBasis.longestLine,
+                                      textWidthBasis:
+                                          TextWidthBasis.longestLine,
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500,
-                                        color: ColorResources.BLACK.withOpacity(.5),
+                                        color: ColorResources.BLACK
+                                            .withOpacity(.5),
                                       ),
                                     ),
                                   ),
@@ -119,12 +129,14 @@ class MembersSettingPage extends GetView<MembersController> {
                                     ),
                                     AppButton(
                                         padding: EdgeInsets.all(8),
-                                        colorBorder: ColorResources.GREY.withOpacity(.5),
+                                        colorBorder:
+                                            ColorResources.GREY.withOpacity(.5),
                                         onTap: () {
                                           controller.copyToClipboard(context);
                                         },
                                         label: "Copy".tr,
-                                        colorText: ColorResources.MAIN_APP.withOpacity(.7),
+                                        colorText: ColorResources.MAIN_APP
+                                            .withOpacity(.7),
                                         type: AppButtonType.OUTLINE,
                                         width: 80.sp,
                                         borderRadius: 5,
@@ -171,9 +183,13 @@ class MembersSettingPage extends GetView<MembersController> {
                     controller: controller.searchMember,
                     colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
                     style: TextStyle(
-                        fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: ColorResources.BLACK.withOpacity(.4)),
                     labelStyle: TextStyle(
-                        fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: ColorResources.BLACK.withOpacity(.7)),
                     type: AppInputType.TEXT,
                     maxLine: 1,
                     hintText: "Search members...".tr,
@@ -201,85 +217,144 @@ class MembersSettingPage extends GetView<MembersController> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: controller.filteredMembers.value.length,
+                              itemCount:
+                                  controller.filteredMembers.value.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {},
                                   child: Obx(
                                     () => Container(
                                       margin: EdgeInsets.only(bottom: 10.sp),
-                                      padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                                      padding: EdgeInsets.only(
+                                          left: 10.sp, right: 10.sp),
                                       height: SizeApp.setSize(percent: .07),
                                       decoration: BoxDecoration(
                                         // color: ColorResources.WHITE ,
                                         color: ColorResources.WHITE,
                                         border: Border(
                                           bottom: BorderSide(
-                                            color: ColorResources.GREY.withOpacity(.5),
+                                            color: ColorResources.GREY
+                                                .withOpacity(.5),
                                           ),
                                         ),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           ClipOval(
                                             child: AppImage(
-                                              controller.filteredMembers.value[index].avatar ?? ImagesPath.avataImg,
+                                              controller.filteredMembers
+                                                      .value[index].avatar ??
+                                                  ImagesPath.avataImg,
                                               width: 20.sp,
                                               height: 20.sp,
                                             ),
                                           ),
                                           Gap(10.sp),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                controller.filteredMembers.value[index].full_name ?? "",
+                                                controller
+                                                        .filteredMembers
+                                                        .value[index]
+                                                        .full_name ??
+                                                    "",
                                                 style: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
-                                                  color: ColorResources.BLACK.withOpacity(.8),
+                                                  color: ColorResources.BLACK
+                                                      .withOpacity(.8),
                                                 ),
                                               ),
-                                              controller.idLeader == controller.filteredMembers.value[index].id
+                                              controller.idLeader ==
+                                                      controller.filteredMembers
+                                                          .value[index].id
                                                   ? Text(
                                                       "Manager".tr,
                                                       style: TextStyle(
                                                         fontSize: 10.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: ColorResources.BLACK.withOpacity(.3),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorResources
+                                                            .BLACK
+                                                            .withOpacity(.3),
                                                       ),
                                                     )
                                                   : Text(
                                                       "Members".tr,
                                                       style: TextStyle(
                                                         fontSize: 10.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: ColorResources.BLACK.withOpacity(.3),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorResources
+                                                            .BLACK
+                                                            .withOpacity(.3),
                                                       ),
                                                     )
                                             ],
                                           ),
                                           Spacer(),
-                                          controller.idLeader == controller.filteredMembers.value[index].id
+                                          controller.idLeader ==
+                                                  controller.filteredMembers
+                                                      .value[index].id
                                               ? Icon(
                                                   Icons.star,
-                                                  color: ColorResources.YELLOW.withOpacity(.5),
+                                                  color: ColorResources.YELLOW
+                                                      .withOpacity(.5),
                                                   size: 20.sp,
                                                 )
-                                              : InkWell(
-                                                  onTap: () {
-                                                    log(controller.filteredMembers.value[index].id);
-                                                    controller.deleteMember(controller.filteredMembers.value[index].id);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.delete,
-                                                    color: ColorResources.GREY.withOpacity(.5),
-                                                    size: 20.sp,
-                                                  ),
-                                                )
+                                              : controller.idLeader ==
+                                                      controller.idUser
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        log(controller
+                                                            .filteredMembers
+                                                            .value[index]
+                                                            .id);
+                                                        Get.dialog(
+                                                          DiologApp(
+                                                            isInput: false,
+                                                            title:
+                                                                'Delete Member'
+                                                                    .tr,
+                                                            content:
+                                                                'deleteMember_detail'
+                                                                    .tr,
+                                                            nameButtonLeft:
+                                                                'action_02'.tr,
+                                                            onTap: () {
+                                                              // onTap delete
+                                                              controller.deleteMember(
+                                                                  controller
+                                                                      .filteredMembers
+                                                                      .value[
+                                                                          index]
+                                                                      .id);
+                                                            },
+                                                          ),
+                                                          barrierDismissible:
+                                                              true,
+                                                          transitionCurve:
+                                                              Curves.easeInOut,
+                                                          useSafeArea: true,
+                                                        );
+                                                      },
+                                                      child: Icon(
+                                                        Icons.delete,
+                                                        color: ColorResources
+                                                            .GREY
+                                                            .withOpacity(.5),
+                                                        size: 20.sp,
+                                                      ),
+                                                    )
+                                                  : SizedBox()
                                         ],
                                       ),
                                     ),

@@ -1,4 +1,6 @@
 const Map<String, String> vi = {
+  'Delete Member': 'Xóa thành viên',
+  'deleteMember_detail': 'Bạn có chắc chắn muốn xóa thành viên này?',
   'delete_task': 'Xóa công việc',
   'delete_task_detail': 'Bạn có chắc chắn muốn xóa công việc này không?',
   'Delete All Notification': 'Xóa tất cả thông báo',
@@ -25,7 +27,8 @@ const Map<String, String> vi = {
 
   'alert_03': 'Bạn có chắc chắn muốn đăng xuất \nkhông?',
   'permission_01': 'Cấp quyền',
-  'permission_02': 'Ứng dụng cần sử dụng quyền Đọc và Ghi vào bộ nhớ ngoại vi và quyền Ghi âm cho tính năng ghi âm',
+  'permission_02':
+      'Ứng dụng cần sử dụng quyền Đọc và Ghi vào bộ nhớ ngoại vi và quyền Ghi âm cho tính năng ghi âm',
   'permission_03': 'Thông báo với ứng dụng',
   'permission_04': 'Quyền ghi âm',
   'permission_05': 'Quyền camera',
@@ -48,8 +51,10 @@ const Map<String, String> vi = {
   'action_01': 'Quay lại',
   'action_02': 'Đồng ý',
 
-  'A task represents work that needs to be done.': 'Một công việc đại diện cho công việc cần phải làm',
-  'A bug represents a problem that needs to be fixed.': 'Một lỗi đại diện cho một vấn đề cần phải sửa',
+  'A task represents work that needs to be done.':
+      'Một công việc đại diện cho công việc cần phải làm',
+  'A bug represents a problem that needs to be fixed.':
+      'Một lỗi đại diện cho một vấn đề cần phải sửa',
   'An epic represents a big user story that needs to be broken down.':
       'Một epic đại diện cho một câu chuyện người dùng lớn cần phải được chia nhỏ',
   'A sub-task represents a small piece of work that needs to be done.':
@@ -149,8 +154,10 @@ const Map<String, String> vi = {
   'comment_empty': 'Bình luận không có nội dung',
   'product_detail_0011': "Đang khởi tạo dự án...",
 // Trang giới thiệu
-  'intro_001': 'Quản lý đơn giản và hiệu quả với một mô hình quản lý thân thiện và dễ sử dụng.',
-  'intro_002': 'Thống kê linh hoạt với nhiều biểu đồ thống kê chi tiết và dễ hiểu.',
+  'intro_001':
+      'Quản lý đơn giản và hiệu quả với một mô hình quản lý thân thiện và dễ sử dụng.',
+  'intro_002':
+      'Thống kê linh hoạt với nhiều biểu đồ thống kê chi tiết và dễ hiểu.',
   'intro_003': 'Giữ kết nối với nhóm của bạn và không bao giờ bỏ lỡ điều gì.',
   'intro_004': 'Quản lý SLA của bạn và theo dõi hiệu suất của nhóm.',
   'intro_005': 'Chào mừng bạn đến với thế giới quản lý hiệu quả.',
@@ -168,7 +175,8 @@ const Map<String, String> vi = {
   'Issues': 'Các vấn đề',
   'No issues to show': 'Không có vấn đề nào để hiển thị',
   'Nice!': 'Tốt!',
-  'issue_When you': 'Khi bạn được giao các vấn đề mới, bạn sẽ thấy chúng ở đây.',
+  'issue_When you':
+      'Khi bạn được giao các vấn đề mới, bạn sẽ thấy chúng ở đây.',
   'Create issue': 'Tạo vấn đề',
   'Open issues': 'Vấn đề mở',
   'Recent filters': 'Bộ lọc gần đây',
@@ -180,7 +188,8 @@ const Map<String, String> vi = {
 
 // opt
   'opt_01': 'Chúng tôi đã gửi cho bạn một mã để xác minh email của bạn',
-  'opt_02': 'Để hoàn tất quá trình thiết lập tài khoản, nhập mã chúng tôi đã gửi cho:',
+  'opt_02':
+      'Để hoàn tất quá trình thiết lập tài khoản, nhập mã chúng tôi đã gửi cho:',
   'opt_03': 'Xác minh',
   'opt_04': 'Không nhận được mã? Gửi lại',
 
