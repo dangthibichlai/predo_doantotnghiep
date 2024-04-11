@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:test_intern/models/auth_model.dart';
 import 'package:test_intern/repositories/project_reponsitories.dart';
@@ -31,6 +32,8 @@ class MembersController extends GetxController {
   }
 
   void deleteMember(String idUser) async {
+    Get.back();
+    EasyLoading.show(status: 'loading'.tr);
     await _projectReponsitory.updateMember(
       idProject: idProjectItem,
       idMember: idUser,
@@ -43,6 +46,7 @@ class MembersController extends GetxController {
       },
       onError: (error) {},
     );
+    EasyLoading.dismiss();
   }
 
   Future<void> getLinkProject() async {
@@ -87,7 +91,9 @@ class MembersController extends GetxController {
     await _projectReponsitory.find(
       idUser,
       onSuccess: (data) {
-        idLeader.value = data[0].leader!;
+        var leader =
+            data.where((element) => element.id == idProjectItem).toList();
+        idLeader.value = leader[0].leader!;
       },
       onError: (error) {},
     );

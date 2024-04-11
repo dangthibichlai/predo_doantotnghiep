@@ -53,7 +53,8 @@ class ProjectPage extends GetView<ProjectController> {
             children: [
               controller.isShowSearch.value
                   ? Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 15.0),
                       child: AppInput(
                         onChanged: (value) {
                           controller.searchProjectFilter(value);
@@ -69,9 +70,13 @@ class ProjectPage extends GetView<ProjectController> {
                         controller: controller.searchProject,
                         colorDisibleBorder: Color.fromARGB(255, 11, 196, 199),
                         style: TextStyle(
-                            fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorResources.BLACK.withOpacity(.4)),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            color: ColorResources.BLACK.withOpacity(.4)),
                         labelStyle: TextStyle(
-                            fontSize: 12.sp, fontWeight: FontWeight.w500, color: ColorResources.BLACK.withOpacity(.7)),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: ColorResources.BLACK.withOpacity(.7)),
                         type: AppInputType.TEXT,
                         maxLine: 1,
                         hintText: "Search project...".tr,
@@ -99,8 +104,13 @@ class ProjectPage extends GetView<ProjectController> {
                       ),
                     )
                   : Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        controller.listProjectRenctly.length == 0 ? SizedBox() : recentlyProjectListView(),
+                        controller.listProjectRenctly.length == 0
+                            ? Center(
+                                child: Text("No project"),
+                              )
+                            : recentlyProjectListView(),
                         allProjectGridView(),
                       ],
                     ),
@@ -133,8 +143,11 @@ class ProjectPage extends GetView<ProjectController> {
                 final item = controller.filteredProject.value[index];
                 return InkWell(
                     onTap: () {
-                      Get.toNamed(HomeRouter.KABANPROJECT,
-                          arguments: {'idProject': item.id, 'nameProject': item.name, 'keyProject': item.key});
+                      Get.toNamed(HomeRouter.KABANPROJECT, arguments: {
+                        'idProject': item.id,
+                        'nameProject': item.name,
+                        'keyProject': item.key
+                      });
                       controller.addProjectRenctly(Project(
                           idProject: item.id,
                           isDelete: false,
@@ -174,7 +187,8 @@ class ProjectPage extends GetView<ProjectController> {
                           children: [
                             Text(
                               item.name,
-                              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 16.sp, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               item.key,
@@ -222,20 +236,26 @@ class ProjectPage extends GetView<ProjectController> {
 
                   return GestureDetector(
                     onTap: () => CommonHelper.onTapHandler(callback: () {
-                      Get.toNamed(HomeRouter.KABANPROJECT,
-                          arguments: {'idProject': item.idProject, 'nameProject': item.name, 'keyProject': item.key});
+                      Get.toNamed(HomeRouter.KABANPROJECT, arguments: {
+                        'idProject': item.idProject,
+                        'nameProject': item.name,
+                        'keyProject': item.key
+                      });
                     }),
                     child: Container(
                       margin: REdgeInsets.all(5.sp),
                       width: SizeApp.setSize(percent: .25),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.sp), boxShadow: [
-                        BoxShadow(
-                          color: ColorResources.BLACK.withOpacity(.2),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ]),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.sp),
+                          boxShadow: [
+                            BoxShadow(
+                              color: ColorResources.BLACK.withOpacity(.2),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset:
+                                  Offset(0, 1), // changes position of shadow
+                            ),
+                          ]),
                       child: Stack(
                         children: [
                           Column(children: [
@@ -266,14 +286,19 @@ class ProjectPage extends GetView<ProjectController> {
                                   children: [
                                     Text(
                                       item.name,
-                                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(item.createdAt.toString())),
+                                      DateFormat('dd/MM/yyyy HH:mm').format(
+                                          DateTime.parse(
+                                              item.createdAt.toString())),
                                       maxLines: 1,
                                       style: TextStyle(
                                           fontSize: 14.sp,
-                                          color: ColorResources.BLACK.withOpacity(.5),
+                                          color: ColorResources.BLACK
+                                              .withOpacity(.5),
                                           overflow: TextOverflow.ellipsis),
                                     ),
                                   ],
