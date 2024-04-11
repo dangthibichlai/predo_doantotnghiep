@@ -79,7 +79,6 @@ Future<void> handleLink(Uri uri) async {
         onError: ((error) {
           AppAlert(milliseconds: 3000).error(message: error);
           EasyLoading.dismiss();
-          EasyLoading.dismiss();
         }));
     EasyLoading.dismiss();
   } else {
