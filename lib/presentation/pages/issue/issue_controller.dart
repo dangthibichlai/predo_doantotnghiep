@@ -14,12 +14,12 @@ class IssueController extends GetxController {
   RxString option = ''.obs;
   RxInt index = 0.obs;
   int _startPage = 1;
+  final int _limitPage = 10;
   RxBool isLoading = true.obs;
   RxBool isShowSearch = false.obs;
   RxList filteredDataList = [].obs;
   TextEditingController searchProject = TextEditingController();
 
-  final int _limitPage = 10;
 
   @override
   Future<void> onInit() async {

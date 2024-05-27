@@ -190,6 +190,8 @@ class ProjectPage extends GetView<ProjectController> {
                                   children: [
                                     Text(
                                       item.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                                     ),
                                     Text(
@@ -283,6 +285,8 @@ class ProjectPage extends GetView<ProjectController> {
                                   children: [
                                     Text(
                                       item.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                                     ),
                                     Text(

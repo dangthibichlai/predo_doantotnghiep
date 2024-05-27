@@ -117,18 +117,20 @@ class MembersSettingPage extends GetView<MembersController> {
                                       },
                                       child: Text("Cancel".tr),
                                     ),
-                                    AppButton(
-                                        padding: EdgeInsets.all(8),
-                                        colorBorder: ColorResources.GREY.withOpacity(.5),
-                                        onTap: () {
-                                          controller.copyToClipboard(context);
-                                        },
-                                        label: "Copy".tr,
-                                        colorText: ColorResources.MAIN_APP.withOpacity(.7),
-                                        type: AppButtonType.OUTLINE,
-                                        width: 80.sp,
-                                        borderRadius: 5,
-                                        fontSizedLabel: 12.sp)
+                                    controller.idLeader == controller.idUser
+                                        ? AppButton(
+                                            padding: EdgeInsets.all(8),
+                                            colorBorder: ColorResources.GREY.withOpacity(.5),
+                                            onTap: () {
+                                              controller.copyToClipboard(context);
+                                            },
+                                            label: "Copy".tr,
+                                            colorText: ColorResources.MAIN_APP.withOpacity(.7),
+                                            type: AppButtonType.OUTLINE,
+                                            width: 80.sp,
+                                            borderRadius: 5,
+                                            fontSizedLabel: 12.sp)
+                                        : SizedBox()
                                   ],
                                 ),
                               ],

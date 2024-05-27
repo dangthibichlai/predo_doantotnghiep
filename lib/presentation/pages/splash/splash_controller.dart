@@ -31,7 +31,7 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
   ///
   void _setStatusLogin() {
     // install _animationController
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animationController!.forward().whenComplete(() async {
       _onLoginApp();
     });
@@ -51,5 +51,3 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
     }
   }
 }
-
-

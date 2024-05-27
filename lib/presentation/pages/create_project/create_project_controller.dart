@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
-import 'package:slug_it/slug_it.dart';
 import 'package:test_intern/core/hepler/app-alert.dart';
 import 'package:test_intern/models/project_model.dart';
 import 'package:test_intern/presentation/pages/project/project_controller.dart';

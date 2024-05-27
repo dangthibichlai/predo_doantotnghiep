@@ -20,6 +20,8 @@ class TaskModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   Status? status;
+  DateTime? startDate;
+  DateTime? endDate;
 
   TaskModel({
     this.id,
@@ -35,6 +37,8 @@ class TaskModel {
     this.createdAt,
     this.updatedAt,
     this.status,
+    this.startDate,
+    this.endDate,
   });
 
   TaskModel copyWith({
@@ -51,6 +55,9 @@ class TaskModel {
     DateTime? updatedAt,
     IssueType? issueType,
     Status? status,
+      DateTime? startDate,
+  DateTime? endDate
+
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -66,6 +73,8 @@ class TaskModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       status: status ?? this.status,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
     );
   }
 
@@ -81,6 +90,9 @@ class TaskModel {
       'isDelete': isDelete ?? false,
       'activities': activities ?? [],
       "status": statusValues.reverse[status],
+      'startDate': startDate ?? DateTime.now().toString(),
+      'endDate': endDate ?? DateTime.now().toString(),
+
 
       // 'createdAt': createdAt ?? DateTime.now().toString(),
       // 'updatedAt': updatedAt ?? DateTime.now().toString(),
@@ -101,6 +113,9 @@ class TaskModel {
       activities: json['activities'] as List<dynamic>?,
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'].toString()).toLocal() : null,
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'].toString()).toLocal() : null,
+      startDate: json['startDate'] != null ? DateTime.parse(json['startDate'].toString()).toLocal() : null,
+      endDate: json['endDate'] != null ? DateTime.parse(json['endDate'].toString()).toLocal() : null,
+      
     );
   }
 

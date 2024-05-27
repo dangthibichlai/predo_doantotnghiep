@@ -58,7 +58,7 @@ class TaskDetailController extends GetxController {
   TextEditingController nameSubTask = TextEditingController();
   final RefreshController refreshController = RefreshController();
   RxList<CommentModel> listComments = <CommentModel>[].obs;
-  final SocketIO _socket = GetIt.I.get<SocketIO>();
+  // final SocketIO _socket = GetIt.I.get<SocketIO>();
   RxBool isSendComment = false.obs;
 
   RxBool isfocusComment = false.obs;
@@ -67,7 +67,7 @@ class TaskDetailController extends GetxController {
   void onInit() async {
     idUser = sl<SharedPreferenceHelper>().getIdUser;
     idTask = Get.arguments['idTask'];
-    _socket.listen_to(idTask);
+    // _socket.listen_to(idTask);
     await getTaskDetail();
     await getSubTask();
     await getComments();
@@ -80,7 +80,7 @@ class TaskDetailController extends GetxController {
 
   @override
   void onClose() {
-    _socket.reSetSocket();
+    // _socket.reSetSocket();
   }
 
   void changeFocusComment() {
@@ -324,7 +324,7 @@ class TaskDetailController extends GetxController {
         commentTask.clear();
         await getComments();
         listComments.refresh();
-        _socket.socket.emit("predo_update_comment", data);
+        // _socket.socket.emit("predo_update_comment", data);
         FocusScope.of(Get.context!).unfocus();
       },
       onError: (error) {},

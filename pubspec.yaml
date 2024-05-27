@@ -58,7 +58,6 @@ dependencies:
   icons_plus: ^5.0.0
   gap: ^3.0.1
   currency_text_input_formatter: ^2.1.5
-  drag_and_drop_lists: ^0.3.3
   kanban_board: ^0.1.0
   dotted_border: ^2.1.0
   dio: ^5.4.1
@@ -75,8 +74,6 @@ dependencies:
   fl_chart: ^0.66.2
   google_sign_in: ^6.2.1
   firebase_auth: ^4.17.8
-  slugify: ^2.0.0
-  slug_it: ^0.0.1
   converter: ^0.4.0
   tiengviet: ^1.0.0
   rxdart: ^0.27.7
@@ -123,8 +120,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/base/
+
     - assets/features/
     - assets/features/home/
     - assets/features/avatar/
